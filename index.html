@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Klinten Guduru | Full Stack & Agentic AI Developer</title>
+    <meta name="description" content="Resume of Bill Klinten Guduru - Full Stack Developer & Agentic AI Developer with 6+ years of experience in enterprise applications.">
+    <meta name="keywords" content="Bill Klinten Guduru, Full Stack Developer, AI Developer, Resume, Portfolio">
+    <meta name="author" content="Bill Klinten Guduru">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Bill Klinten Guduru | Full Stack & Agentic AI Developer">
+    <meta property="og:description" content="Versatile Software Engineer with 6+ years of expertise in full-stack development and AI-driven solutions.">
+    <meta property="og:url" content="https://klinteng.com">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#contact" class="nav-cta">Hire Me</a>
+                <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-animation">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-greeting animate-on-scroll">
+                    <span class="greeting-line"></span>
+                    <span>Hello, I'm</span>
+                </div>
+                <h1 class="hero-name animate-on-scroll">
+                    Bill Klinten<br><span class="name-highlight">Guduru</span>
+                </h1>
+                <div class="hero-titles animate-on-scroll">
+                    <span class="title-static">I'm a </span>
+                    <span class="title-dynamic" id="typingText"></span>
+                    <span class="typing-cursor">|</span>
+                </div>
+                <p class="hero-description animate-on-scroll">
+                    Versatile Software Engineer with <strong>6+ years</strong> of expertise in full-stack development, 
+                    specializing in Spring Boot, Node.js, and UI engineering — bridging traditional software 
+                    engineering with cutting-edge artificial intelligence.
+                </p>
+                <div class="hero-actions animate-on-scroll">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Get in Touch
+                    </a>
+                    <a href="#experience" class="btn btn-outline">
+                        <i class="fas fa-briefcase"></i> View Experience
+                    </a>
+                </div>
+                <div class="hero-social animate-on-scroll">
+                    <a href="https://github.com/klintenG" target="_blank" rel="noopener" aria-label="GitHub" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-link">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:klintenguduru@gmail.com" aria-label="Email" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://wa.me/918247315182" target="_blank" rel="noopener" aria-label="WhatsApp" class="social-link">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual animate-on-scroll">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <div class="avatar-placeholder">
+                            <span>BKG</span>
+                        </div>
+                        <div class="avatar-status"></div>
+                    </div>
+                    <div class="profile-info">
+                        <h3>Bill Klinten Guduru</h3>
+                        <p>Full Stack & AI Developer</p>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-number" data-count="6">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Years Exp</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-count="12">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Skills</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-count="6">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                    </div>
+                    <div class="profile-tags">
+                        <span class="tag">Spring Boot</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">React</span>
+                        <span class="tag">AI Agents</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="mouse-wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT SECTION ========== -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-user"></i> About Me</span>
+                <h2 class="section-title">Know Me Better</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text animate-on-scroll">
+                    <p class="about-intro">
+                        I'm a <strong>Versatile Software Engineer</strong> with <strong>6+ years</strong> of expertise 
+                        in full-stack development, specializing in <strong>Spring Boot</strong>, <strong>Node.js</strong>, 
+                        and <strong>UI engineering</strong> at EdgeVerve and Infosys, with a proven track record of 
+                        delivering scalable enterprise applications.
+                    </p>
+                    <p>
+                        Currently expanding into <strong>AI-driven solutions</strong> with hands-on experience in 
+                        <strong>Prompt Engineering</strong> and <strong>AI Agents development</strong>, bridging 
+                        traditional software engineering with cutting-edge artificial intelligence to create 
+                        innovative, intelligent applications.
+                    </p>
+                    <div class="about-details">
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <span class="detail-label">Location</span>
+                                <span class="detail-value">Bengaluru, India</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <span class="detail-label">Email</span>
+                                <a href="mailto:klintenguduru@gmail.com" class="detail-value">klintenguduru@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <span class="detail-label">Phone</span>
+                                <a href="tel:+918247315182" class="detail-value">+91 824 731 5182</a>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-briefcase"></i>
+                            <div>
+                                <span class="detail-label">Experience</span>
+                                <span class="detail-value">6+ Years</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-highlights animate-on-scroll">
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Full Stack Development</h3>
+                        <p>Building end-to-end enterprise applications with modern frameworks and architectures</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI & Agents</h3>
+                        <p>Developing intelligent AI agents and prompt engineering solutions for real-world problems</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>UI Engineering</h3>
+                        <p>Crafting responsive, performant user interfaces with React, Angular, and Polymer</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Backend Systems</h3>
+                        <p>Designing scalable APIs and microservices with Spring Boot, Node.js, and Express</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== EXPERIENCE SECTION ========== -->
+    <section class="section experience" id="experience">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-briefcase"></i> Career Journey</span>
+                <h2 class="section-title">Work Experience</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="timeline">
+                <!-- Role 4: Current -->
+                <div class="timeline-item animate-on-scroll" data-position="left">
+                    <div class="timeline-dot current">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-badge current">Current Role</div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> 2024 &mdash; Present
+                        </div>
+                        <h3 class="timeline-title">Member — UI Development</h3>
+                        <h4 class="timeline-company">
+                            <i class="fas fa-building"></i> EdgeVerve Systems Limited
+                        </h4>
+                        <p class="timeline-location">
+                            <i class="fas fa-map-marker-alt"></i> Bengaluru, India
+                        </p>
+                        <ul class="timeline-responsibilities">
+                            <li>Leading UI development initiatives for enterprise-grade applications</li>
+                            <li>Architecting front-end solutions using modern JavaScript frameworks</li>
+                            <li>Integrating AI-driven features into existing product platforms</li>
+                            <li>Mentoring junior developers and driving best practices</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span>React</span>
+                            <span>Angular</span>
+                            <span>Node.js</span>
+                            <span>Wavemaker</span>
+                            <span>AI Agents</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 3 -->
+                <div class="timeline-item animate-on-scroll" data-position="right">
+                    <div class="timeline-dot">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-badge promotion">Promotion</div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> 2022 &mdash; 2024
+                        </div>
+                        <h3 class="timeline-title">Product Engineer</h3>
+                        <h4 class="timeline-company">
+                            <i class="fas fa-building"></i> EdgeVerve Systems Limited
+                        </h4>
+                        <p class="timeline-location">
+                            <i class="fas fa-map-marker-alt"></i> Bengaluru, India
+                        </p>
+                        <ul class="timeline-responsibilities">
+                            <li>Developed and maintained enterprise product features for banking solutions</li>
+                            <li>Built scalable UI components using Polymer.js and WaveMaker</li>
+                            <li>Collaborated with cross-functional teams for product delivery</li>
+                            <li>Implemented RESTful APIs using Spring Boot and Node.js</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span>Spring Boot</span>
+                            <span>Polymer.js</span>
+                            <span>WaveMaker</span>
+                            <span>LoopBack</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 2 -->
+                <div class="timeline-item animate-on-scroll" data-position="left">
+                    <div class="timeline-dot">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-badge promotion">Promotion</div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> 2021 &mdash; 2022
+                        </div>
+                        <h3 class="timeline-title">Senior Systems Engineer</h3>
+                        <h4 class="timeline-company">
+                            <i class="fas fa-building"></i> Infosys Limited
+                        </h4>
+                        <p class="timeline-location">
+                            <i class="fas fa-map-marker-alt"></i> India
+                        </p>
+                        <ul class="timeline-responsibilities">
+                            <li>Promoted for outstanding performance and technical contributions</li>
+                            <li>Took ownership of complex modules and feature development</li>
+                            <li>Provided technical guidance to team members</li>
+                            <li>Contributed to system design and architecture decisions</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span>Java</span>
+                            <span>Spring Boot</span>
+                            <span>JavaScript</span>
+                            <span>Angular</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 1 -->
+                <div class="timeline-item animate-on-scroll" data-position="right">
+                    <div class="timeline-dot start">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-badge start">Career Start</div>
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> Dec 2019 &mdash; 2021
+                        </div>
+                        <h3 class="timeline-title">Systems Engineer</h3>
+                        <h4 class="timeline-company">
+                            <i class="fas fa-building"></i> Infosys Limited
+                        </h4>
+                        <p class="timeline-location">
+                            <i class="fas fa-map-marker-alt"></i> India
+                        </p>
+                        <ul class="timeline-responsibilities">
+                            <li>Started professional career in enterprise software development</li>
+                            <li>Worked on full-stack development for client projects</li>
+                            <li>Gained expertise in Java, Spring Boot, and front-end technologies</li>
+                            <li>Delivered quality code with strong adherence to best practices</li>
+                        </ul>
+                        <div class="timeline-tech">
+                            <span>Java</span>
+                            <span>Spring Boot</span>
+                            <span>HTML/CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SKILLS SECTION ========== -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-cogs"></i> Technical Arsenal</span>
+                <h2 class="section-title">Skills & Expertise</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="skills-content">
+                <!-- Skill Categories -->
+                <div class="skill-categories">
+                    <div class="skill-category animate-on-scroll">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h3>Frontend Development</h3>
+                        </div>
+                        <div class="skill-bars">
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>React.js</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>AngularJS</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Polymer.js</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>WaveMaker</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category animate-on-scroll">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3>Backend Development</h3>
+                        </div>
+                        <div class="skill-bars">
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Spring Boot</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Node.js</span>
+                                    <span class="skill-percent">88%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="88"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Express.js</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>LoopBack.io</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category animate-on-scroll">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>AI & Programming</h3>
+                        </div>
+                        <div class="skill-bars">
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Python</span>
+                                    <span class="skill-percent">82%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="82"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Prompt Engineering</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>AI Agents Development</span>
+                                    <span class="skill-percent">78%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="78"></div>
+                                </div>
+                            </div>
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>MongoDB / DBMS</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Cloud -->
+                <div class="skill-cloud animate-on-scroll">
+                    <h3><i class="fas fa-tags"></i> All Technologies</h3>
+                    <div class="cloud-tags">
+                        <span class="cloud-tag" data-level="expert">Spring Boot</span>
+                        <span class="cloud-tag" data-level="expert">Node.js</span>
+                        <span class="cloud-tag" data-level="expert">React.js</span>
+                        <span class="cloud-tag" data-level="advanced">AngularJS</span>
+                        <span class="cloud-tag" data-level="advanced">Express.js</span>
+                        <span class="cloud-tag" data-level="advanced">Python</span>
+                        <span class="cloud-tag" data-level="advanced">WaveMaker</span>
+                        <span class="cloud-tag" data-level="intermediate">Polymer.js</span>
+                        <span class="cloud-tag" data-level="intermediate">LoopBack.io</span>
+                        <span class="cloud-tag" data-level="advanced">MongoDB</span>
+                        <span class="cloud-tag" data-level="intermediate">DBMS</span>
+                        <span class="cloud-tag" data-level="advanced">Java</span>
+                        <span class="cloud-tag" data-level="expert">JavaScript</span>
+                        <span class="cloud-tag" data-level="advanced">TypeScript</span>
+                        <span class="cloud-tag" data-level="advanced">HTML5/CSS3</span>
+                        <span class="cloud-tag" data-level="intermediate">AI Agents</span>
+                        <span class="cloud-tag" data-level="advanced">Prompt Engineering</span>
+                        <span class="cloud-tag" data-level="advanced">REST APIs</span>
+                        <span class="cloud-tag" data-level="intermediate">Microservices</span>
+                        <span class="cloud-tag" data-level="intermediate">Git</span>
+                    </div>
+                    <div class="skill-legend">
+                        <span><span class="legend-dot expert"></span> Expert</span>
+                        <span><span class="legend-dot advanced"></span> Advanced</span>
+                        <span><span class="legend-dot intermediate"></span> Intermediate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PROJECTS SECTION ========== -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-project-diagram"></i> Portfolio</span>
+                <h2 class="section-title">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <!-- Project Filter Tabs -->
+            <div class="project-filters animate-on-scroll">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="enterprise">Enterprise</button>
+                <button class="filter-btn" data-filter="ai">AI / Agents</button>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Enterprise Projects -->
+                <div class="project-card animate-on-scroll" data-category="enterprise">
+                    <div class="project-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="project-header">
+                        <h3>Cash Management</h3>
+                        <span class="project-type">Enterprise Banking</span>
+                    </div>
+                    <p class="project-desc">
+                        End-to-end cash management solution for retail and corporate banking, 
+                        enabling seamless transaction tracking, liquidity management, and automated 
+                        reconciliation for enterprise clients.
+                    </p>
+                    <div class="project-tech">
+                        <span>Spring Boot</span>
+                        <span>Node.js</span>
+                        <span>Polymer.js</span>
+                        <span>WaveMaker</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-domain"><i class="fas fa-tag"></i> Banking Solutions</span>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="enterprise">
+                    <div class="project-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div class="project-header">
+                        <h3>My Expenses</h3>
+                        <span class="project-type">Enterprise Banking</span>
+                    </div>
+                    <p class="project-desc">
+                        Comprehensive expense management platform for corporate clients, featuring 
+                        automated expense categorization, approval workflows, and real-time 
+                        reporting dashboards.
+                    </p>
+                    <div class="project-tech">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>Express</span>
+                        <span>MongoDB</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-domain"><i class="fas fa-tag"></i> Banking Solutions</span>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="enterprise">
+                    <div class="project-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="project-header">
+                        <h3>Payment Services</h3>
+                        <span class="project-type">Enterprise Banking</span>
+                    </div>
+                    <p class="project-desc">
+                        Scalable payment processing system supporting multiple payment methods, 
+                        cross-border transactions, and real-time settlement for retail and 
+                        corporate banking operations.
+                    </p>
+                    <div class="project-tech">
+                        <span>Spring Boot</span>
+                        <span>Angular</span>
+                        <span>LoopBack</span>
+                        <span>DBMS</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-domain"><i class="fas fa-tag"></i> Banking Solutions</span>
+                    </div>
+                </div>
+
+                <!-- AI Projects -->
+                <div class="project-card animate-on-scroll" data-category="ai">
+                    <div class="project-icon ai">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div class="project-header">
+                        <h3>Error Handling AI Agent</h3>
+                        <span class="project-type">AI / Agentic</span>
+                    </div>
+                    <p class="project-desc">
+                        Intelligent AI agent that automatically detects, categorizes, and resolves 
+                        application errors, providing automated debugging suggestions and self-healing 
+                        capabilities for production systems.
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>AI/ML</span>
+                        <span>LLM</span>
+                        <span>Prompt Engineering</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-domain"><i class="fas fa-tag"></i> AI Agents</span>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="ai">
+                    <div class="project-icon ai">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="project-header">
+                        <h3>Multi-Language Handler AI Agent</h3>
+                        <span class="project-type">AI / Agentic</span>
+                    </div>
+                    <p class="project-desc">
+                        AI-powered multilingual processing agent that handles real-time translation, 
+                        content localization, and language-specific formatting across enterprise 
+                        applications seamlessly.
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>NLP</span>
+                        <span>LLM</span>
+                        <span>Node.js</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-domain"><i class="fas fa-tag"></i> AI Agents</span>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="ai">
+                    <div class="project-icon ai">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="project-header">
+                        <h3>User-Specific Chatbox AI Agent</h3>
+                        <span class="project-type">AI / Agentic</span>
+                    </div>
+                    <p class="project-desc">
+                        Personalized AI chatbot agent that adapts conversations based on user context, 
+                        preferences, and history, delivering tailored responses and proactive 
+                        assistance for enterprise users.
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>React</span>
+                        <span>LLM</span>
+                        <span>WebSocket</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-domain"><i class="fas fa-tag"></i> AI Agents</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== EDUCATION SECTION ========== -->
+    <section class="section education" id="education">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-graduation-cap"></i> Education</span>
+                <h2 class="section-title">Academic Background</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="education-content">
+                <div class="education-card animate-on-scroll">
+                    <div class="edu-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="edu-details">
+                        <div class="edu-year">
+                            <i class="fas fa-calendar-alt"></i> June 2015 &mdash; April 2019
+                        </div>
+                        <h3 class="edu-degree">Bachelor of Technology (B.Tech)</h3>
+                        <h4 class="edu-field">Electrical and Electronics Engineering</h4>
+                        <p class="edu-institution">
+                            <i class="fas fa-university"></i> Sri Krishnadevaraya University
+                        </p>
+                    </div>
+                    <div class="edu-decoration">
+                        <div class="edu-badge">B.Tech</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT SECTION ========== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-envelope"></i> Get in Touch</span>
+                <h2 class="section-title">Contact Me</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info animate-on-scroll">
+                    <h3>Let's Work Together</h3>
+                    <p>Feel free to reach out for collaborations, opportunities, or just a friendly conversation about technology and AI.</p>
+                    
+                    <div class="contact-cards">
+                        <a href="mailto:klintenguduru@gmail.com" class="contact-card">
+                            <div class="contact-card-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="contact-card-label">Email</span>
+                                <span class="contact-card-value">klintenguduru@gmail.com</span>
+                            </div>
+                        </a>
+                        <a href="tel:+918247315182" class="contact-card">
+                            <div class="contact-card-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <span class="contact-card-label">Phone</span>
+                                <span class="contact-card-value">+91 824 731 5182</span>
+                            </div>
+                        </a>
+                        <a href="https://wa.me/918247315182" target="_blank" rel="noopener" class="contact-card">
+                            <div class="contact-card-icon whatsapp">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <span class="contact-card-label">WhatsApp</span>
+                                <span class="contact-card-value">Message on WhatsApp</span>
+                            </div>
+                        </a>
+                        <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" target="_blank" rel="noopener" class="contact-card">
+                            <div class="contact-card-icon linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                            </div>
+                            <div>
+                                <span class="contact-card-label">LinkedIn</span>
+                                <span class="contact-card-value">Bill Klinten Guduru</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="contact-map">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span class="map-label">Based in</span>
+                            <span class="map-value">Bengaluru, Karnataka, India</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper animate-on-scroll">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="Project Collaboration" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#hero" class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+                    </a>
+                    <p>Full Stack Developer & Agentic AI Developer</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/klintenG" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:klintenguduru@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bill Klinten Guduru. All Rights Reserved.</p>
+                <p class="footer-tagline">Built with <span class="heart">&hearts;</span> and lots of coffee</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
