@@ -1,9 +1,20 @@
 /* ============================================
    BILL KLINTEN GUDURU — RESUME WEBSITE
-   JavaScript — Interactions & Animations
+   JavaScript — Enhanced Interactions & Animations
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // ========== SCROLL PROGRESS BAR ==========
+    const scrollProgress = document.getElementById('scrollProgress');
+
+    function updateScrollProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        scrollProgress.style.width = scrollPercent + '%';
+    }
+
     // ========== THEME TOGGLE ==========
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -54,6 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.add('active');
             }
         });
+
+        // Update scroll progress
+        updateScrollProgress();
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -106,15 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
             charIndex++;
         }
 
-        let speed = isDeleting ? 40 : 80;
+        let speed = isDeleting ? 35 : 70;
 
         if (!isDeleting && charIndex === current.length) {
-            speed = 2000; // Pause at end
+            speed = 2200;
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             titleIndex = (titleIndex + 1) % titles.length;
-            speed = 400;
+            speed = 500;
         }
 
         setTimeout(typeWriter, speed);
@@ -122,10 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     typeWriter();
 
-    // ========== SCROLL ANIMATIONS ==========
+    // ========== SCROLL ANIMATIONS (Enhanced with stagger) ==========
     const observerOptions = {
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -156,11 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (skillBarsAnimated) return;
         skillBarsAnimated = true;
 
-        document.querySelectorAll('.skill-progress').forEach(bar => {
+        document.querySelectorAll('.skill-progress').forEach((bar, i) => {
             const width = bar.getAttribute('data-width');
             setTimeout(() => {
                 bar.style.width = width + '%';
-            }, 200);
+            }, 150 + i * 80); // Stagger each bar
         });
     }
 
@@ -172,15 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
         animatedCounters.add(element);
 
         const target = parseInt(element.getAttribute('data-count'), 10);
-        const duration = 1500;
+        const duration = 1800;
         const start = performance.now();
 
         function update(now) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
 
-            // Ease out cubic
-            const eased = 1 - Math.pow(1 - progress, 3);
+            // Ease out quart for smoother feel
+            const eased = 1 - Math.pow(1 - progress, 4);
             element.textContent = Math.round(target * eased);
 
             if (progress < 1) {
@@ -197,17 +211,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Update active button
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             const filter = btn.getAttribute('data-filter');
 
-            projectCards.forEach(card => {
+            projectCards.forEach((card, index) => {
                 const category = card.getAttribute('data-category');
                 if (filter === 'all' || category === filter) {
                     card.classList.remove('hidden');
-                    card.style.animation = 'fadeInUp 0.5s ease forwards';
+                    card.style.animation = 'none';
+                    card.offsetHeight; // Trigger reflow
+                    card.style.animation = `fadeInUp 0.5s ease ${index * 0.08}s forwards`;
                 } else {
                     card.classList.add('hidden');
                 }
@@ -227,16 +242,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const subject = formData.get('subject');
         const message = formData.get('message');
 
-        // Create mailto link as fallback
         const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Bill,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
-        
+
         window.location.href = mailtoLink;
 
-        // Show success feedback
         const btn = contactForm.querySelector('button[type="submit"]');
         const originalHTML = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-check"></i> Opening Email Client...';
-        btn.style.background = '#22c55e';
+        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
 
         setTimeout(() => {
             btn.innerHTML = originalHTML;
@@ -247,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== SMOOTH SCROLL FOR ALL ANCHOR LINKS ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
@@ -255,6 +268,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // ========== CURSOR GLOW EFFECT (Hero Only) ==========
+    const cursorGlow = document.getElementById('cursorGlow');
+    const heroSection = document.getElementById('hero');
+
+    if (cursorGlow && heroSection) {
+        document.addEventListener('mousemove', (e) => {
+            const heroRect = heroSection.getBoundingClientRect();
+            const isInHero = (
+                e.clientY >= heroRect.top &&
+                e.clientY <= heroRect.bottom
+            );
+
+            if (isInHero) {
+                cursorGlow.classList.add('active');
+                cursorGlow.style.left = e.clientX + 'px';
+                cursorGlow.style.top = e.clientY + 'px';
+            } else {
+                cursorGlow.classList.remove('active');
+            }
+        });
+    }
 
     // ========== PARALLAX-LIKE EFFECT ON SHAPES ==========
     let ticking = false;
@@ -266,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
                 shapes.forEach((shape, i) => {
-                    const speed = (i + 1) * 5;
+                    const speed = (i + 1) * 4;
                     shape.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
                 });
 
@@ -276,6 +311,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ========== PROFILE CARD TILT EFFECT ==========
+    const profileCard = document.querySelector('.profile-card');
+    if (profileCard) {
+        profileCard.addEventListener('mousemove', (e) => {
+            const rect = profileCard.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -6;
+            const rotateY = ((x - centerX) / centerX) * 6;
+
+            profileCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        });
+
+        profileCard.addEventListener('mouseleave', () => {
+            profileCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        });
+    }
+
+    // ========== MAGNETIC HOVER EFFECT ON BUTTONS ==========
+    const magneticBtns = document.querySelectorAll('.btn-primary, .btn-outline, .nav-cta');
+
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = '';
+        });
+    });
+
     // ========== KEYBOARD NAVIGATION ==========
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -283,4 +355,25 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinksContainer.classList.remove('active');
         }
     });
+
+    // ========== WAVE DIVIDER DYNAMIC COLOR (for theme changes) ==========
+    function updateWaveDividers() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        const wavePaths = document.querySelectorAll('.wave-divider path');
+        // CSS custom properties handle this through var() in SVG
+    }
+
+    // ========== NAVBAR LINK HOVER SOUND-LIKE FEEDBACK ==========
+    // Subtle focus ring for accessibility
+    document.querySelectorAll('.nav-link, .filter-btn, .social-link, .contact-card').forEach(el => {
+        el.addEventListener('focus', () => {
+            el.style.outline = `2px solid var(--accent)`;
+            el.style.outlineOffset = '2px';
+        });
+        el.addEventListener('blur', () => {
+            el.style.outline = '';
+            el.style.outlineOffset = '';
+        });
+    });
+
 });

@@ -29,6 +29,12 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Cursor Glow Effect (hero) -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
     <!-- ========== NAVIGATION ========== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -153,6 +159,13 @@
         </div>
     </section>
 
+    <!-- Wave divider: Hero → About -->
+    <div class="wave-divider" style="background: var(--gradient-hero);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none" style="display:block;">
+            <path class="wave-fill-primary" d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z"/>
+        </svg>
+    </div>
+
     <!-- ========== ABOUT SECTION ========== -->
     <section class="section about" id="about">
         <div class="container">
@@ -206,29 +219,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="about-highlights animate-on-scroll">
-                    <div class="highlight-card">
+                <div class="about-highlights">
+                    <div class="highlight-card animate-on-scroll stagger-1">
                         <div class="highlight-icon">
                             <i class="fas fa-code"></i>
                         </div>
                         <h3>Full Stack Development</h3>
                         <p>Building end-to-end enterprise applications with modern frameworks and architectures</p>
                     </div>
-                    <div class="highlight-card">
+                    <div class="highlight-card animate-on-scroll stagger-2">
                         <div class="highlight-icon">
                             <i class="fas fa-robot"></i>
                         </div>
                         <h3>AI & Agents</h3>
                         <p>Developing intelligent AI agents and prompt engineering solutions for real-world problems</p>
                     </div>
-                    <div class="highlight-card">
+                    <div class="highlight-card animate-on-scroll stagger-3">
                         <div class="highlight-icon">
                             <i class="fas fa-layer-group"></i>
                         </div>
                         <h3>UI Engineering</h3>
                         <p>Crafting responsive, performant user interfaces with React, Angular, and Polymer</p>
                     </div>
-                    <div class="highlight-card">
+                    <div class="highlight-card animate-on-scroll stagger-4">
                         <div class="highlight-icon">
                             <i class="fas fa-server"></i>
                         </div>
@@ -587,7 +600,7 @@
 
             <div class="projects-grid">
                 <!-- Enterprise Projects -->
-                <div class="project-card animate-on-scroll" data-category="enterprise">
+                <div class="project-card animate-on-scroll stagger-1" data-category="enterprise">
                     <div class="project-icon">
                         <i class="fas fa-university"></i>
                     </div>
@@ -611,7 +624,7 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="enterprise">
+                <div class="project-card animate-on-scroll stagger-2" data-category="enterprise">
                     <div class="project-icon">
                         <i class="fas fa-receipt"></i>
                     </div>
@@ -635,7 +648,7 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="enterprise">
+                <div class="project-card animate-on-scroll stagger-3" data-category="enterprise">
                     <div class="project-icon">
                         <i class="fas fa-credit-card"></i>
                     </div>
@@ -660,7 +673,7 @@
                 </div>
 
                 <!-- AI Projects -->
-                <div class="project-card animate-on-scroll" data-category="ai">
+                <div class="project-card animate-on-scroll stagger-1" data-category="ai">
                     <div class="project-icon ai">
                         <i class="fas fa-bug"></i>
                     </div>
@@ -684,7 +697,7 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="ai">
+                <div class="project-card animate-on-scroll stagger-2" data-category="ai">
                     <div class="project-icon ai">
                         <i class="fas fa-language"></i>
                     </div>
@@ -708,7 +721,7 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="ai">
+                <div class="project-card animate-on-scroll stagger-3" data-category="ai">
                     <div class="project-icon ai">
                         <i class="fas fa-comments"></i>
                     </div>
