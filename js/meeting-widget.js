@@ -517,10 +517,12 @@ class MeetingSchedulerWidget {
 /* ── Auto-initialize ───────────────────────────────────────────────────────── */
 (function () {
   function boot() {
+    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const backendUrl = isLocal ? 'http://localhost:8001' : 'https://klinteng-ai-backend.onrender.com';
+    const wsUrl = isLocal ? 'ws://localhost:8001/ws' : 'wss://klinteng-ai-backend.onrender.com/ws';
     window.meetingSchedulerWidget = new MeetingSchedulerWidget({
-      // ⚠ Change these URLs when you deploy the backend
-      apiUrl: 'http://localhost:8001',
-      wsUrl:  'ws://localhost:8001/ws',
+      apiUrl: backendUrl,
+      wsUrl:  wsUrl,
     });
   }
 

@@ -205,6 +205,25 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(update);
     }
 
+    // ========== AI SHOWCASE TABS ==========
+    const showcaseTabs = document.querySelectorAll('.showcase-tab');
+    const showcasePanels = document.querySelectorAll('.showcase-panel');
+
+    showcaseTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-tab');
+
+            // Update active tab
+            showcaseTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Update active panel
+            showcasePanels.forEach(p => p.classList.remove('active'));
+            const panel = document.getElementById('tab-' + target);
+            if (panel) panel.classList.add('active');
+        });
+    });
+
     // ========== PROJECT FILTERS ==========
     const filterBtns = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');

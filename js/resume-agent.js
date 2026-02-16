@@ -1,13 +1,15 @@
 /* ============================================
    RESUME TAILORING AGENT
    Agentic AI — Autonomous multi-step analysis
+   Powered by Groq (Llama 3.3 70B) via backend
    ============================================ */
 
 const ResumeAgent = (() => {
 
-    const GEMINI_API_KEY = 'AIzaSyBn3SZVSqFUOqapLAo7m9A_ysLeijPmZtQ';
-    const GEMINI_MODEL = 'gemini-2.5-flash';
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+    const BACKEND = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        ? 'http://localhost:8001'
+        : 'https://klinteng-ai-backend.onrender.com';
+    const API_URL = BACKEND + '/api/resume';
 
     // ========== AGENT STEPS ==========
     const AGENT_STEPS = [
@@ -17,62 +19,11 @@ const ResumeAgent = (() => {
         { id: 'tailor', icon: 'fa-magic', label: 'Generating tailored summary...', detail: 'Creating customized pitch for this role' },
     ];
 
-    // ========== SYSTEM PROMPT FOR TAILORING ==========
-    function getTailoringPrompt() {
-        return `You are a resume tailoring AI agent. You will be given a job description (JD) and a candidate's professional profile. Your job is to perform a multi-step autonomous analysis and return a structured JSON response.
-
-CANDIDATE PROFILE:
-${buildProfileContext()}
-
-INSTRUCTIONS:
-Analyze the job description against the candidate's profile and return a JSON response with this EXACT structure (no markdown, no code fences, pure JSON):
-
-{
-    "fitScore": <number 0-100>,
-    "fitLevel": "<Excellent Fit|Strong Fit|Good Fit|Moderate Fit|Needs Development>",
-    "roleSummary": "<1-2 sentence summary of what the role is looking for>",
-    "matchedSkills": [
-        { "skill": "<skill name>", "strength": "<strong|moderate|basic>", "evidence": "<brief evidence from profile>" }
-    ],
-    "matchedExperience": [
-        { "requirement": "<JD requirement>", "match": "<how the candidate meets it>", "relevance": "<high|medium|low>" }
-    ],
-    "gaps": [
-        { "requirement": "<missing skill/requirement from JD>", "suggestion": "<how candidate could address it>" }
-    ],
-    "tailoredSummary": "<3-4 sentence customized professional summary tailored specifically for this JD>",
-    "talkingPoints": [
-        "<specific talking point for interview>"
-    ],
-    "overallAnalysis": "<2-3 sentence overall assessment>"
-}
-
-IMPORTANT:
-- Be honest about the fit score. Don't inflate.
-- If something is not in the profile, mark it as a gap.
-- The tailored summary should reframe existing experience to match the JD's language.
-- Return ONLY valid JSON. No markdown, no explanation, no code fences.
-- Keep all string values on a single line — NO newlines inside JSON string values.
-- Limit matchedSkills to top 6, matchedExperience to top 4, gaps to top 4, talkingPoints to top 4.
-- Keep evidence and match descriptions SHORT (under 15 words each).`;
-    }
-
-    // ========== CALL GEMINI ==========
+    // ========== CALL BACKEND (Groq — secure, no API key exposed) ==========
     async function analyzeJD(jobDescription) {
         const requestBody = {
-            system_instruction: {
-                parts: [{ text: getTailoringPrompt() }]
-            },
-            contents: [{
-                role: 'user',
-                parts: [{ text: `Analyze this job description:\n\n${jobDescription}` }]
-            }],
-            generationConfig: {
-                temperature: 0.3,
-                topP: 0.8,
-                topK: 30,
-                maxOutputTokens: 4096
-            }
+            job_description: jobDescription,
+            profile_context: buildProfileContext()
         };
 
         const response = await fetch(API_URL, {
@@ -82,38 +33,11 @@ IMPORTANT:
         });
 
         if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.detail || `API error: ${response.status}`);
         }
 
-        const data = await response.json();
-        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-        // Clean up markdown fences and whitespace
-        text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-
-        // Fix common JSON issues from LLM output
-        // Remove any trailing commas before } or ]
-        text = text.replace(/,\s*([}\]])/g, '$1');
-        // Fix unescaped newlines inside string values
-        text = text.replace(/(?<=:\s*"[^"]*)\n([^"]*")/g, '\\n$1');
-
-        try {
-            return JSON.parse(text);
-        } catch (e) {
-            // If direct parse fails, try to extract JSON object from the text
-            const jsonMatch = text.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                // Aggressively clean the extracted JSON
-                let cleaned = jsonMatch[0];
-                // Replace actual newlines inside strings with spaces
-                cleaned = cleaned.replace(/"([^"]*?)"/g, (match) => {
-                    return match.replace(/\n/g, ' ').replace(/\r/g, '');
-                });
-                cleaned = cleaned.replace(/,\s*([}\]])/g, '$1');
-                return JSON.parse(cleaned);
-            }
-            throw new Error('Could not parse AI response as JSON');
-        }
+        return await response.json();
     }
 
     // ========== RENDER FUNCTIONS ==========

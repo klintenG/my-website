@@ -1,83 +1,16 @@
 /* ============================================
-   AGENTIC AI CHAT — Powered by Google Gemini
+   AGENTIC AI CHAT — Powered by Groq (Llama 3.3 70B)
    Function Calling + Tool Use Architecture
+   API key secured on backend (port 8001)
    ============================================ */
 
 const AIChat = (() => {
 
     // ========== CONFIGURATION ==========
-    const GEMINI_API_KEY = 'AIzaSyBn3SZVSqFUOqapLAo7m9A_ysLeijPmZtQ';
-    const GEMINI_MODEL = 'gemini-2.5-flash';
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
-
-    // ========== TOOL DEFINITIONS (Gemini Function Calling) ==========
-    const TOOL_DECLARATIONS = [
-        {
-            name: 'showLocationImage',
-            description: 'Show an image of a city or location when the conversation involves where Klinten lives, works, was born, or any geographic location relevant to his profile. Call this whenever a city, state, or country is mentioned in your response.',
-            parameters: {
-                type: 'OBJECT',
-                properties: {
-                    city: {
-                        type: 'STRING',
-                        description: 'The city name, e.g. "Bengaluru", "Hyderabad", "Gudur"'
-                    },
-                    context: {
-                        type: 'STRING',
-                        description: 'Brief context like "current_location", "birthplace", "relocation_preference"'
-                    }
-                },
-                required: ['city']
-            }
-        },
-        {
-            name: 'showTechLogo',
-            description: 'Show technology/framework logos when discussing Klinten\'s technical skills or tech stack. Call this when listing or discussing specific technologies.',
-            parameters: {
-                type: 'OBJECT',
-                properties: {
-                    technologies: {
-                        type: 'ARRAY',
-                        items: { type: 'STRING' },
-                        description: 'Array of technology names, e.g. ["React", "Spring Boot", "Node.js"]'
-                    }
-                },
-                required: ['technologies']
-            }
-        },
-        {
-            name: 'highlightSection',
-            description: 'Scroll to and highlight a section of the resume website when the user asks about something that has a dedicated section. Use this to direct users to relevant content on the page.',
-            parameters: {
-                type: 'OBJECT',
-                properties: {
-                    sectionId: {
-                        type: 'STRING',
-                        description: 'The HTML section ID to scroll to: "about", "experience", "skills", "projects", "education", "contact"'
-                    },
-                    reason: {
-                        type: 'STRING',
-                        description: 'Brief reason for highlighting, e.g. "Showing experience section"'
-                    }
-                },
-                required: ['sectionId']
-            }
-        },
-        {
-            name: 'showProjectDetails',
-            description: 'Display a rich project information card when the user asks about a specific project. Shows project name, description, and tech stack in a visual card.',
-            parameters: {
-                type: 'OBJECT',
-                properties: {
-                    projectName: {
-                        type: 'STRING',
-                        description: 'The project name, e.g. "Cash Management", "Error Handling AI Agent"'
-                    }
-                },
-                required: ['projectName']
-            }
-        }
-    ];
+    const BACKEND = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        ? 'http://localhost:8001'
+        : 'https://klinteng-ai-backend.onrender.com';
+    const API_URL = BACKEND + '/api/ai-chat';
 
     // ========== LOCATION IMAGE MAP ==========
     const LOCATION_IMAGES = {
@@ -200,7 +133,7 @@ const AIChat = (() => {
         'dbms': { emoji: '🗄️', label: 'DBMS' },
     };
 
-    // ========== SYSTEM PROMPT ==========
+    // ========== SYSTEM PROMPT (sent to backend, never contains API keys) ==========
     const SYSTEM_PROMPT = `You are an AGENTIC AI assistant embedded on Klinten Guduru's personal resume website (klinteng.com). You have access to TOOLS that you can use to enhance your responses. Your role is to help visitors — especially recruiters and hiring managers — learn about Klinten's professional background.
 
 IMPORTANT GUIDELINES:
@@ -215,7 +148,7 @@ TOOL USAGE GUIDELINES (THIS IS CRITICAL — THIS IS WHAT MAKES YOU AGENTIC):
 - When mentioning TECHNOLOGIES or SKILLS: Call showTechLogo with an array of technology names.
 - When the user asks about a topic with a DEDICATED SECTION on the website: Call highlightSection to scroll there.
 - When discussing a SPECIFIC PROJECT: Call showProjectDetails with the project name.
-- You can call MULTIPLE TOOLS in a single response. For example, if someone asks about Klinten's current role, you might call showLocationImage("Bengaluru") AND showTechLogo(["React", "Node.js"]) AND highlightSection("experience").
+- You can call MULTIPLE TOOLS in a single response.
 - Using tools is what makes you an AGENT, not just a chatbot. USE THEM LIBERALLY.
 
 BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
@@ -234,29 +167,23 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         { icon: 'fas fa-cogs', text: 'How does this agentic chatbot work?' }
     ];
 
-    // ========== AGENTIC API CALL (with Function Calling) ==========
-    async function sendToGemini(userMessage, chatType) {
+    // ========== BACKEND API CALL (secure — no API key in frontend) ==========
+    async function sendToBackend(userMessage, chatType) {
         const history = conversations[chatType];
-        const contents = [];
 
+        // Build history in {role, content} format for the backend
+        const historyPayload = [];
         history.forEach(msg => {
-            contents.push({
-                role: msg.role === 'user' ? 'user' : 'model',
-                parts: [{ text: msg.text }]
+            historyPayload.push({
+                role: msg.role === 'user' ? 'user' : 'assistant',
+                content: msg.text
             });
         });
-        contents.push({ role: 'user', parts: [{ text: userMessage }] });
 
         const requestBody = {
-            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents: contents,
-            tools: [{ functionDeclarations: TOOL_DECLARATIONS }],
-            generationConfig: {
-                temperature: 0.7,
-                topP: 0.9,
-                topK: 40,
-                maxOutputTokens: 1000
-            }
+            message: userMessage,
+            history: historyPayload,
+            system_prompt: SYSTEM_PROMPT
         };
 
         try {
@@ -267,8 +194,6 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                console.error('Gemini API error:', errorData);
                 if (response.status === 429) {
                     return { text: "I'm getting a lot of questions right now! Please wait a moment and try again.", toolCalls: [] };
                 }
@@ -276,66 +201,12 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
             }
 
             const data = await response.json();
-            const candidate = data.candidates?.[0];
-
-            if (!candidate) {
-                return { text: "I couldn't generate a response. Please try rephrasing your question.", toolCalls: [] };
-            }
-
-            let textResponse = '';
-            const toolCalls = [];
-
-            for (const part of candidate.content?.parts || []) {
-                if (part.text) textResponse += part.text;
-                if (part.functionCall) {
-                    toolCalls.push({
-                        name: part.functionCall.name,
-                        args: part.functionCall.args || {}
-                    });
-                }
-            }
-
-            // If only function calls returned, do follow-up to get text
-            if (!textResponse && toolCalls.length > 0) {
-                const functionResponses = toolCalls.map(tc => ({
-                    functionResponse: {
-                        name: tc.name,
-                        response: { result: 'Tool ' + tc.name + ' executed successfully with args: ' + JSON.stringify(tc.args) }
-                    }
-                }));
-
-                const followUpBody = {
-                    system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-                    contents: [
-                        ...contents,
-                        { role: 'model', parts: candidate.content.parts },
-                        { role: 'user', parts: functionResponses }
-                    ],
-                    generationConfig: { temperature: 0.7, topP: 0.9, topK: 40, maxOutputTokens: 1000 }
-                };
-
-                try {
-                    const followUp = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(followUpBody)
-                    });
-                    if (followUp.ok) {
-                        const followUpData = await followUp.json();
-                        for (const part of followUpData.candidates?.[0]?.content?.parts || []) {
-                            if (part.text) textResponse += part.text;
-                        }
-                    }
-                } catch (e) { console.error('Follow-up error:', e); }
-            }
-
-            if (!textResponse) textResponse = "I couldn't generate a response. Please try rephrasing your question.";
 
             history.push({ role: 'user', text: userMessage });
-            history.push({ role: 'assistant', text: textResponse });
+            history.push({ role: 'assistant', text: data.text });
             if (history.length > 20) history.splice(0, 2);
 
-            return { text: textResponse, toolCalls };
+            return { text: data.text, toolCalls: data.tool_calls || [] };
 
         } catch (error) {
             console.error('Network error:', error);
@@ -537,10 +408,9 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         if (suggestionsEl) suggestionsEl.style.display = 'none';
         createMessage(text, 'user', messagesContainer);
         input.value = '';
-        if (window.AIAvatar) { AIAvatar.stopSpeaking(); AIAvatar.setThinking(); }
         var typingEl = showTyping(messagesContainer);
 
-        var response = await sendToGemini(text, chatType);
+        var response = await sendToBackend(text, chatType);
         typingEl.remove();
 
         // Execute tool calls first (visual cards before text)
@@ -554,7 +424,6 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         }
 
         createMessage(response.text, 'bot', messagesContainer);
-        if (window.AIAvatar && chatType === 'section') AIAvatar.speak(response.text);
     }
 
     // ========== INIT SECTION CHAT ==========
@@ -590,29 +459,64 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
 
     // ========== INIT FLOATING CHAT ==========
     function initFloatingChat() {
-        var toggle = document.getElementById('floatingChatToggle');
+        var toggle = document.getElementById('aiHubToggle');
         var widget = document.getElementById('floatingChatWidget');
         var close = document.getElementById('floatingChatClose');
         var input = document.getElementById('floatingChatInput');
         var sendBtn = document.getElementById('floatingChatSend');
         var messages = document.getElementById('floatingChatMessages');
         var suggestions = document.getElementById('floatingChatSuggestions');
+        var hubMenu = document.getElementById('aiHubMenu');
+        var hubChat = document.getElementById('aiHubChat');
+        var hubMeeting = document.getElementById('aiHubMeeting');
         if (!toggle || !widget) return;
 
-        var isOpen = false;
+        var hubOpen = false;
+        var chatOpen = false;
         var initialized = false;
 
+        // Toggle AI Hub menu
         toggle.addEventListener('click', function() {
-            isOpen = !isOpen;
-            widget.classList.toggle('open', isOpen);
-            toggle.classList.toggle('active', isOpen);
-            if (isOpen && !initialized) { initialized = true; initFloatingChatContent(); }
-            if (isOpen && input) setTimeout(function() { input.focus(); }, 300);
+            if (chatOpen) {
+                // If chat is open, close it
+                chatOpen = false;
+                widget.classList.remove('open');
+                hubMenu.classList.remove('open');
+                toggle.classList.remove('active');
+                return;
+            }
+            hubOpen = !hubOpen;
+            hubMenu.classList.toggle('open', hubOpen);
+            toggle.classList.toggle('active', hubOpen);
         });
+
+        // Open AI Chat from hub
+        if (hubChat) {
+            hubChat.addEventListener('click', function() {
+                hubOpen = false;
+                chatOpen = true;
+                hubMenu.classList.remove('open');
+                widget.classList.add('open');
+                if (!initialized) { initialized = true; initFloatingChatContent(); }
+                if (input) setTimeout(function() { input.focus(); }, 300);
+            });
+        }
+
+        // Open Meeting Scheduler from hub
+        if (hubMeeting) {
+            hubMeeting.addEventListener('click', function() {
+                hubOpen = false;
+                hubMenu.classList.remove('open');
+                toggle.classList.remove('active');
+                // Trigger the meeting widget FAB
+                var mtgFab = document.querySelector('.mtg-fab');
+                if (mtgFab) mtgFab.click();
+            });
+        }
 
         if (close) {
             close.addEventListener('click', function() {
-                isOpen = false;
+                chatOpen = false;
                 widget.classList.remove('open');
                 toggle.classList.remove('active');
             });
@@ -637,7 +541,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
                 if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(input, messages, 'floating', suggestions); }
             });
 
-            createMessage("Hi! 👋 I'm an **agentic** assistant — ask me anything about Klinten!", 'bot', messages);
+            createMessage("Hi! 👋 I'm an **agentic** assistant powered by Groq — ask me anything about Klinten!", 'bot', messages);
         }
     }
 
