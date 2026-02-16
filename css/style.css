@@ -2168,16 +2168,16 @@ a.detail-value:hover {
 
 .ai-chat-intro h3 {
     font-size: 1.5rem;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 12px;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.3px;
 }
 
 .ai-chat-intro > p {
     color: var(--text-secondary);
-    line-height: 1.75;
-    margin-bottom: 28px;
+    line-height: 1.7;
+    margin-bottom: 24px;
     font-size: 0.95rem;
 }
 
@@ -2187,13 +2187,13 @@ a.detail-value:hover {
 
 /* How it works */
 .ai-how-it-works {
-    margin-bottom: 24px;
+    margin-bottom: 0;
 }
 
 .ai-how-it-works h4 {
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent);
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -3264,13 +3264,14 @@ a.detail-value:hover {
 .resume-agent-intro h3 {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text);
+    color: var(--text-primary);
     margin-bottom: 12px;
+    letter-spacing: -0.3px;
 }
 
 .resume-agent-intro p {
-    font-size: 1rem;
-    color: var(--text-muted);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: 24px;
 }
@@ -3288,14 +3289,18 @@ a.detail-value:hover {
     backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
-    padding: 20px 24px;
+    padding: 5px 0px;
+    margin-bottom: 4px;
 }
 
 .agent-architecture h4 {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     color: var(--accent);
     margin-bottom: 16px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .agent-architecture h4 i {
@@ -3308,6 +3313,7 @@ a.detail-value:hover {
     justify-content: center;
     gap: 10px;
     flex-wrap: nowrap;
+    overflow-x: auto;
 }
 
 .pipeline-step {
@@ -3323,10 +3329,10 @@ a.detail-value:hover {
     transition: all 0.3s ease;
 }
 
-.pipeline-step:hover {
+/* .pipeline-step:hover {
     border-color: rgba(201, 168, 76, 0.4);
     transform: translateY(-3px);
-}
+} */
 
 .pipeline-icon {
     width: 40px;
@@ -3357,7 +3363,7 @@ a.detail-value:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 20px;
+    margin-left: 46px;
 }
 
 .tech-badge {
@@ -3390,7 +3396,7 @@ a.detail-value:hover {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
-    padding: 30px;
+    padding: 5px 30px;
     backdrop-filter: blur(20px);
 }
 
@@ -3984,13 +3990,32 @@ a.detail-value:hover {
 /* Meeting Showcase Tab Content */
 .meeting-showcase-content {
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 40px;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
     align-items: start;
 }
 
+.meeting-showcase-intro h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+.meeting-showcase-intro > p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.meeting-showcase-intro strong {
+    color: var(--accent);
+}
+
 .meeting-showcase-intro {
-    /* reuses .ai-how-it-works styles */
+    /* consistent with other tab intros */
 }
 
 .meeting-showcase-cta {
@@ -4041,6 +4066,27 @@ a.detail-value:hover {
     font-size: 14px;
     margin-bottom: 24px;
     line-height: 1.6;
+}
+
+.meeting-cta-features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.meeting-cta-features span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.meeting-cta-features i {
+    color: var(--accent);
+    font-size: 0.7rem;
 }
 
 /* Project Demo Link */

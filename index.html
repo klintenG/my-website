@@ -793,7 +793,7 @@
                             It can show location images, display tech logos, navigate to sections, and render project details — all through
                             <strong>LLM Function Calling</strong>. Ask anything about my experience, skills, or projects.
                         </p>
-                        <div class="agent-architecture">
+                        <!-- <div class="agent-architecture">
                             <h4><i class="fas fa-project-diagram"></i> Agent Architecture</h4>
                             <div class="agent-pipeline">
                                 <div class="pipeline-step">
@@ -816,7 +816,13 @@
                                     <span>Response</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <!-- <div class="ai-tech-stack">
+                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
+                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
+                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
+                            <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+                        </div> -->
                         <div class="ai-how-it-works">
                             <h4><i class="fas fa-cogs"></i> How It Works</h4>
                             <ul class="ai-features">
@@ -850,17 +856,11 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="ai-tech-stack">
-                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
-                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
-                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
-                            <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
-                        </div>
                     </div>
                     <div class="ai-chat-window animate-on-scroll">
-                            <div class="chat-window-header">
-                                <div class="chat-header-info">
-                                    <div class="chat-header-avatar">
+                        <div class="chat-window-header">
+                            <div class="chat-header-info">
+                                <div class="chat-header-avatar">
                                     <i class="fas fa-robot"></i>
                                     <span class="chat-status-dot"></span>
                                 </div>
@@ -928,12 +928,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="ai-tech-stack">
-                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
-                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
-                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
-                            <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
-                        </div>
                     </div>
 
                     <div class="showcase-right-col">
@@ -961,9 +955,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="ai-tech-stack">
+                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
+                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
+                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
+                            <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+                        </div>
                         <div class="resume-agent-workspace animate-on-scroll">
                             <div class="jd-input-area">
-                            <label for="jdInput"><i class="fas fa-paste"></i> Paste Job Description</label>
+                                <label for="jdInput"><i class="fas fa-paste"></i> Paste Job Description</label>
                             <textarea id="jdInput" rows="14" placeholder="Paste the full job description here... The agent will autonomously analyze requirements, match skills, calculate fit score, and generate a tailored summary."></textarea>
                             <div class="jd-actions">
                                 <button id="analyzeBtn" class="agent-btn primary" onclick="ResumeAgent.analyze()">
@@ -1026,12 +1026,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="ai-tech-stack">
-                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
-                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
-                            <span class="tech-badge"><i class="fab fa-google"></i> Google Calendar API</span>
-                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
-                        </div>
                     </div>
                     <div class="showcase-right-col">
                         <div class="agent-architecture">
@@ -1058,17 +1052,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="ai-tech-stack">
+                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
+                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
+                            <span class="tech-badge"><i class="fab fa-google"></i> Google Calendar API</span>
+                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
+                        </div>
                         <div class="meeting-showcase-cta animate-on-scroll">
                             <div class="meeting-cta-card">
-                            <div class="meeting-cta-icon">
-                                <i class="fas fa-calendar-check"></i>
+                                <div class="meeting-cta-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <h4>Ready to Schedule?</h4>
+                                <p>Click below to open the AI scheduler — just tell it when you're free and it handles the rest.</p>
+                                <button class="btn btn-primary" onclick="document.querySelector('.mtg-fab')?.click()">
+                                    <i class="fas fa-calendar-alt"></i> Open Meeting Scheduler
+                                </button>
+                                <!-- <div class="meeting-cta-features">
+                                    <span><i class="fas fa-check"></i> Auto Google Meet link</span>
+                                    <span><i class="fas fa-check"></i> IST timezone aware</span>
+                                    <span><i class="fas fa-check"></i> Reschedule anytime</span>
+                                </div> -->
                             </div>
-                            <h4>Ready to Schedule?</h4>
-                            <p>Click below to open the AI scheduler — just tell it when you're free and it handles the rest.</p>
-                            <button class="btn btn-primary" onclick="document.querySelector('.mtg-fab')?.click()">
-                                <i class="fas fa-calendar-alt"></i> Open Meeting Scheduler
-                            </button>
-                        </div>
                         </div>
                     </div>
                 </div>
