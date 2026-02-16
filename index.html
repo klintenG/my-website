@@ -1138,54 +1138,39 @@
         </div>
     </footer>
 
-    <!-- ========== FLOATING AI HUB (Unified) ========== -->
-    <div class="ai-hub-container" id="aiHubContainer">
-        <!-- AI Chat Panel (shown when "AI Chat" chosen) -->
-        <div class="floating-chat-widget" id="floatingChatWidget">
-            <div class="floating-chat-header">
-                <div class="floating-chat-header-info">
-                    <div class="floating-chat-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div>
-                        <span class="floating-chat-name">BKG AI Assistant</span>
-                        <span class="floating-chat-status">Powered by Groq</span>
-                    </div>
+    <!-- ========== FLOATING AI CHAT WIDGET ========== -->
+    <div class="floating-chat-widget" id="floatingChatWidget">
+        <div class="floating-chat-header">
+            <div class="floating-chat-header-info">
+                <div class="floating-chat-avatar">
+                    <i class="fas fa-robot"></i>
                 </div>
-                <button class="floating-chat-close" id="floatingChatClose" aria-label="Close chat">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="floating-chat-messages" id="floatingChatMessages">
-                <div class="chat-suggestions floating-suggestions" id="floatingChatSuggestions">
-                    <!-- Populated by JS -->
+                <div>
+                    <span class="floating-chat-name">BKG AI Assistant</span>
+                    <span class="floating-chat-status">Powered by Groq</span>
                 </div>
             </div>
-            <div class="floating-chat-input-area">
-                <input type="text" id="floatingChatInput" placeholder="Ask me anything..." autocomplete="off">
-                <button id="floatingChatSend" class="chat-send-btn" aria-label="Send">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+            <button class="floating-chat-close" id="floatingChatClose" aria-label="Close chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="floating-chat-messages" id="floatingChatMessages">
+            <div class="chat-suggestions floating-suggestions" id="floatingChatSuggestions">
+                <!-- Populated by JS -->
             </div>
         </div>
-
-        <!-- AI Hub Speed Dial Menu -->
-        <div class="ai-hub-menu" id="aiHubMenu">
-            <button class="ai-hub-option" id="aiHubChat" title="AI Chat">
-                <i class="fas fa-robot"></i>
-                <span>AI Chat</span>
-            </button>
-            <button class="ai-hub-option" id="aiHubMeeting" title="Schedule Meeting">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Schedule</span>
+        <div class="floating-chat-input-area">
+            <input type="text" id="floatingChatInput" placeholder="Ask me anything..." autocomplete="off">
+            <button id="floatingChatSend" class="chat-send-btn" aria-label="Send">
+                <i class="fas fa-paper-plane"></i>
             </button>
         </div>
     </div>
 
-    <!-- AI Hub Toggle Button -->
-    <button class="floating-chat-toggle ai-hub-toggle" id="aiHubToggle" aria-label="Open AI Hub">
-        <i class="fas fa-bolt"></i>
-        <span class="chat-toggle-badge">AI</span>
+    <!-- AI Chat Floating Button -->
+    <button class="floating-fab ai-chat-fab" id="aiChatFab" aria-label="Open AI Chat">
+        <i class="fas fa-robot"></i>
+        <span class="fab-badge">AI</span>
     </button>
 
     <!-- Back to Top -->

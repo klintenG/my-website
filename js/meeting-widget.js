@@ -12,7 +12,7 @@ class MeetingSchedulerWidget {
     this.config = {
       apiUrl:  config.apiUrl  || 'http://localhost:8001',
       wsUrl:   config.wsUrl   || 'ws://localhost:8001/ws',
-      position: config.position || 'bottom-left',
+      position: config.position || 'bottom-right',
       ...config,
     };
 
@@ -49,7 +49,7 @@ class MeetingSchedulerWidget {
       .mtg-widget {
         position: fixed;
         bottom: 24px;
-        left: 24px;
+        right: 32px;
         z-index: 10000;
         font-family: var(--font-sans, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
       }

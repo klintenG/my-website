@@ -459,66 +459,32 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
 
     // ========== INIT FLOATING CHAT ==========
     function initFloatingChat() {
-        var toggle = document.getElementById('aiHubToggle');
+        var fab = document.getElementById('aiChatFab');
         var widget = document.getElementById('floatingChatWidget');
         var close = document.getElementById('floatingChatClose');
         var input = document.getElementById('floatingChatInput');
         var sendBtn = document.getElementById('floatingChatSend');
         var messages = document.getElementById('floatingChatMessages');
         var suggestions = document.getElementById('floatingChatSuggestions');
-        var hubMenu = document.getElementById('aiHubMenu');
-        var hubChat = document.getElementById('aiHubChat');
-        var hubMeeting = document.getElementById('aiHubMeeting');
-        if (!toggle || !widget) return;
+        if (!fab || !widget) return;
 
-        var hubOpen = false;
         var chatOpen = false;
         var initialized = false;
 
-        // Toggle AI Hub menu
-        toggle.addEventListener('click', function() {
-            if (chatOpen) {
-                // If chat is open, close it
-                chatOpen = false;
-                widget.classList.remove('open');
-                hubMenu.classList.remove('open');
-                toggle.classList.remove('active');
-                return;
-            }
-            hubOpen = !hubOpen;
-            hubMenu.classList.toggle('open', hubOpen);
-            toggle.classList.toggle('active', hubOpen);
+        // Toggle chat on FAB click
+        fab.addEventListener('click', function() {
+            chatOpen = !chatOpen;
+            widget.classList.toggle('open', chatOpen);
+            fab.classList.toggle('active', chatOpen);
+            if (chatOpen && !initialized) { initialized = true; initFloatingChatContent(); }
+            if (chatOpen && input) setTimeout(function() { input.focus(); }, 300);
         });
-
-        // Open AI Chat from hub
-        if (hubChat) {
-            hubChat.addEventListener('click', function() {
-                hubOpen = false;
-                chatOpen = true;
-                hubMenu.classList.remove('open');
-                widget.classList.add('open');
-                if (!initialized) { initialized = true; initFloatingChatContent(); }
-                if (input) setTimeout(function() { input.focus(); }, 300);
-            });
-        }
-
-        // Open Meeting Scheduler from hub
-        if (hubMeeting) {
-            hubMeeting.addEventListener('click', function() {
-                hubOpen = false;
-                hubMenu.classList.remove('open');
-                toggle.classList.remove('active');
-                // Trigger the meeting widget FAB
-                var mtgFab = document.querySelector('.mtg-fab');
-                if (mtgFab) mtgFab.click();
-            });
-        }
 
         if (close) {
             close.addEventListener('click', function() {
                 chatOpen = false;
                 widget.classList.remove('open');
-                toggle.classList.remove('active');
+                fab.classList.remove('active');
             });
         }
 
