@@ -2286,7 +2286,7 @@ a.detail-value:hover {
     box-shadow: var(--shadow-lg);
     display: flex;
     flex-direction: column;
-    height: 580px;
+    height: 670px;
     position: relative;
 }
 
