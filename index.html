@@ -22,6 +22,9 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Devicon - Tech Logos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
 
@@ -46,6 +49,8 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#ai-assistant" class="nav-link">AI Chat</a></li>
+                <li><a href="#resume-agent" class="nav-link">Resume Agent</a></li>
                 <li><a href="#education" class="nav-link">Education</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -748,6 +753,159 @@
         </div>
     </section>
 
+    <!-- ========== AI ASSISTANT SECTION ========== -->
+    <section class="section ai-chat-section" id="ai-assistant">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-robot"></i> Agentic AI Assistant</span>
+                <h2 class="section-title">Experience My AI Skills</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="ai-chat-content">
+                <div class="ai-chat-intro animate-on-scroll">
+                    <h3>Talk to My Agentic AI Assistant</h3>
+                    <p>
+                        This isn't just a chatbot — it's an <strong>Agentic AI</strong> that autonomously decides which tools to use.
+                        It can show location images, display tech logos, navigate to sections, and render project details — all through
+                        <strong>Gemini Function Calling</strong>. Ask anything about my experience, skills, or projects.
+                    </p>
+                    <div class="ai-how-it-works">
+                        <h4><i class="fas fa-cogs"></i> How It Works</h4>
+                        <ul class="ai-features">
+                            <li>
+                                <div class="ai-feature-icon"><i class="fas fa-brain"></i></div>
+                                <div>
+                                    <strong>Gemini Function Calling</strong>
+                                    <span>AI autonomously decides which tools to invoke — true agentic behavior, not scripted responses</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ai-feature-icon"><i class="fas fa-tools"></i></div>
+                                <div>
+                                    <strong>4 Agent Tools</strong>
+                                    <span>showLocationImage • showTechLogo • highlightSection • showProjectDetails — the AI picks which to use</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ai-feature-icon"><i class="fas fa-file-alt"></i></div>
+                                <div>
+                                    <strong>Context Engineering</strong>
+                                    <span>My entire resume is fed as structured context — the same approach I use for enterprise SDK documentation</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ai-feature-icon"><i class="fas fa-comments"></i></div>
+                                <div>
+                                    <strong>Multi-Turn Conversation</strong>
+                                    <span>Maintains conversation history for contextual follow-up questions</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ai-real-world">
+                        <p>
+                            <i class="fas fa-quote-left"></i>
+                            At EdgeVerve, I built a similar AI-powered assistant for our SDK — clients could ask integration 
+                            questions directly in the terminal instead of searching through documentation. This chatbot uses 
+                            the exact same architecture.
+                        </p>
+                    </div>
+                </div>
+                <div class="ai-chat-window animate-on-scroll">
+                    <div class="chat-window-header">
+                        <div class="chat-header-info">
+                            <div class="chat-header-avatar">
+                                <i class="fas fa-robot"></i>
+                                <span class="chat-status-dot"></span>
+                            </div>
+                            <div>
+                                <span class="chat-header-name">BKG AI Assistant</span>
+                                <span class="chat-header-status">Powered by Gemini</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-messages" id="sectionChatMessages">
+                        <div class="chat-suggestions" id="sectionChatSuggestions">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="sectionChatInput" placeholder="Ask about my skills, experience, projects..." autocomplete="off">
+                        <button id="sectionChatSend" class="chat-send-btn" aria-label="Send">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== RESUME TAILORING AGENT ========== -->
+    <section class="section resume-agent-section" id="resume-agent">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-magic"></i> Resume Tailoring Agent</span>
+                <h2 class="section-title">AI-Powered Fit Analysis</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="resume-agent-content">
+                <div class="resume-agent-intro animate-on-scroll">
+                    <h3>Paste a Job Description — Let AI Analyze the Fit</h3>
+                    <p>
+                        This <strong>autonomous multi-step agent</strong> parses a job description, matches requirements against
+                        my profile, calculates a fit score, identifies skill gaps, and generates a tailored professional summary — 
+                        all in a single agentic workflow.
+                    </p>
+                    <div class="agent-architecture">
+                        <h4><i class="fas fa-project-diagram"></i> Agent Architecture</h4>
+                        <div class="agent-pipeline">
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-file-alt"></i></div>
+                                <span>Parse JD</span>
+                            </div>
+                            <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-crosshairs"></i></div>
+                                <span>Match Skills</span>
+                            </div>
+                            <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-chart-bar"></i></div>
+                                <span>Score Fit</span>
+                            </div>
+                            <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-magic"></i></div>
+                                <span>Tailor Summary</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-agent-workspace animate-on-scroll">
+                    <div class="jd-input-area">
+                        <label for="jdInput"><i class="fas fa-paste"></i> Paste Job Description</label>
+                        <textarea id="jdInput" rows="8" placeholder="Paste the full job description here... The agent will autonomously analyze requirements, match skills, calculate fit score, and generate a tailored summary."></textarea>
+                        <div class="jd-actions">
+                            <button id="analyzeBtn" class="agent-btn primary" onclick="ResumeAgent.analyze()">
+                                <i class="fas fa-rocket"></i> Analyze Fit
+                            </button>
+                            <button class="agent-btn secondary" onclick="ResumeAgent.clearAll()">
+                                <i class="fas fa-redo"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="agentOutput" class="agent-output" style="display: none;">
+                        <div id="agentSteps" class="agent-steps-container"></div>
+                        <div id="agentResults" class="agent-results"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== EDUCATION SECTION ========== -->
     <section class="section education" id="education">
         <div class="container">
@@ -882,6 +1040,7 @@
                     <a href="#experience">Experience</a>
                     <a href="#skills">Skills</a>
                     <a href="#projects">Projects</a>
+                    <a href="#ai-assistant">AI Chat</a>
                     <a href="#contact">Contact</a>
                 </div>
                 <div class="footer-social">
@@ -903,6 +1062,41 @@
         </div>
     </footer>
 
+    <!-- ========== FLOATING CHAT WIDGET ========== -->
+    <div class="floating-chat-widget" id="floatingChatWidget">
+        <div class="floating-chat-header">
+            <div class="floating-chat-header-info">
+                <div class="floating-chat-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <span class="floating-chat-name">BKG AI Assistant</span>
+                    <span class="floating-chat-status">Ask me about Klinten</span>
+                </div>
+            </div>
+            <button class="floating-chat-close" id="floatingChatClose" aria-label="Close chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="floating-chat-messages" id="floatingChatMessages">
+            <div class="chat-suggestions floating-suggestions" id="floatingChatSuggestions">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+        <div class="floating-chat-input-area">
+            <input type="text" id="floatingChatInput" placeholder="Ask me anything..." autocomplete="off">
+            <button id="floatingChatSend" class="chat-send-btn" aria-label="Send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Chat Toggle Button -->
+    <button class="floating-chat-toggle" id="floatingChatToggle" aria-label="Open AI chat">
+        <i class="fas fa-robot"></i>
+        <span class="chat-toggle-badge">AI</span>
+    </button>
+
     <!-- Back to Top -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
@@ -910,5 +1104,8 @@
 
     <!-- Scripts -->
     <script src="js/main.js"></script>
+    <script src="js/profile-data.js"></script>
+    <script src="js/ai-chat.js"></script>
+    <script src="js/resume-agent.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* ============================================
-   BILL KLINTEN GUDURU — RESUME WEBSITE
+   KLINTEN GUDURU — RESUME WEBSITE
    JavaScript — Enhanced Interactions & Animations
    ============================================ */
 
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const subject = formData.get('subject');
         const message = formData.get('message');
 
-        const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Bill,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
+        const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Klinten,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
 
         window.location.href = mailtoLink;
 
