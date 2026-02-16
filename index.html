@@ -793,6 +793,30 @@
                             It can show location images, display tech logos, navigate to sections, and render project details — all through
                             <strong>LLM Function Calling</strong>. Ask anything about my experience, skills, or projects.
                         </p>
+                        <div class="agent-architecture">
+                            <h4><i class="fas fa-project-diagram"></i> Agent Architecture</h4>
+                            <div class="agent-pipeline">
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-comment-dots"></i></div>
+                                    <span>User Query</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-brain"></i></div>
+                                    <span>LLM Decides</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-tools"></i></div>
+                                    <span>Tool Execution</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-reply"></i></div>
+                                    <span>Response</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="ai-how-it-works">
                             <h4><i class="fas fa-cogs"></i> How It Works</h4>
                             <ul class="ai-features">
@@ -826,11 +850,17 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="ai-tech-stack">
+                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
+                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
+                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
+                            <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+                        </div>
                     </div>
                     <div class="ai-chat-window animate-on-scroll">
-                        <div class="chat-window-header">
-                            <div class="chat-header-info">
-                                <div class="chat-header-avatar">
+                            <div class="chat-window-header">
+                                <div class="chat-header-info">
+                                    <div class="chat-header-avatar">
                                     <i class="fas fa-robot"></i>
                                     <span class="chat-status-dot"></span>
                                 </div>
@@ -865,6 +895,48 @@
                             my profile, calculates a fit score, identifies skill gaps, and generates a tailored professional summary — 
                             all in a single agentic workflow.
                         </p>
+                        <div class="ai-how-it-works">
+                            <h4><i class="fas fa-cogs"></i> How It Works</h4>
+                            <ul class="ai-features">
+                                <li>
+                                    <div class="ai-feature-icon"><i class="fas fa-file-alt"></i></div>
+                                    <div>
+                                        <strong>JD Parsing</strong>
+                                        <span>Extracts key requirements, skills, and qualifications from any job description automatically</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ai-feature-icon"><i class="fas fa-crosshairs"></i></div>
+                                    <div>
+                                        <strong>Skill Matching</strong>
+                                        <span>Maps JD requirements against my real profile — skills, experience, and projects with evidence</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ai-feature-icon"><i class="fas fa-chart-bar"></i></div>
+                                    <div>
+                                        <strong>Fit Scoring</strong>
+                                        <span>Calculates an honest fit percentage with gap analysis — no inflated scores</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ai-feature-icon"><i class="fas fa-magic"></i></div>
+                                    <div>
+                                        <strong>Tailored Summary</strong>
+                                        <span>Generates a customized professional summary reframed in the JD's language and priorities</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="ai-tech-stack">
+                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
+                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
+                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
+                            <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-right-col">
                         <div class="agent-architecture">
                             <h4><i class="fas fa-project-diagram"></i> Agent Architecture</h4>
                             <div class="agent-pipeline">
@@ -889,12 +961,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="resume-agent-workspace animate-on-scroll">
-                        <div class="jd-input-area">
+                        <div class="resume-agent-workspace animate-on-scroll">
+                            <div class="jd-input-area">
                             <label for="jdInput"><i class="fas fa-paste"></i> Paste Job Description</label>
-                            <textarea id="jdInput" rows="8" placeholder="Paste the full job description here... The agent will autonomously analyze requirements, match skills, calculate fit score, and generate a tailored summary."></textarea>
+                            <textarea id="jdInput" rows="14" placeholder="Paste the full job description here... The agent will autonomously analyze requirements, match skills, calculate fit score, and generate a tailored summary."></textarea>
                             <div class="jd-actions">
                                 <button id="analyzeBtn" class="agent-btn primary" onclick="ResumeAgent.analyze()">
                                     <i class="fas fa-rocket"></i> Analyze Fit
@@ -909,6 +979,7 @@
                             <div id="agentSteps" class="agent-steps-container"></div>
                             <div id="agentResults" class="agent-results"></div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -955,17 +1026,49 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="ai-tech-stack">
+                            <span class="tech-badge"><i class="fas fa-bolt"></i> Groq</span>
+                            <span class="tech-badge"><i class="fas fa-code"></i> Llama 3.3 70B</span>
+                            <span class="tech-badge"><i class="fab fa-google"></i> Google Calendar API</span>
+                            <span class="tech-badge"><i class="fas fa-server"></i> FastAPI</span>
+                        </div>
                     </div>
-                    <div class="meeting-showcase-cta animate-on-scroll">
-                        <div class="meeting-cta-card">
+                    <div class="showcase-right-col">
+                        <div class="agent-architecture">
+                            <h4><i class="fas fa-project-diagram"></i> Agent Architecture</h4>
+                            <div class="agent-pipeline">
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-comments"></i></div>
+                                    <span>Chat</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-clock"></i></div>
+                                    <span>Check Slots</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fab fa-google"></i></div>
+                                    <span>Book Calendar</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-check-circle"></i></div>
+                                    <span>Confirmation</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meeting-showcase-cta animate-on-scroll">
+                            <div class="meeting-cta-card">
                             <div class="meeting-cta-icon">
                                 <i class="fas fa-calendar-check"></i>
                             </div>
-                            <h4>Ready to Chat?</h4>
-                            <p>Click the <strong>calendar button</strong> in the bottom-left corner to start scheduling, or use the button below.</p>
+                            <h4>Ready to Schedule?</h4>
+                            <p>Click below to open the AI scheduler — just tell it when you're free and it handles the rest.</p>
                             <button class="btn btn-primary" onclick="document.querySelector('.mtg-fab')?.click()">
                                 <i class="fas fa-calendar-alt"></i> Open Meeting Scheduler
                             </button>
+                        </div>
                         </div>
                     </div>
                 </div>

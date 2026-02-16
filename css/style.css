@@ -3256,10 +3256,9 @@ a.detail-value:hover {
 
 .resume-agent-content {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-    max-width: 900px;
-    margin: 0 auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
 }
 
 .resume-agent-intro h3 {
@@ -3276,19 +3275,26 @@ a.detail-value:hover {
     margin-bottom: 24px;
 }
 
+/* Right column wrapper: pipeline + interactive element */
+.showcase-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 /* Agent Architecture - Pipeline Visual */
 .agent-architecture {
     background: var(--glass-bg);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
-    padding: 24px;
-    backdrop-filter: blur(20px);
+    padding: 20px 24px;
 }
 
 .agent-architecture h4 {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--accent);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-weight: 600;
 }
 
@@ -3300,8 +3306,8 @@ a.detail-value:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 10px;
+    flex-wrap: nowrap;
 }
 
 .pipeline-step {
@@ -3309,11 +3315,11 @@ a.detail-value:hover {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    padding: 16px 12px;
+    padding: 14px 10px;
     background: rgba(27, 45, 78, 0.3);
     border: 1px solid rgba(201, 168, 76, 0.15);
     border-radius: 12px;
-    min-width: 90px;
+    min-width: 80px;
     transition: all 0.3s ease;
 }
 
@@ -3346,6 +3352,39 @@ a.detail-value:hover {
     font-size: 0.9rem;
 }
 
+/* Tech stack badges */
+.ai-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(201, 168, 76, 0.08);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
+.tech-badge:hover {
+    background: rgba(201, 168, 76, 0.15);
+    border-color: rgba(201, 168, 76, 0.4);
+}
+
+.tech-badge i {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
 /* JD Input Area */
 .resume-agent-workspace {
     background: var(--glass-bg);
@@ -3371,7 +3410,7 @@ a.detail-value:hover {
 
 #jdInput {
     width: 100%;
-    min-height: 160px;
+    min-height: 280px;
     padding: 16px;
     background: rgba(27, 45, 78, 0.3);
     border: 1px solid rgba(201, 168, 76, 0.15);
@@ -3840,9 +3879,18 @@ a.detail-value:hover {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+    .resume-agent-content {
+        grid-template-columns: 1fr;
+    }
+
+    .showcase-right-col {
+        gap: 16px;
+    }
+
     .agent-pipeline {
         flex-direction: column;
         gap: 8px;
+        flex-wrap: wrap;
     }
 
     .pipeline-arrow {
@@ -3936,7 +3984,7 @@ a.detail-value:hover {
 /* Meeting Showcase Tab Content */
 .meeting-showcase-content {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 0.8fr 1.2fr;
     gap: 40px;
     align-items: start;
 }
@@ -3955,10 +4003,11 @@ a.detail-value:hover {
     background: var(--bg-card);
     border: 2px solid var(--border);
     border-radius: var(--radius-lg, 16px);
-    padding: 40px 32px;
+    padding: 36px 28px;
     text-align: center;
     box-shadow: var(--shadow-md);
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .meeting-cta-card:hover {
