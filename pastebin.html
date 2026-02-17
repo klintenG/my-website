@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextShare - Share Text Instantly | Klinten Guduru</title>
+    <meta name="description" content="Share text instantly across devices. Paste your text and get a shareable link.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pastebin.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html#hero" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#experience" class="nav-link">Experience</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="index.html#ai-showcase" class="nav-link">AI Showcase</a></li>
+                <li><a href="pastebin.html" class="nav-link active">TextShare</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="index.html" class="nav-cta">Home</a>
+                <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PASTEBIN SECTION ========== -->
+    <section class="pastebin-section">
+        <div class="container">
+            <div class="pastebin-header">
+                <h1><i class="fas fa-share-nodes"></i> TextShare</h1>
+                <p class="subtitle">Share text instantly across any device with a single link</p>
+            </div>
+
+            <div class="pastebin-container" id="pastebinContainer">
+                <!-- Input Mode -->
+                <div class="pastebin-mode" id="inputMode">
+                    <div class="pastebin-controls">
+                        <button class="btn-secondary" id="clearBtn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                        <div class="char-counter">
+                            <span id="charCount">0</span> characters
+                        </div>
+                    </div>
+                    
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Paste or type your text here... (supports up to 50,000 characters)"
+                        maxlength="50000"
+                        autofocus
+                    ></textarea>
+                    
+                    <button class="btn-primary" id="generateLinkBtn">
+                        <i class="fas fa-link"></i> Generate Shareable Link
+                    </button>
+                </div>
+
+                <!-- Link Generated Mode -->
+                <div class="pastebin-mode hidden" id="linkMode">
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Link generated successfully!</span>
+                    </div>
+                    
+                    <div class="link-container">
+                        <input type="text" id="generatedLink" readonly>
+                        <button class="btn-copy" id="copyLinkBtn" title="Copy to clipboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    
+                    <p class="info-text">
+                        <i class="fas fa-info-circle"></i>
+                        Share this link with anyone. The text is encoded in the URL itself.
+                    </p>
+                    
+                    <div class="link-actions">
+                        <button class="btn-secondary" id="newPasteBtn">
+                            <i class="fas fa-plus"></i> Create New Paste
+                        </button>
+                        <button class="btn-secondary" id="viewTextBtn">
+                            <i class="fas fa-eye"></i> View Text
+                        </button>
+                    </div>
+                </div>
+
+                <!-- View Mode (Display shared text) -->
+                <div class="pastebin-mode hidden" id="viewMode">
+                    <div class="pastebin-controls">
+                        <button class="btn-secondary" id="copyTextBtn">
+                            <i class="fas fa-copy"></i> Copy Text
+                        </button>
+                        <button class="btn-secondary" id="downloadBtn">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <div class="char-counter">
+                            <span id="viewCharCount">0</span> characters
+                        </div>
+                    </div>
+                    
+                    <div class="text-display" id="textDisplay"></div>
+                    
+                    <button class="btn-primary" id="createNewBtn">
+                        <i class="fas fa-plus"></i> Create Your Own Paste
+                    </button>
+                </div>
+            </div>
+
+            <!-- Toast Notification -->
+            <div class="toast hidden" id="toast">
+                <i class="fas fa-check-circle"></i>
+                <span id="toastMessage">Copied to clipboard!</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/pastebin.js"></script>
+</body>
+</html>
