@@ -82,59 +82,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.getElementById('hamburger');
     const navLinksContainer = document.getElementById('navLinks');
 
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navLinksContainer.classList.toggle('active');
-    });
-
-    // Close mobile menu on link click
-    navLinksContainer.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinksContainer.classList.remove('active');
+    if (hamburger && navLinksContainer) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinksContainer.classList.toggle('active');
         });
-    });
 
-    // ========== TYPING ANIMATION ==========
-    const titles = [
-        'Full Stack Developer',
-        'Agentic AI Developer',
-        'UI Engineer',
-        'Spring Boot Specialist',
-        'Node.js Expert',
-        'Problem Solver'
-    ];
-    let titleIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typingElement = document.getElementById('typingText');
-
-    function typeWriter() {
-        const current = titles[titleIndex];
-
-        if (isDeleting) {
-            typingElement.textContent = current.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingElement.textContent = current.substring(0, charIndex + 1);
-            charIndex++;
-        }
-
-        let speed = isDeleting ? 35 : 70;
-
-        if (!isDeleting && charIndex === current.length) {
-            speed = 2200;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            titleIndex = (titleIndex + 1) % titles.length;
-            speed = 500;
-        }
-
-        setTimeout(typeWriter, speed);
+        // Close mobile menu on link click
+        navLinksContainer.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinksContainer.classList.remove('active');
+            });
+        });
     }
 
-    typeWriter();
+    // ========== TYPING ANIMATION ==========
+    const typingElement = document.getElementById('typingText');
+    
+    if (typingElement) {
+        const titles = [
+            'Full Stack Developer',
+            'Agentic AI Developer',
+            'UI Engineer',
+            'Spring Boot Specialist',
+            'Node.js Expert',
+            'Problem Solver'
+        ];
+        let titleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeWriter() {
+            const current = titles[titleIndex];
+
+            if (isDeleting) {
+                typingElement.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let speed = isDeleting ? 35 : 70;
+
+            if (!isDeleting && charIndex === current.length) {
+                speed = 2200;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                titleIndex = (titleIndex + 1) % titles.length;
+                speed = 500;
+            }
+
+            setTimeout(typeWriter, speed);
+        }
+
+        typeWriter();
+    }
 
     // ========== SCROLL ANIMATIONS (Enhanced with stagger) ==========
     const observerOptions = {
@@ -252,30 +257,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== CONTACT FORM ==========
     const contactForm = document.getElementById('contactForm');
 
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const subject = formData.get('subject');
-        const message = formData.get('message');
+            const formData = new FormData(contactForm);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
 
-        const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Klinten,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
+            const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Klinten,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
 
-        window.location.href = mailtoLink;
+            window.location.href = mailtoLink;
 
-        const btn = contactForm.querySelector('button[type="submit"]');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i> Opening Email Client...';
-        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+            const btn = contactForm.querySelector('button[type="submit"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Opening Email Client...';
+            btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
 
-        setTimeout(() => {
-            btn.innerHTML = originalHTML;
-            btn.style.background = '';
-            contactForm.reset();
-        }, 3000);
-    });
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = '';
+                contactForm.reset();
+            }, 3000);
+        });
+    }
 
     // ========== SMOOTH SCROLL FOR ALL ANCHOR LINKS ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
