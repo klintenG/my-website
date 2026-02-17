@@ -110,7 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const baseUrl = window.location.origin + window.location.pathname;
             const shareableLink = `${baseUrl}?text=${encoded}`;
             
-            // Check if URL is too long (most browsers support up to ~2000 chars)
+            // Check if URL is too long (IE limit is 2083 chars, being conservative at 2000)
+            // Modern browsers support much longer URLs, but keeping this limit for broad compatibility
             if (shareableLink.length > 2000) {
                 showToast('Text is too long for URL encoding. Please use shorter text.', 'error');
                 return;
@@ -232,17 +233,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== EVENT LISTENERS ==========
     if (textInput) {
         textInput.addEventListener('input', updateCharCount);
+        
+        // Allow Enter key with Ctrl/Cmd to generate link
+        textInput.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && generateLinkBtn) {
+                generateShareableLink();
+            }
+        });
     }
 
     if (generateLinkBtn) {
         generateLinkBtn.addEventListener('click', generateShareableLink);
-        
-        // Allow Enter key with Ctrl/Cmd to generate link
-        textInput.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                generateShareableLink();
-            }
-        });
     }
 
     if (clearBtn) {
@@ -271,8 +272,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const encodedText = urlParams.get('text');
             if (encodedText) {
-                const decodedText = decodeText(encodedText);
-                showViewMode(decodedText);
+                try {
+                    const decodedText = decodeText(encodedText);
+                    showViewMode(decodedText);
+                } catch (error) {
+                    console.error('Error decoding text:', error);
+                    showToast('Error: Invalid or corrupted link', 'error');
+                }
             }
         });
     }
