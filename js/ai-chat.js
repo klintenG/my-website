@@ -1,5 +1,5 @@
 /* ============================================
-   AGENTIC AI CHAT — Powered by Groq (Llama 3.3 70B)
+   AI CHAT — Powered by Google Gemini
    Function Calling + Tool Use Architecture
    API key secured on backend (port 8001)
    ============================================ */
@@ -7,10 +7,79 @@
 const AIChat = (() => {
 
     // ========== CONFIGURATION ==========
-    const BACKEND = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-        ? 'http://localhost:8001'
-        : 'https://klinteng-ai-backend.onrender.com';
-    const API_URL = BACKEND + '/api/ai-chat';
+    // API key is kept server-side via proxy. See /server/server.js
+    // Local dev: run "cd server && npm start" → http://localhost:3001
+    // Production: replace with your deployed proxy URL
+    const API_URL = 'http://localhost:3001/api/chat';
+
+    // ========== TOOL DEFINITIONS (Gemini Function Calling) ==========
+    const TOOL_DECLARATIONS = [
+        {
+            name: 'showLocationImage',
+            description: 'Show an image of a city or location when the conversation involves where Klinten lives, works, was born, or any geographic location relevant to his profile. Call this whenever a city, state, or country is mentioned in your response.',
+            parameters: {
+                type: 'OBJECT',
+                properties: {
+                    city: {
+                        type: 'STRING',
+                        description: 'The city name, e.g. "Bengaluru", "Hyderabad", "Gudur"'
+                    },
+                    context: {
+                        type: 'STRING',
+                        description: 'Brief context like "current_location", "birthplace", "relocation_preference"'
+                    }
+                },
+                required: ['city']
+            }
+        },
+        {
+            name: 'showTechLogo',
+            description: 'Show technology/framework logos when discussing Klinten\'s technical skills or tech stack. Call this when listing or discussing specific technologies.',
+            parameters: {
+                type: 'OBJECT',
+                properties: {
+                    technologies: {
+                        type: 'ARRAY',
+                        items: { type: 'STRING' },
+                        description: 'Array of technology names, e.g. ["React", "Spring Boot", "Node.js"]'
+                    }
+                },
+                required: ['technologies']
+            }
+        },
+        {
+            name: 'highlightSection',
+            description: 'Scroll to and highlight a section of the resume website when the user asks about something that has a dedicated section. Use this to direct users to relevant content on the page.',
+            parameters: {
+                type: 'OBJECT',
+                properties: {
+                    sectionId: {
+                        type: 'STRING',
+                        description: 'The HTML section ID to scroll to: "about", "experience", "skills", "projects", "education", "contact"'
+                    },
+                    reason: {
+                        type: 'STRING',
+                        description: 'Brief reason for highlighting, e.g. "Showing experience section"'
+                    }
+                },
+                required: ['sectionId']
+            }
+        },
+        {
+            name: 'showProjectDetails',
+            description: 'Display a rich project information card when the user asks about a specific project. Shows project name, description, and tech stack in a visual card.',
+            parameters: {
+                type: 'OBJECT',
+                properties: {
+                    projectName: {
+                        type: 'STRING',
+                        description: 'The project name, e.g. "Cash Management", "Error Handling AI Agent"'
+                    }
+                },
+                required: ['projectName']
+            }
+        }
+    ];
 
     // ========== LOCATION IMAGE MAP ==========
     const LOCATION_IMAGES = {
@@ -133,8 +202,8 @@ const AIChat = (() => {
         'dbms': { emoji: '🗄️', label: 'DBMS' },
     };
 
-    // ========== SYSTEM PROMPT (sent to backend, never contains API keys) ==========
-    const SYSTEM_PROMPT = `You are an AGENTIC AI assistant embedded on Klinten Guduru's personal resume website (klinteng.com). You have access to TOOLS that you can use to enhance your responses. Your role is to help visitors — especially recruiters and hiring managers — learn about Klinten's professional background.
+    // ========== SYSTEM PROMPT ==========
+    const SYSTEM_PROMPT = `You are an AI assistant embedded on Klinten Guduru's personal resume website (klinteng.com). You have access to tools (via Gemini function calling) that you can use to enhance your responses. Your role is to help visitors — especially recruiters and hiring managers — learn about Klinten's professional background.
 
 IMPORTANT GUIDELINES:
 - Answer ONLY questions related to Klinten Guduru's resume, career, skills, projects, education, and professional background.
@@ -142,14 +211,14 @@ IMPORTANT GUIDELINES:
 - Be professional, concise, and friendly.
 - IMPORTANT: Always refer to him as "Klinten" (not "Bill"). His full legal name is Bill Klinten Guduru, but he prefers Klinten.
 
-TOOL USAGE GUIDELINES (THIS IS CRITICAL — THIS IS WHAT MAKES YOU AGENTIC):
-- You MUST actively use your tools to enhance responses. Don't just give text — use the right tool alongside your answer.
+TOOL USAGE GUIDELINES:
+- Use your tools to enhance responses. Don't just give text — use the right tool alongside your answer.
 - When mentioning a LOCATION (city, state, country): Call showLocationImage with the city name.
 - When mentioning TECHNOLOGIES or SKILLS: Call showTechLogo with an array of technology names.
 - When the user asks about a topic with a DEDICATED SECTION on the website: Call highlightSection to scroll there.
 - When discussing a SPECIFIC PROJECT: Call showProjectDetails with the project name.
-- You can call MULTIPLE TOOLS in a single response.
-- Using tools is what makes you an AGENT, not just a chatbot. USE THEM LIBERALLY.
+- You can call MULTIPLE TOOLS in a single response. For example, if someone asks about Klinten's current role, you might call showLocationImage("Bengaluru") AND showTechLogo(["React", "Node.js"]) AND highlightSection("experience").
+- Use tools when they add value to the response.
 
 BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
 ` + buildProfileContext();
@@ -164,11 +233,11 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         { icon: 'fas fa-code', text: 'What are his top technical skills?' },
         { icon: 'fas fa-map-marker-alt', text: 'Where does Klinten live?' },
         { icon: 'fas fa-graduation-cap', text: "What's his educational background?" },
-        { icon: 'fas fa-cogs', text: 'How does this agentic chatbot work?' }
+        { icon: 'fas fa-cogs', text: 'How does this AI chatbot work?' }
     ];
 
-    // ========== BACKEND API CALL (secure — no API key in frontend) ==========
-    async function sendToBackend(userMessage, chatType) {
+    // ========== API CALL (with Function Calling) ==========
+    async function sendToGemini(userMessage, chatType) {
         const history = conversations[chatType];
 
         // Build history in {role, content} format for the backend
@@ -401,13 +470,14 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         return thinkDiv;
     }
 
-    // ========== HANDLE SEND (AGENTIC) ==========
+    // ========== HANDLE SEND ==========
     async function handleSend(input, messagesContainer, chatType, suggestionsEl) {
         var text = input.value.trim();
         if (!text) return;
         if (suggestionsEl) suggestionsEl.style.display = 'none';
         createMessage(text, 'user', messagesContainer);
         input.value = '';
+        // AIAvatar references removed (was unused)
         var typingEl = showTyping(messagesContainer);
 
         var response = await sendToBackend(text, chatType);
@@ -415,6 +485,9 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
 
         // Execute tool calls first (visual cards before text)
         if (response.toolCalls && response.toolCalls.length > 0) {
+            // Show persistent tool-call transparency log
+            var logDiv = createToolLog(response.toolCalls, messagesContainer);
+
             for (var i = 0; i < response.toolCalls.length; i++) {
                 var thinkEl = showToolThinking(response.toolCalls[i].name, messagesContainer);
                 await new Promise(function(r) { setTimeout(r, 400); });
@@ -424,6 +497,42 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         }
 
         createMessage(response.text, 'bot', messagesContainer);
+        // AIAvatar references removed (was unused)
+    }
+
+    // ========== TOOL TRANSPARENCY LOG ==========
+    function createToolLog(toolCalls, container) {
+        var logDiv = document.createElement('div');
+        logDiv.className = 'chat-message bot tool-log';
+        var avatarDiv = document.createElement('div');
+        avatarDiv.className = 'chat-avatar';
+        avatarDiv.innerHTML = '<i class="fas fa-terminal"></i>';
+        var contentDiv = document.createElement('div');
+        contentDiv.className = 'chat-bubble tool-log-bubble';
+
+        var header = '<div class="tool-log-header"><i class="fas fa-project-diagram"></i> Function Calls <span class="tool-log-count">' + toolCalls.length + ' tool' + (toolCalls.length > 1 ? 's' : '') + '</span></div>';
+        var entries = '<div class="tool-log-entries">';
+
+        toolCalls.forEach(function(tc) {
+            var argsStr = '';
+            if (tc.args) {
+                var keys = Object.keys(tc.args);
+                argsStr = keys.map(function(k) {
+                    var val = tc.args[k];
+                    if (Array.isArray(val)) return k + ': [' + val.join(', ') + ']';
+                    return k + ': "' + val + '"';
+                }).join(', ');
+            }
+            entries += '<div class="tool-log-entry"><code>' + tc.name + '</code>(<span class="tool-log-args">' + argsStr + '</span>)</div>';
+        });
+
+        entries += '</div>';
+        contentDiv.innerHTML = header + entries;
+        logDiv.appendChild(avatarDiv);
+        logDiv.appendChild(contentDiv);
+        container.appendChild(logDiv);
+        requestAnimationFrame(function() { container.scrollTop = container.scrollHeight; });
+        return logDiv;
     }
 
     // ========== INIT SECTION CHAT ==========
@@ -453,7 +562,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         });
 
         setTimeout(function() {
-            createMessage("Hi there! 👋 I'm Klinten's **Agentic AI** assistant. Unlike a regular chatbot, I can autonomously use tools — I'll show you location images, tech logos, navigate to sections, and pull up project details. Try asking me something!", 'bot', messages);
+            createMessage("Hi there! 👋 I'm Klinten's AI assistant, powered by Gemini with function calling. I can show you location images, tech logos, navigate to sections, and pull up project details. Try asking me something!", 'bot', messages);
         }, 500);
     }
 
@@ -507,7 +616,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
                 if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(input, messages, 'floating', suggestions); }
             });
 
-            createMessage("Hi! 👋 I'm an **agentic** assistant powered by Groq — ask me anything about Klinten!", 'bot', messages);
+            createMessage("Hi! 👋 I'm Klinten's AI assistant — ask me anything about his work!", 'bot', messages);
         }
     }
 

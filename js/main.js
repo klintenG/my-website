@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== TYPING ANIMATION ==========
     const titles = [
         'Full Stack Developer',
-        'Agentic AI Developer',
+        'AI Integration Engineer',
         'UI Engineer',
         'Spring Boot Specialist',
         'Node.js Expert',
@@ -147,11 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
 
-                // Animate skill bars when visible
-                if (entry.target.closest('.skills')) {
-                    animateSkillBars();
-                }
-
                 // Animate stat counters
                 const statNumbers = entry.target.querySelectorAll('.stat-number');
                 statNumbers.forEach(animateCounter);
@@ -162,21 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
         observer.observe(el);
     });
-
-    // ========== SKILL BAR ANIMATION ==========
-    let skillBarsAnimated = false;
-
-    function animateSkillBars() {
-        if (skillBarsAnimated) return;
-        skillBarsAnimated = true;
-
-        document.querySelectorAll('.skill-progress').forEach((bar, i) => {
-            const width = bar.getAttribute('data-width');
-            setTimeout(() => {
-                bar.style.width = width + '%';
-            }, 150 + i * 80); // Stagger each bar
-        });
-    }
 
     // ========== COUNTER ANIMATION ==========
     const animatedCounters = new Set();

@@ -36,7 +36,7 @@ const PROFILE_DATA = {
     // =========================================================================
     // SECTION 2: PROFESSIONAL SUMMARY
     // =========================================================================
-    professionalSummary: `Versatile Software Engineer with 6+ years of expertise in full-stack development, specializing in Spring Boot, Node.js, and UI engineering at EdgeVerve and Infosys. Proven track record of delivering scalable enterprise applications. Currently expanding into AI-driven solutions with hands-on experience in Prompt Engineering and AI Agents development, bridging traditional software engineering with cutting-edge artificial intelligence.`,
+    professionalSummary: `Software engineer who designs AI decision layers inside production enterprise systems. 6+ years shipping full-stack applications at Infosys/EdgeVerve — specializing in embedding LLM-powered reasoning, dynamic localization, and adaptive UI into banking products used by real clients. My approach: AI as an intelligent middleware layer between existing systems, not a replacement for them.`,
 
     // =========================================================================
     // SECTION 3: WORK EXPERIENCE
@@ -104,10 +104,10 @@ const PROFILE_DATA = {
     // SECTION 4: TECHNICAL SKILLS
     // =========================================================================
     technicalSkills: {
-        frontend: 'React.js (90%), AngularJS (85%), Polymer.js (80%), WaveMaker (85%), HTML5/CSS3, JavaScript, TypeScript',
-        backend: 'Spring Boot (90%), Node.js (88%), Express.js (85%), LoopBack.io (80%), Java, REST APIs',
-        aiAndProgramming: 'Python (82%), Prompt Engineering (85%), AI Agents Development (78%), MongoDB/DBMS (80%)',
-        other: 'Microservices, Git, Agile methodology',
+        productionProven: 'Spring Boot, Node.js, React.js, JavaScript/ES6+, Java, HTML5/CSS3, WaveMaker, Polymer.js, REST APIs',
+        strongKnowledge: 'Angular, Express.js, TypeScript, Python, MongoDB, LoopBack.io, Git/GitHub/Bitbucket',
+        aiIntegration: 'LLM API Integration (OpenAI, Gemini), Structured Output Enforcement, Context-Bounded AI, AI Decision Orchestration, Function Calling / Tool Use, Prompt Engineering',
+        buildingDepth: 'Multi-Step Agent Loops, Docker, AWS (S3, EC2), Microservices Architecture',
     },
 
     // =========================================================================
@@ -116,36 +116,59 @@ const PROFILE_DATA = {
     enterpriseProjects: [
         {
             name: 'Cash Management',
-            description: 'End-to-end cash management solution for retail and corporate banking, enabling seamless transaction tracking, liquidity management, and automated reconciliation for enterprise clients.',
+            description: 'Built full-stack UI for Finacle cash management module — transaction tracking, liquidity dashboards, reconciliation workflows. Migrated legacy Polymer.js components to WaveMaker while maintaining backward compatibility across 50+ banking clients.',
+            role: 'Primary UI developer — built screens, integrated Spring Boot APIs, handled Polymer → WaveMaker migration.',
             tech: ['Spring Boot', 'Node.js', 'Polymer.js', 'WaveMaker'],
         },
         {
             name: 'My Expenses',
-            description: 'Comprehensive expense management platform for corporate clients, featuring automated expense categorization, approval workflows, and real-time reporting dashboards.',
+            description: 'Built React frontend for Finacle expense management platform — submission forms, multi-level approval workflows, category-based filtering, real-time reporting dashboards. Connected to Express/Node.js APIs with MongoDB storage.',
+            role: 'Frontend lead — built React UI, designed component architecture, integrated REST APIs for expense CRUD and approval flows.',
             tech: ['React', 'Node.js', 'Express', 'MongoDB'],
         },
         {
             name: 'Payment Services',
-            description: 'Scalable payment processing system supporting multiple payment methods, cross-border transactions, and real-time settlement for retail and corporate banking operations.',
+            description: 'Developed payment processing UI for Finacle — domestic and cross-border transactions, multiple payment methods, real-time settlement tracking. Built Angular frontend with LoopBack API integration. Wrote Spring Boot services for payment validation and routing logic.',
+            role: 'Full-stack contributor — built Angular payment screens, implemented LoopBack APIs, wrote Spring Boot validation services.',
             tech: ['Spring Boot', 'Angular', 'LoopBack', 'DBMS'],
         },
     ],
 
     aiProjects: [
         {
-            name: 'Error Handling AI Agent',
-            description: 'Intelligent AI agent that automatically detects, categorizes, and resolves application errors, providing automated debugging suggestions and self-healing capabilities for production systems.',
-            tech: ['Python', 'AI/ML', 'LLM', 'Prompt Engineering'],
+            name: 'LLM-Powered Dynamic Localization Middleware',
+            description: 'Middleware layer that intercepts English API responses and user language preference, sends them to an LLM with a structured prompt, enforces JSON output schema, and delivers localized content to the UI — eliminating the need for static i18n config files.',
+            tech: ['Node.js', 'OpenAI / Gemini', 'JSON Schema', 'Middleware Pattern'],
+            context: 'EdgeVerve — Finacle Banking',
+            status: 'Production',
         },
         {
-            name: 'Multi-Language Handler AI Agent',
-            description: 'AI-powered multilingual processing agent for real-time translation, content localization, and language-specific formatting across enterprise applications.',
-            tech: ['Python', 'NLP', 'LLM', 'Node.js'],
+            name: 'Context-Bounded SDK Documentation Agent',
+            description: 'CLI-based AI assistant (npm help "question") that takes user questions and answers ONLY from README and documentation files. Constrained to prevent hallucination — refuses to answer outside documented scope. Reduced support queries by ~40%.',
+            tech: ['Node.js', 'OpenAI API', 'CLI Integration', 'Constraint Prompting'],
+            context: 'EdgeVerve — SDK Tooling',
+            status: 'Production',
         },
         {
-            name: 'User-Specific Chatbox AI Agent',
-            description: 'Personalized AI chatbot agent that adapts conversations based on user context, preferences, and history, delivering tailored responses and proactive assistance.',
-            tech: ['Python', 'React', 'LLM', 'WebSocket'],
+            name: 'AI Decision Orchestrator for Adaptive UI',
+            description: 'AI decision layer between API and UI that takes fixed API responses + user age metadata, selects the appropriate UI template from a predefined set (no content generation), and routes the UI to render the selected layout dynamically.',
+            tech: ['Node.js', 'Gemini API', 'Decision Logic', 'Template Routing'],
+            context: 'EdgeVerve — Banking UX',
+            status: 'Production',
+        },
+        {
+            name: 'AI-Powered Code Review Agent',
+            description: 'Live interactive demo on this portfolio. Paste any code snippet — agent auto-detects language, sends to Gemini with constraint prompt (refuses non-code), scores across 5 quality dimensions, returns structured JSON with severity-tagged issues and a refactored snippet.',
+            tech: ['Gemini API', 'Constraint Prompting', 'JSON Schema', 'Multi-Dimension Analysis'],
+            context: 'Open Source — klinteng.com',
+            status: 'Live Demo',
+        },
+        {
+            name: 'Gemini Chat with Function Calling (This Website)',
+            description: 'AI chat assistant on this portfolio using Gemini function calling with 4 tool definitions. LLM autonomously decides which tools to invoke. Profile data injected as structured context. Includes a transparent tool-call log showing raw function names and arguments.',
+            tech: ['Gemini API', 'Function Calling', 'System Prompt', 'Vanilla JS'],
+            context: 'Open Source — klinteng.com',
+            status: 'Live Demo',
         },
     ],
 
@@ -327,9 +350,6 @@ const PROFILE_DATA = {
 - Klinten prefers to be called "Klinten" rather than "Bill" — please always refer to him as Klinten in conversation.
 - Date of Birth: 30 January 1998
 - Born in Gudur, Nellore District, Andhra Pradesh, India
-- Family: Has two older sisters — Chandrika and Chandana
-- Hobbies: Loves playing and watching cricket
-- Music: Enjoys Indian, Western, Pop, and R&B music. Favourite artists include The Weeknd, Lana Del Rey, and Kendrick Lamar
     `,
 };
 
@@ -376,15 +396,17 @@ function buildProfileContext() {
 
     // Technical Skills
     context += `\n**Technical Skills:**\n`;
-    context += `- Frontend: ${p.technicalSkills.frontend}\n`;
-    context += `- Backend: ${p.technicalSkills.backend}\n`;
-    context += `- AI & Programming: ${p.technicalSkills.aiAndProgramming}\n`;
-    context += `- Other: ${p.technicalSkills.other}\n`;
+    context += `- Production-Proven: ${p.technicalSkills.productionProven}\n`;
+    context += `- Strong Knowledge: ${p.technicalSkills.strongKnowledge}\n`;
+    context += `- AI Integration: ${p.technicalSkills.aiIntegration}\n`;
+    context += `- Building Depth: ${p.technicalSkills.buildingDepth}\n`;
 
     // Enterprise Projects
     context += `\n**Enterprise Projects:**\n`;
     p.enterpriseProjects.forEach((proj, i) => {
-        context += `${i + 1}. ${proj.name} — ${proj.description} Tech: ${proj.tech.join(', ')}.\n\n`;
+        context += `${i + 1}. ${proj.name} — ${proj.description}`;
+        if (proj.role) context += ` Role: ${proj.role}`;
+        context += ` Tech: ${proj.tech.join(', ')}.\n\n`;
     });
 
     // AI Projects

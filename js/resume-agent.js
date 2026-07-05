@@ -1,25 +1,63 @@
 /* ============================================
-   RESUME TAILORING AGENT
-   Agentic AI — Autonomous multi-step analysis
-   Powered by Groq (Llama 3.3 70B) via backend
+   RESUME FIT ANALYZER
+   AI-Powered structured analysis using
+   Gemini with enforced JSON output schema
    ============================================ */
 
 const ResumeAgent = (() => {
 
-    const BACKEND = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-        ? 'http://localhost:8001'
-        : 'https://klinteng-ai-backend.onrender.com';
-    const API_URL = BACKEND + '/api/resume';
+    // API key is kept server-side via proxy. See /server/server.js
+    // Local dev: run "cd server && npm start" → http://localhost:3001
+    const API_URL = 'http://localhost:3001/api/chat';
 
-    // ========== AGENT STEPS ==========
+    // ========== ANALYSIS STAGES (for progress display) ==========
     const AGENT_STEPS = [
-        { id: 'parse', icon: 'fa-file-alt', label: 'Parsing job description...', detail: 'Extracting requirements, skills, and qualifications' },
-        { id: 'match', icon: 'fa-crosshairs', label: 'Matching skills & experience...', detail: 'Comparing JD requirements against profile' },
-        { id: 'score', icon: 'fa-chart-bar', label: 'Calculating fit score...', detail: 'Scoring alignment across all dimensions' },
-        { id: 'tailor', icon: 'fa-magic', label: 'Generating tailored summary...', detail: 'Creating customized pitch for this role' },
+        { id: 'send', icon: 'fa-paper-plane', label: 'Sending to AI...', detail: 'Transmitting JD and profile to Gemini for analysis' },
+        { id: 'analyze', icon: 'fa-brain', label: 'AI analyzing...', detail: 'Gemini is matching skills, scoring fit, and generating insights' },
+        { id: 'render', icon: 'fa-chart-bar', label: 'Rendering results...', detail: 'Parsing structured JSON response and building visual output' },
     ];
 
-    // ========== CALL BACKEND (Groq — secure, no API key exposed) ==========
+    // ========== SYSTEM PROMPT FOR TAILORING ==========
+    function getTailoringPrompt() {
+        return `You are a resume fit analysis tool. You will be given a job description (JD) and a candidate's professional profile. Perform a structured analysis and return a JSON response.
+
+CANDIDATE PROFILE:
+${buildProfileContext()}
+
+INSTRUCTIONS:
+Analyze the job description against the candidate's profile and return a JSON response with this EXACT structure (no markdown, no code fences, pure JSON):
+
+{
+    "fitScore": <number 0-100>,
+    "fitLevel": "<Excellent Fit|Strong Fit|Good Fit|Moderate Fit|Needs Development>",
+    "roleSummary": "<1-2 sentence summary of what the role is looking for>",
+    "matchedSkills": [
+        { "skill": "<skill name>", "strength": "<strong|moderate|basic>", "evidence": "<brief evidence from profile>" }
+    ],
+    "matchedExperience": [
+        { "requirement": "<JD requirement>", "match": "<how the candidate meets it>", "relevance": "<high|medium|low>" }
+    ],
+    "gaps": [
+        { "requirement": "<missing skill/requirement from JD>", "suggestion": "<how candidate could address it>" }
+    ],
+    "tailoredSummary": "<3-4 sentence customized professional summary tailored specifically for this JD>",
+    "talkingPoints": [
+        "<specific talking point for interview>"
+    ],
+    "overallAnalysis": "<2-3 sentence overall assessment>"
+}
+
+IMPORTANT:
+- Be honest about the fit score. Don't inflate.
+- If something is not in the profile, mark it as a gap.
+- The tailored summary should reframe existing experience to match the JD's language.
+- Return ONLY valid JSON. No markdown, no explanation, no code fences.
+- Keep all string values on a single line — NO newlines inside JSON string values.
+- Limit matchedSkills to top 6, matchedExperience to top 4, gaps to top 4, talkingPoints to top 4.
+- Keep evidence and match descriptions SHORT (under 15 words each).`;
+    }
+
+    // ========== CALL GEMINI ==========
     async function analyzeJD(jobDescription) {
         const requestBody = {
             job_description: jobDescription,
@@ -215,14 +253,17 @@ const ResumeAgent = (() => {
         analyzeBtn.innerHTML = '<i class="fas fa-cog fa-spin"></i> Agent Working...';
 
         try {
-            // Animate through steps
-            for (let i = 0; i < AGENT_STEPS.length; i++) {
-                renderStepProgress(stepsContainer, i);
-                await new Promise(r => setTimeout(r, i === 0 ? 500 : 800));
-            }
+            // Step 1: Show sending state
+            renderStepProgress(stepsContainer, 0);
 
-            // Make the actual API call
+            // Step 2: Show analyzing state and make the actual API call
+            await new Promise(r => setTimeout(r, 300));
+            renderStepProgress(stepsContainer, 1);
             const result = await analyzeJD(jd);
+
+            // Step 3: Show rendering state
+            renderStepProgress(stepsContainer, 2);
+            await new Promise(r => setTimeout(r, 200));
 
             // Mark all steps complete
             renderStepProgress(stepsContainer, AGENT_STEPS.length);

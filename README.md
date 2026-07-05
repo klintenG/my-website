@@ -1,19 +1,18 @@
 # klinteng.com — Personal Resume Website
 
-A modern, responsive resume/portfolio website for **Bill Klinten Guduru** — Full Stack Developer & Agentic AI Developer.
+A modern, responsive resume/portfolio website for **Bill Klinten Guduru** — Full Stack Developer & AI Integration Engineer.
 
 **Live:** [https://klinteng.com](https://klinteng.com)
 
 ## Features
 
-- **Visual Resume** — Complete professional profile with experience timeline, skills visualization, and project showcase
+- **Visual Resume** — Complete professional profile with experience timeline, competency matrix, and project showcase
 - **Dark/Light Theme** — Toggle between themes with preference saved in localStorage
 - **Responsive Design** — Fully responsive across all devices (mobile, tablet, desktop)
-- **Animations** — Smooth scroll animations, typing effect, animated skill bars, and counter animations
+- **Animations** — Smooth scroll animations, typing effect, and counter animations
+- **AI Chat Assistant** — Live Gemini-powered chat with function calling (tool dispatch)
+- **Resume Fit Analyzer** — AI-powered job description analysis agent
 - **Print-Friendly** — Optimized print styles for recruiter-friendly PDF export
-- **Project Filtering** — Filter projects by category (Enterprise / AI)
-- **Contact Form** — Mailto-based contact form
-- **SEO Ready** — Meta tags, Open Graph, and semantic HTML
 
 ## Tech Stack
 
@@ -31,7 +30,12 @@ my-website/
 ├── css/
 │   └── style.css       # All styles (light/dark themes, responsive)
 ├── js/
-│   └── main.js         # Interactions (theme toggle, animations, typing effect)
+│   ├── main.js         # Interactions (theme toggle, animations, typing effect)
+│   ├── profile-data.js # Professional profile data (editable)
+│   ├── ai-chat.js      # Gemini-powered chat with function calling
+│   └── resume-agent.js # Resume fit analysis agent
+├── api/
+│   └── proxy.js        # Serverless API proxy (deploy to Cloudflare/Vercel)
 ├── assets/
 │   └── favicon.svg     # SVG favicon
 ├── CNAME               # Custom domain for GitHub Pages
