@@ -1326,11 +1326,6 @@ a.detail-value:hover {
     color: #fff;
 }
 
-.tier-icon.building {
-    background: linear-gradient(135deg, #22c55e, #4ade80);
-    color: #fff;
-}
-
 .tier-info h3 {
     font-size: 1rem;
     font-weight: 700;
@@ -1407,10 +1402,6 @@ a.detail-value:hover {
 
 .competency-tier[data-tier="ai"] {
     border-left: 3px solid #7c3aed;
-}
-
-.competency-tier[data-tier="building"] {
-    border-left: 3px solid #22c55e;
 }
 
 /* ========== PROJECTS SECTION ========== */
@@ -1583,125 +1574,6 @@ a.detail-value:hover {
     color: var(--accent);
 }
 
-/* ========== AI PROJECT CARDS — PACO Layout ========== */
-.ai-project-card {
-    grid-column: 1 / -1; /* Full width for AI projects */
-}
-
-.ai-project-card .project-header {
-    margin-bottom: 20px;
-}
-
-.ai-project-card .project-header h3 {
-    font-size: 1.15rem;
-}
-
-/* Problem → Constraint → Architecture → Outcome */
-.project-paco {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.paco-item {
-    padding: 14px 16px;
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    border-left: 3px solid transparent;
-}
-
-.paco-item:nth-child(1) { border-left-color: #ef4444; }  /* Problem — red */
-.paco-item:nth-child(2) { border-left-color: #f59e0b; }  /* Constraint — amber */
-.paco-item:nth-child(3) { border-left-color: #3b82f6; }  /* Architecture — blue */
-.paco-item:nth-child(4) { border-left-color: #22c55e; }  /* Outcome — green */
-
-.paco-label {
-    display: inline-block;
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-    color: var(--text-tertiary);
-}
-
-.paco-item:nth-child(1) .paco-label { color: #ef4444; }
-.paco-item:nth-child(2) .paco-label { color: #f59e0b; }
-.paco-item:nth-child(3) .paco-label { color: #3b82f6; }
-.paco-item:nth-child(4) .paco-label { color: #22c55e; }
-
-.paco-item p {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    line-height: 1.55;
-    margin: 0;
-}
-
-.paco-item code {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    background: var(--bg-tertiary);
-    padding: 1px 5px;
-    border-radius: 3px;
-}
-
-/* Architecture Diagram */
-.project-arch-diagram {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 20px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-}
-
-.arch-flow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-width: fit-content;
-}
-
-.arch-node {
-    padding: 12px 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    text-align: center;
-    line-height: 1.3;
-    white-space: nowrap;
-    transition: var(--transition);
-}
-
-.arch-node small {
-    display: block;
-    font-weight: 400;
-    color: var(--text-tertiary);
-    font-size: 0.7rem;
-    margin-top: 2px;
-}
-
-.arch-node.ai-node {
-    background: var(--accent-glow);
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
-[data-theme="dark"] .arch-node.ai-node {
-    background: rgba(201, 168, 76, 0.12);
-}
-
-.arch-arrow {
-    color: var(--text-tertiary);
-    font-size: 0.85rem;
-    flex-shrink: 0;
-}
-
 /* Production/Status badge in footer */
 .project-footer {
     padding-top: 16px;
@@ -1740,6 +1612,12 @@ a.detail-value:hover {
     border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
+.project-badge.hackathon {
+    background: rgba(124, 58, 237, 0.1);
+    color: #7c3aed;
+    border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
 .project-role {
     font-size: 0.82rem;
     color: var(--text-secondary);
@@ -1762,85 +1640,53 @@ a.detail-value:hover {
     text-decoration: underline;
 }
 
-/* ========== AI PHILOSOPHY SECTION ========== */
-.ai-philosophy {
-    background: var(--bg-secondary);
-}
-
-.philosophy-grid {
+/* ========== PHILOSOPHY STRIP (compact, inside About) ========== */
+.philosophy-strip {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    margin-top: 32px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
 }
 
-.philosophy-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px 24px;
-    transition: transform 0.2s, box-shadow 0.2s;
+.philosophy-strip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.philosophy-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-.philosophy-icon {
-    width: 48px;
-    height: 48px;
+.philosophy-strip-item i {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: var(--accent-glow);
+    color: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-    margin-bottom: 16px;
+    font-size: 0.9rem;
+    margin-top: 2px;
 }
 
-.philosophy-card h3 {
-    font-size: 1.05rem;
+.philosophy-strip-item strong {
+    display: block;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
-.philosophy-card p {
-    font-size: 0.88rem;
-    line-height: 1.65;
+.philosophy-strip-item span {
+    font-size: 0.8rem;
+    line-height: 1.5;
     color: var(--text-secondary);
 }
 
-.philosophy-card em {
-    color: var(--primary);
-    font-style: italic;
-}
-
 @media (max-width: 768px) {
-    .philosophy-grid {
+    .philosophy-strip {
         grid-template-columns: 1fr;
-    }
-}
-
-/* Responsive: PACO goes single column on mobile */
-@media (max-width: 768px) {
-    .project-paco {
-        grid-template-columns: 1fr;
-    }
-
-    .arch-flow {
-        flex-direction: column;
-    }
-
-    .arch-arrow {
-        transform: rotate(90deg);
-    }
-
-    .arch-node {
-        width: 100%;
-        max-width: 200px;
     }
 }
 
@@ -2146,213 +1992,6 @@ a.detail-value:hover {
 
     .pattern-tag {
         justify-content: center;
-    }
-}
-
-/* ==================================================================
-   ARCHITECTURE & SOURCE SECTION
-   ================================================================== */
-
-.arch-source-section {
-    background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-}
-
-.arch-intro {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    text-align: center;
-    max-width: 680px;
-    margin: 0 auto 36px;
-}
-
-.arch-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 40px;
-}
-
-.arch-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.arch-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-.arch-card-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 20px 20px 14px;
-    border-bottom: 1px solid var(--border);
-}
-
-.arch-card-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-}
-
-.arch-card-header h4 {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 2px;
-}
-
-.arch-file {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    background: var(--bg-secondary);
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
-}
-
-.arch-card-body {
-    padding: 16px 20px;
-}
-
-.arch-pattern-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.arch-pattern {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    line-height: 1.45;
-}
-
-.arch-pattern i {
-    color: #22c55e;
-    margin-top: 2px;
-    flex-shrink: 0;
-    font-size: 0.7rem;
-}
-
-.arch-card-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 12px 20px 16px;
-}
-
-.arch-card-tech span {
-    font-size: 0.68rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: var(--radius-full);
-    background: rgba(59, 130, 246, 0.08);
-    color: #3b82f6;
-    border: 1px solid rgba(59, 130, 246, 0.12);
-}
-
-/* Shared Infrastructure */
-.arch-infra {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    margin-bottom: 32px;
-}
-
-.arch-infra h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.arch-infra h4 i {
-    color: var(--primary);
-}
-
-.arch-infra-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.arch-infra-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.arch-infra-item strong {
-    font-size: 0.88rem;
-    color: var(--text-primary);
-}
-
-.arch-infra-item span {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-}
-
-/* GitHub CTA */
-.arch-cta {
-    text-align: center;
-}
-
-.arch-github-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    background: linear-gradient(135deg, #24292e, #1a1e22);
-    color: white;
-    font-size: 1rem;
-    font-weight: 700;
-    border-radius: var(--radius-full);
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.arch-github-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.arch-github-btn i {
-    font-size: 1.2rem;
-}
-
-.arch-cta-note {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-    .arch-cards {
-        grid-template-columns: 1fr;
-    }
-
-    .arch-infra-grid {
-        grid-template-columns: 1fr;
     }
 }
 
@@ -4692,9 +4331,27 @@ a.detail-value:hover {
     }
 }
 
-/* ==============================================================================
-   AI SHOWCASE — Tabbed Section
-   ============================================================================== */
+/* ========== AI SHOWCASE — Tabbed Section ========== */
+
+.playground-intro {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    text-align: center;
+    max-width: 640px;
+    margin: 16px auto 0;
+}
+
+.playground-intro a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.playground-intro a:hover {
+    text-decoration: underline;
+}
 
 /* Tab Navigation */
 .showcase-tabs {

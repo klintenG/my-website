@@ -1,0 +1,328 @@
+# AI Agents & AI Integrations — Portfolio Work
+
+> A curated summary of the AI agents, GenAI integrations, and AI-first tooling I have designed and built over the past year. Every project listed here is production-grade or a working prototype — not a tutorial or demo — and has been used by real developer/end-user audiences inside the organization. 
+
+## Snapshot
+
+| # | Project | Type | Role | Primary Stack |
+|---|---------|------|------|---------------|
+| 1 | **DocViz AI** | Hackathon — Multi-agent RAG + video generation | Full-stack AI engineer | React 18, TypeScript, Vite 5, AI Canvas, Claude Sonnet 4.5 (AWS Bedrock), PGVector |
+| 2 | **5-Minutes RCA Tool** | AI-powered root-cause analysis agent | Full-stack AI engineer | Python (stdlib), React + Vite, AI Canvas RAG, GitHub `/search/code` |
+| 3 | **AI-Powered Doc Portal (FBP-DES)** | GenAI-enhanced enterprise documentation portal | AI enhancements lead | MkDocs Material, vanilla JS, AI Canvas, Copilot-agent prompts |
+| 4 | **Doc Portal Reviewer Agent** | AI portal-QA / compliance-review agent | Author & architect | Python 3.10+, Playwright, AI Canvas / OpenAI-compatible LLMs |
+| 5 | **Quota Smart Copilot — AI Usage Governor Agent** | AI-usage governance & routing agent for VS Code | Author & architect | VS Code Custom Agents (`.agent.md`, `.chatmode.md`, `.prompt.md`), TypeScript extension, GitHub Copilot Usage API |
+| 6 | **Tranversation — Conversational Banking UI (AI integrations)** | Conversational banking front-end + AI-driven UX plumbing | Frontend AI-integration engineer | React 18, TypeScript, Vite, AI Canvas chat backend |
+
+Cross-cutting themes across all six projects:
+
+- **AI Canvas** (the organization's internal multi-agent orchestration platform) as the primary LLM-flow runtime.
+- **Claude Sonnet 4.5 via AWS Bedrock** as the primary reasoning model.
+- **PGVector** for retrieval, with hand-tuned collections per use-case.
+- **RAG-first design** — grounding every LLM output in versioned, PR-reviewed reference material.
+- **Deterministic contracts on top of non-deterministic LLM output** — Zod / JSON schema validation, section markers, auto-repair pipelines.
+
+---
+
+## 1. DocViz AI — AI Hackathon 2026
+
+**Elevator pitch:** An AI-powered documentation portal that turns enterprise technical docs into animated explainer videos entirely in the browser, using a 4-agent RAG pipeline plus a from-scratch frame-based animation engine.
+
+### Why it exists
+Enterprise documentation is dense and text-heavy. Onboarding a developer or preparing a client presentation from a 50-page architecture doc takes hours. DocViz AI collapses that loop: ask a question, get a **structured written answer plus a fully animated explainer video** back — usable for onboarding, client demos, cross-team knowledge sharing, sprint demos, and training.
+
+### What I built
+- **Multi-agent RAG pipeline on AI Canvas.** A 5-flow chain wired end-to-end:
+  1. **Retriever Agent** (PGVector `VideoAgent` collection) — pulls relevant chunks from indexed design guidelines, storyboard schema, and reference storyboards.
+  2. **Document Intelligence Analyst** — produces a 4–7 step structured written answer.
+  3. **Creative Director** — plans the narrative (scenes, visuals, on-screen text, transitions).
+  4. **Storyboard Engineer** — emits a strict, schema-conformant storyboard JSON.
+  5. **QA Validator** — auto-repairs the JSON and wraps sections with `===ANALYSIS_START===` / `===STORYBOARD_START===` markers so the frontend can reliably parse mixed text + JSON output.
+- **Two-step fallback pipeline** so a Bedrock timeout under load never leaves the user empty-handed — a single-agent analysis + storyboard path takes over automatically.
+- **Custom animation engine** (no Remotion, no external video lib). Frame-based playback via `requestAnimationFrame`, `interpolate()` and `spring()` hooks, per-scene `Sequence` time-slicing, and DOM → SVG → Canvas → WebCodecs → mp4-muxer → MP4 recording — all client-side.
+- **Zod-validated storyboard schema** with auto-repair for the classic LLM failure modes: truncated JSON, missing IDs, wrong aspect-ratio format, coordinate-out-of-bounds nodes.
+- **Lean input optimization** — reduced the payload sent to the pipeline from ~52 KB to ~18 KB by removing rules already embedded in the agent prompts and placing the user question first for faster retriever matching.
+- **Three-in-one Vite build** — same codebase ships:
+  - a full documentation portal (`index.html`),
+  - an embeddable widget (`embed.html`),
+  - an iframe-friendly player with a `postMessage` protocol (`player.html`).
+
+### Interesting engineering decisions
+| Decision | Why |
+|---|---|
+| 4 specialized agents vs 1 monolith | Smaller context windows, easier debugging, isolated prompt evolution |
+| Section markers in LLM output | Reliable programmatic parsing of mixed prose + JSON |
+| Custom animation engine | Zero external dep, full control over the render pipeline, browser-native |
+| Client-side MP4 recording | No server round-trip; users download the video directly |
+| Zod + regex + bracket-matching repair chain | LLM JSON output is never trusted; it is always validated, coerced, and repaired |
+
+### Impact
+Working end-to-end prototype that answered documentation questions with a **narrated animated explainer video** in the browser, from three real enterprise documents (BFF Platform, Observability, UI SDK) indexed as source-of-truth content.
+
+---
+
+## 2. 5-Minutes RCA Tool — Root-Cause Analysis Agent
+
+**Elevator pitch:** An internal RCA assistant that combines a RAG flow over curated error playbooks with **live GitHub `/search/code`** across linked BFF platform repos. Paste an error or a question — under a minute later you get a Match Verdict, Root Cause, Fix, and the exact files in your repos that are relevant.
+
+### Why it exists
+Debugging BFF platform issues previously meant reading through PDFs, error playbooks, and grepping across multiple private repos manually. The tool packages a support engineer's mental workflow — *"match the error signature → recall the root cause → find the file that owns it"* — into a single-click experience.
+
+### What I built
+- **Zero-dependency Python backend** (`python run.py`, uses only the standard library) exposing three routes:
+  - `POST /api/rca/analyze` — orchestrates the RCA pipeline.
+  - `GET  /api/repos` — read-only reflection of the repos configured via `.env`.
+  - `GET  /health` — liveness probe.
+- **`github_search` service** with real production-grade behavior:
+  - Extracts *strong* identifiers (CamelCase classes, dotted symbols, long content words) from the question / stack trace.
+  - Filters noise words (`null`, `flow`, `bean`, …) that would otherwise poison GitHub's AND-joined search.
+  - Runs one `/search/code` query per `(term × repo)` pair, capped at 6 requests to respect GitHub's 10 req/min limit.
+  - Merges + ranks hits by multi-term matches and uses `text_match` fragments as evidence — no extra file-content fetch.
+- **`ai_canvas_client`** — sends the question, optional stack trace, and code snippets to an AI Canvas flow whose grounding material is the versioned `ai-canvas-reference-docs/` folder (`PRIMARY_CONTEXT.md`, `BFF_MASTER_CONTEXT.md`, `BFF_ERROR_DEBUGGING_RCA.md`, and the current prompt spec).
+- **React + Vite + Tailwind frontend** — `RCAForm` for input, `RCAResults` renders the RCA markdown with syntax-highlighted code, `RepoManager` shows linked repos read-only from `.env`.
+- **Docker Compose deployment** (backend on `:8000`, frontend on `:3000`) for shared-VM demos.
+- **Documented flow-maintenance discipline** — reference docs are versioned in-repo and re-uploaded to the AI Canvas flow via a PR-reviewable procedure so grounding stays traceable.
+
+### Typical run
+| Step | Latency |
+|---|---|
+| Frontend → backend | < 50 ms |
+| GitHub `/search/code` (6 calls) | 2–5 s |
+| AI Canvas flow (RAG + LLM) | 15–45 s |
+| Backend → frontend render | < 100 ms |
+| **Total (typical)** | **20–50 s** |
+
+### Key design choices
+- **No local indexing / vector store on our side.** All code retrieval goes through GitHub's `/search/code` — the backend stays zero-dependency and never has to re-index when repos change.
+- **The AI Canvas flow owns the RCA "voice".** Output format, tier priority, and section headings live in the flow's Prompt component (mirrored in `AI_CANVAS_PROMPTS_V2.txt` for review). The Python client never duplicates those rules.
+- **Repos are declared once in `.env`.** The UI's "Manage Repositories" panel is read-only — a single source of truth.
+
+---
+
+## 3. AI-Powered Enterprise Documentation Portal (FBP-DES)
+
+> Scope: **the AI enhancements I contributed inside a much larger MkDocs documentation portal.** The rest of the portal (generators, JSON authoring pipeline, MkDocs theming) is out of scope for this write-up.
+
+**Elevator pitch:** Retrofitted a large enterprise MkDocs docs portal (FBP-DES Components, Channels APIs, BFF SDK, Studio) with a Google-AI-Overview-style GenAI answer experience and a set of Copilot-agent setup scripts that automate onboarding of the platform.
+
+### What I built
+
+#### 3.1 AI Overview — floating GenAI search on top of MkDocs
+- Self-contained vanilla-JS module (`docs/assets/javascripts/ai-overview.js`) plus paired CSS (`ai-overview.css`) — no build step, drops straight into MkDocs Material.
+- **Hero-search integration** — the docs home page's search bar becomes an AI question box when the AI backend is up. When AI is down, the site gracefully degrades to the native MkDocs search (controlled via a `body.ai-active` class toggled by a health check).
+- **AI health-check gate** — a 5 s timed `GET /api/v1/flows/{ANALYST_FLOW_ID}` runs on page load *and* on every MkDocs instant-navigation event; the UI reflects reality without a page reload.
+- **Direct call to the AI Canvas Document Analyst flow** (`POST /api/v1/run/{flowId}`) with a 3-minute timeout, LangFlow-shaped response parsing, and section-marker extraction (`===AI_OVERVIEW_START===` / `===AI_OVERVIEW_END===`).
+- **Custom lightweight Markdown-to-HTML renderer** (headings, tables, fenced code, ordered/unordered lists, blockquotes, HR, inline emphasis, links) so the AI Overview panel can render Markdown answers **without pulling in a Markdown library** — keeping the docs portal's bundle footprint at zero.
+- **Rotating loading messages, suggestion chips, timeout + error surfaces** — production UX details that make the panel feel like a real product, not a bolt-on.
+
+#### 3.2 Copilot-Agent Setup Prompts
+A trio of `agent`-mode prompts under `docs/assets/setup-prompts/` that turn Copilot Chat into an **interactive installer** for the FBP-DES platform:
+
+| Prompt | What it does |
+|---|---|
+| `INITIAL-SETUP-V2.prompt.md.txt` | Guides Copilot through repo cloning, `.env` configuration, Maven builds — with step tracking (`3/6 steps completed`), prerequisite checks, and PowerShell fallbacks for Windows. |
+| `DATA-HYDRATION-V2.prompt.md.txt` | Populates the PostgreSQL database for FBP-DES Solution Channels, verifying schemas, and orchestrating the hydration tools. |
+| `CONFIG-VERIFICATION-V2.prompt.md.txt` | Configures VS Code's `launch.json`, reloads Maven dependencies, compiles the project, and produces a health-check summary. |
+
+Each prompt follows an interactive-agent contract (waits for user confirmation, tracks progress with ✅ / ⚠️ / ❌, verifies prerequisites, handles errors) — turning what used to be a multi-hour manual runbook into a **20–40 minute guided Copilot session**.
+
+### Impact
+Documentation stops being a static wall of Markdown — developers can ask *"how does BFF API authentication work?"* on the home page and get an AI-composed, RAG-grounded answer rendered inline. Onboarding a fresh developer to the FBP-DES stack shrinks from a checklist-and-hope experience to a single Copilot conversation.
+
+---
+
+## 4. Doc Portal Reviewer Agent — AI QA for API Documentation
+
+**Elevator pitch:** Point the agent at any documentation portal, pick a domain and a checklist, and it crawls the portal, evaluates every checklist item with an LLM, captures evidence screenshots, and emits a shareable HTML + JSON report. It replaces the manual "review my API docs against 40 checklist items" round-trip.
+
+### What I built
+- **Python 3.10+ agent** (`python -m src.main report`) that composes several specialized subsystems:
+  - **GuidelinesParser** — reads a YAML/Markdown checklist (e.g. `guidelines/channel-apis-checklist.yaml`).
+  - **Crawler** — Playwright (Microsoft Edge / Chromium) headed or headless crawl, scoped by URL path, capped at `crawler.max_pages` (default 200).
+  - **Domain Validator** — partitions crawled pages by domain (accounts / payments / cards / counterparty / any custom) with no hard-coded whitelist.
+  - **Validation Engine** — per checklist item, calls the configured LLM with the extracted evidence, gets back `{status, confidence, details}`, and thresholds it against `validation.confidence_threshold` (default 0.7) to decide `pass` / `fail` / `needs-review`.
+  - **Screenshot Capturer** — evidence images for every `fail` / `needs-review` item, embedded directly into the HTML report.
+  - **Report Generator** — self-contained HTML dashboard (summary header, per-item cards, screenshots, LLM reasoning, evidence snippet, source URL) *and* a JSON payload for downstream CI dashboards / diffing.
+- **Pluggable LLM provider layer** — swap between `ai-canvas`, `openai`, `azure-openai`, `ollama`, or any OpenAI-compatible endpoint via a single `llm.provider` field in `config/settings.yaml`. All API keys are env-var driven (`GENAICANVAS_API_KEY`, `OPENAI_API_KEY`, `AZURE_OPENAI_API_KEY`).
+- **Config-first UX** — for a normal run, only three fields need editing (`target.url`, `target.domain`, `target.guidelines`). Everything else has sensible defaults. Every field has a matching CLI override (`--url`, `--domain`, `--guidelines`) for CI use.
+- **VS Code task integration** — `Tasks: Run Task → Generate Report (uses config/settings.yaml)` for a one-click run.
+
+### JSON report shape
+```json
+{
+  "checklist_id": "A-OV-01",
+  "section": "API Overview",
+  "status": "fail",
+  "confidence": 0.92,
+  "details": "The Counterparty landing page lists 4 APIs, but 'PaymentInitiate' appears under it and belongs to the Payments domain.",
+  "evidence": "…snippet of the crawled page…",
+  "url": "http://.../fbp-des-channels/api-reference/counterparty/",
+  "screenshot": "reports/screenshots/A-OV-01_counterparty.png"
+}
+```
+
+### Design highlights
+- **Deterministic report envelope over non-deterministic LLM verdicts** — the confidence threshold turns "the LLM was unsure" into an explicit, actionable `needs-review` status instead of silently failing.
+- **Every run is timestamped** — trivial before/after comparisons after fixing portal issues.
+- **HTML report is self-contained** — email it, attach it to a Jira ticket, no server needed.
+
+Pairs naturally with the **AI-Powered Doc Portal (project 3)** — the same portal the AI Overview lives on can be QA'd by this agent — but the reviewer works standalone on any documentation site.
+
+---
+
+## 5. Quota Smart Copilot — AI Usage Governor Agent
+
+**Elevator pitch:** A single VS Code custom agent that classifies every developer request, watches monthly GitHub Copilot credit consumption, and recommends the cheapest safe model tier — while keeping the full agentic experience (search, edit, terminal, tests). Built to stop burning a 25 000-credit monthly budget in the first 20 days.
+
+### Why it exists
+Manually monitoring credit usage was not enough — premium models were still being used for tasks that a lower tier could handle. This agent turns that discipline into a **repeatable, quota-aware routing policy** enforced on every chat turn.
+
+### What I built
+A drop-in package (`.github/` + `.vscode/`) plus an optional helper extension:
+
+```
+.github/
+  copilot-instructions.md            # Global rules applied to every chat turn
+  agents/
+    quota-smart-copilot.agent.md     # THE agent — single all-in-one entry point
+  chatmodes/
+    quota-smart.chatmode.md          # Chat-mode fallback for older VS Code builds
+  prompts/
+    quota-triage.prompt.md           # /quota-triage
+    quota-plan-first.prompt.md       # /quota-plan-first
+    quota-low-credit.prompt.md       # /quota-low-credit
+.vscode/
+  quota-smart-copilot.config.json    # Thresholds & sync settings (commit-safe)
+  quota-smart-copilot.usage.json     # Per-user credit state (gitignore-friendly)
+  quota-smart-copilot.rules.json     # Task rubric + routing matrix
+extension/                            # Optional TypeScript helper extension
+```
+
+### Behavior
+Every response is prefixed with a routing header so the developer sees *why* a tier was picked:
+
+```
+Quota Status: GREEN
+Task Complexity: Simple
+Recommended Model Tier: LOW_COST
+Execution Mode: Answer Only
+Reason: Small, self-contained question.
+```
+
+Classification inputs:
+1. Task complexity.
+2. Remaining credits.
+3. Days left before monthly refresh.
+4. Type of work requested.
+5. Required workspace access.
+6. Risk level of file changes.
+7. Deep reasoning vs. simple answer.
+8. Plan-first vs. implement directly.
+9. Can it be answered without a premium model?
+10. Should it be split into smaller lower-cost steps?
+
+### Quota-freshness paths (all three shipped)
+| Path | Audience | Mechanism |
+|---|---|---|
+| **Auto** | Copilot Business / Enterprise orgs with usage metrics enabled | Helper extension + PAT → GitHub Copilot Usage Metrics API, auto-refreshes on startup + every N hours |
+| **Manual** | Personal Copilot Pro users | `Quota Smart Copilot: Update Usage` command; status-bar item shows `% remaining` |
+| **Experimental** | Personal accounts without a PAT | Reuses VS Code's GitHub sign-in — unsupported by GitHub, clearly labeled as such |
+
+### Override phrases (spoken in chat)
+Force high reasoning · Use low-credit mode · Do not edit files, only plan · Keep response short · Full workspace analysis is allowed · Only inspect current file · Premium allowed for this task · No premium models for this task · No header.
+
+### Optional helper extension
+- Status-bar item — `Quota GREEN · 78% (19500/25000)` at a glance.
+- Commands: `Refresh Usage from GitHub`, `Update Usage`, `Show Budget` (WebView with full stats), `Try Experimental Personal Usage Sync (unsupported)`.
+- Auto-refresh on startup + every N hours when configured.
+- Packaged with `vsce`, installable as a local `.vsix` — no marketplace publishing required.
+
+### Design principles
+- **One agent, not four.** Planner / implementer / reviewer are *phases* the single agent runs internally, not four separate agents cluttering the picker.
+- **Advisory, not deceptive.** The agent *recommends* tiers — it does not fake automatic model switching that VS Code's public API does not support today. The `docs/quota-agent-limitations.md` file documents that honestly.
+- **Local & private.** No telemetry. No external calls except the GitHub Copilot Usage Metrics API — only when the user configures it, only with their own token.
+- **Plug-and-play.** Copy two folders — you are done. The extension is optional sugar.
+
+---
+
+## 6. Tranversation — Conversational Banking UI (AI Integrations)
+
+> Scope: **the AI-integration portions of the `bff-ui-sdk-reference-app` UI** — the parts that turn a modern React banking app into an AI-driven conversational experience. Non-AI banking UI work (accounts, payees, transfers, registration flows) is out of scope for this summary.
+
+**Elevator pitch:** "Tranversation" = Transactions + Conversations. A conversational banking UI framework that talks to a single AI endpoint and renders responses across 11 different visual template types — with **full user-journey context** shipped alongside every AI query so the model actually knows what the user is looking at.
+
+### What I built
+
+#### 6.1 Interaction Tracker — the "context engine" behind every AI call
+A hand-built context capture layer (`src/services/interactionTracker.ts` + `src/services/interactionContextSummarizer.ts`) that:
+
+- **Records the full user journey from login to logout** — navigation, clicks, form changes, field focus, selections, hovers on key elements, scroll, page views — as typed `InteractionEvent`s (`navigation`, `click`, `form_change`, `field_focus`, `selection`, `hover`, `scroll`, `login`, `logout`, `page_view`, `custom`).
+- **Two payload modes** exposed to the AI layer:
+  - `getPayload()` — raw events (legacy full event list).
+  - `getContextPayload()` — a **compact, flow-grouped summary** derived from the raw stream. This is the mode that ships to the AI.
+- **Context summarizer pipeline** (`summarizeInteractions`) that:
+  1. Groups raw events into per-page `FlowState` objects (keyed by route).
+  2. Merges back-and-forth visits to the same route so hesitation is captured but noise is not.
+  3. Summarizes each flow (selections, form inputs, available options, click frequency, brief-flow detection).
+  4. Detects **cross-flow behavioural patterns** — hesitation, repeated actions across pages.
+  5. Adds a **"current activity"** context (route, page name, current field values, available options) so the AI always knows exactly where the user is standing.
+  6. Caps the payload at 15 context objects to keep the AI prompt lean.
+- **Bounded memory** — the tracker retains the last 200 events; the summarizer output is what actually reaches the AI.
+
+The end result: instead of shipping "500+ raw events" to the AI on every question, the AI receives a **small list of context objects that capture the user's flows and intent** — cheap, precise, and privacy-friendly.
+
+#### 6.2 AI-driven UI surface
+On the React side, I added the AI touchpoints that make the app feel conversational:
+
+- **AIOrb** (`src/components/ui/AIOrb`) — the persistent floating AI entry point.
+- **ChatOverlay** (`src/components/ui/ChatOverlay`) — the full conversational surface, complete with a **templates/** directory that holds one renderer per Tranversation template type (T1–T11).
+- **AISearchBar** (`src/components/dashboard/AISearchBar`) — dashboard-level AI question entry.
+- **AIHomeView** (`src/components/dashboard/AIHomeView`) — an AI-first alternate home layout for the dashboard.
+
+#### 6.3 Contract with the AI backend — the Tranversation API
+I designed the frontend against a **single-endpoint** AI chat contract (`POST /chat/query`) with a strict template protocol so the same endpoint can render 11 completely different UI shapes:
+
+- **`templateType`** (T1–T11) discriminator determines the `data` schema.
+- **`templateVariant`** further specializes types T3–T8 (e.g. table vs. pie chart).
+- **`templateMeta`** maps rendering roles to field key-paths inside `data` — decoupling the AI's field naming from the UI renderer.
+- **`userInteractionsContext`** — the interaction-tracker payload described above, giving the AI full awareness of the user's journey on every question.
+
+### Template catalog (rendered by the frontend)
+| # | Type | Purpose |
+|---|---|---|
+| T1 | Text Message | Plain conversational reply |
+| T2 | Stats Card | Single-metric hero card |
+| T3 | Data Table | Tabular results (variants) |
+| T4 | Info Card | Grouped key-value facts |
+| T5 | Chart | Line / bar / pie via variant |
+| T6 | Timeline | Ordered event history |
+| T7 | Alert / Notification | System / risk message |
+| T8 | Progress Bar | Goal or step progress |
+| T9 | Comparison View | Side-by-side compare |
+| T10 | Input Form | Structured follow-up input |
+| T11 | Suggestion Cards | Next-best-action prompts |
+
+### Why it matters
+Most AI chat integrations ship the user's question naked — the model has no idea what page the user is on, what data they see, or what they just tried. Tranversation ships a **compact, structured context payload with every question**, so answers are grounded in the user's actual state, not guessed from scratch. That is the difference between a chatbot and an assistant.
+
+---
+
+## Cross-cutting Skills Demonstrated
+
+- **Multi-agent orchestration on AI Canvas** — designing, wiring, and versioning multi-step LLM pipelines with retriever agents and QA validators.
+- **RAG design and grounding hygiene** — PGVector collections, curated reference docs that ship in-repo, PR-reviewable prompt files, versioned re-upload procedures.
+- **LLM output reliability** — Zod schemas, JSON auto-repair pipelines, section markers, confidence thresholds, graceful fallback flows.
+- **AI UX patterns** — Google-AI-Overview-style answers, floating AI orbs, chat overlays, template-driven response rendering, health-check-gated AI features.
+- **Copilot / VS Code custom agents** — `.agent.md`, `.chatmode.md`, `.prompt.md`, `copilot-instructions.md`, `.vscode/*` config files, TypeScript helper extensions packaged with `vsce`.
+- **GenAI-assisted onboarding automation** — interactive agent-mode prompts that turn multi-hour setup runbooks into guided Copilot conversations.
+- **Context engineering** — hand-built interaction-tracking + summarization layers that ship compact, high-signal context alongside every AI request instead of naked questions.
+- **AI cost governance** — quota-aware task classification, routing matrices, plan-first / low-credit / triage prompt modes, transparent advisory headers.
+- **Full-stack integration around AI** — Python backends (stdlib HTTP + services), React + Vite + TypeScript frontends, Playwright automation, MkDocs plugins, Docker Compose deployment.
+
+---
+
+## Contact / Portfolio Notes
+
+- All six projects are internal / organizational — repositories are hosted under the `GHCP-Finacle` GitHub org and are not public.
+- Where model + provider choices are named (Claude Sonnet 4.5, AWS Bedrock `us-east-1`, AI Canvas), those are the production configurations actually in use.
+- I am happy to walk through any of these projects live — architecture diagrams, prompt design, LLM output-reliability techniques, or the interaction-context engine.
+

@@ -36,7 +36,7 @@ const PROFILE_DATA = {
     // =========================================================================
     // SECTION 2: PROFESSIONAL SUMMARY
     // =========================================================================
-    professionalSummary: `Software engineer who designs AI decision layers inside production enterprise systems. 6+ years shipping full-stack applications at Infosys/EdgeVerve — specializing in embedding LLM-powered reasoning, dynamic localization, and adaptive UI into banking products used by real clients. My approach: AI as an intelligent middleware layer between existing systems, not a replacement for them.`,
+    professionalSummary: `Software engineer who has designed and shipped 6 production AI agents and integrations in the past year — multi-agent RAG pipelines (AI Canvas, Claude/Bedrock, PGVector), autonomous QA and governance agents, and conversational AI UX — on top of 6+ years shipping full-stack applications at Infosys/EdgeVerve. My approach: constraint-first, structured-output AI that operates inside real production limits — not demos.`
 
     // =========================================================================
     // SECTION 3: WORK EXPERIENCE
@@ -49,12 +49,12 @@ const PROFILE_DATA = {
             location: 'Bengaluru, India',
             isCurrent: true,
             responsibilities: [
-                'Leading UI development initiatives for enterprise-grade applications',
-                'Architecting front-end solutions using modern JavaScript frameworks',
-                'Integrating AI-driven features into existing product platforms',
-                'Mentoring junior developers and driving best practices',
+                "Designed multi-agent RAG pipelines on the company's AI orchestration platform (AI Canvas) for documentation-to-video generation and root-cause analysis tooling",
+                'Built autonomous AI agents for documentation QA (LLM + Playwright automation) and Copilot usage governance (custom VS Code agent)',
+                'Shipped AI Integration UX — GenAI search overlays and a context-engineering layer grounding conversational banking UI in real user journeys',
+                'Continued leading UI development across enterprise banking platforms and mentoring junior developers',
             ],
-            techStack: ['React', 'Angular', 'Node.js', 'WaveMaker', 'AI Agents'],
+            techStack: ['AI Canvas', 'Claude (Bedrock)', 'RAG', 'PGVector', 'React', 'Angular', 'Node.js'],
         },
         {
             title: 'Product Engineer',
@@ -104,10 +104,9 @@ const PROFILE_DATA = {
     // SECTION 4: TECHNICAL SKILLS
     // =========================================================================
     technicalSkills: {
-        productionProven: 'Spring Boot, Node.js, React.js, JavaScript/ES6+, Java, HTML5/CSS3, WaveMaker, Polymer.js, REST APIs',
-        strongKnowledge: 'Angular, Express.js, TypeScript, Python, MongoDB, LoopBack.io, Git/GitHub/Bitbucket',
-        aiIntegration: 'LLM API Integration (OpenAI, Gemini), Structured Output Enforcement, Context-Bounded AI, AI Decision Orchestration, Function Calling / Tool Use, Prompt Engineering',
-        buildingDepth: 'Multi-Step Agent Loops, Docker, AWS (S3, EC2), Microservices Architecture',
+        aiAgentEngineering: 'Multi-Agent Orchestration (AI Canvas), RAG & Vector Search (PGVector), LLM API Integration (Claude/Bedrock, Gemini, OpenAI), Structured Output & Validation (Zod/JSON Schema), Agent Automation (Playwright, VS Code Custom Agents), Prompt & Constraint Engineering',
+        productionProven: 'React.js, Spring Boot, Node.js, TypeScript, Java, REST APIs & Microservices',
+        strongKnowledge: 'Angular, Python, Docker, AWS (S3, EC2, Bedrock), Git/GitHub',
     },
 
     // =========================================================================
@@ -135,6 +134,41 @@ const PROFILE_DATA = {
     ],
 
     aiProjects: [
+        {
+            name: 'DocViz AI — Multi-Agent RAG + Video Generation',
+            description: 'Built a 4-agent RAG pipeline (retriever, document analyst, creative director, storyboard engineer, plus a QA validator) that turns enterprise documentation into narrated, animated explainer videos, including a from-scratch client-side animation and MP4 export engine.',
+            tech: ['Claude Sonnet 4.5 (Bedrock)', 'PGVector', 'React', 'TypeScript', 'Zod'],
+            context: 'AI Hackathon 2026',
+            status: 'Hackathon Build',
+        },
+        {
+            name: '5-Minute RCA Tool',
+            description: 'Zero-dependency Python agent that matches error signatures against curated playbooks and cross-references live GitHub code search across linked repos — turning a manual, multi-repo debugging routine into a single query.',
+            tech: ['Python', 'GitHub Search API', 'RAG', 'React'],
+            context: 'Internal Tool',
+            status: 'Internal Tool',
+        },
+        {
+            name: 'Doc Portal Reviewer Agent',
+            description: 'Autonomous agent that crawls documentation portals with Playwright, validates every checklist item with an LLM, and generates a shareable HTML/JSON audit report with confidence-scored verdicts and evidence screenshots.',
+            tech: ['Python', 'Playwright', 'LLM Validation', 'Confidence Scoring'],
+            context: 'Internal Tool',
+            status: 'Internal Tool',
+        },
+        {
+            name: 'Quota Smart Copilot — AI Usage Governor Agent',
+            description: 'Custom VS Code agent that classifies every request and routes it to the cheapest safe model tier based on remaining Copilot budget — keeping full agentic capability while enforcing cost discipline.',
+            tech: ['VS Code Custom Agents', 'TypeScript', 'GitHub Copilot Usage API'],
+            context: 'Internal Tool',
+            status: 'Internal Tool',
+        },
+        {
+            name: 'AI Doc Portal & Conversational Banking UI',
+            description: 'Added a Google-AI-Overview-style GenAI answer experience to an enterprise MkDocs portal, and built the context-engineering layer behind a conversational banking UI that summarizes full user journeys into compact context sent with every AI query.',
+            tech: ['Vanilla JS', 'MkDocs', 'React', 'TypeScript', 'Context Engineering'],
+            context: 'EdgeVerve',
+            status: 'Production',
+        },
         {
             name: 'LLM-Powered Dynamic Localization Middleware',
             description: 'Middleware layer that intercepts English API responses and user language preference, sends them to an LLM with a structured prompt, enforces JSON output schema, and delivers localized content to the UI — eliminating the need for static i18n config files.',
@@ -191,11 +225,11 @@ const PROFILE_DATA = {
     // SECTION 8: UNIQUE SELLING POINTS
     // =========================================================================
     uniqueStrengths: [
-        'Bridges traditional full-stack engineering with modern AI capabilities',
-        'Has real production experience integrating AI into enterprise products (not just demos)',
-        'Strong in both frontend and backend — true full-stack capability',
+        'Builds real multi-agent RAG pipelines and autonomous agents, not just chatbot demos',
+        'Bridges 6+ years of full-stack enterprise engineering with modern agentic AI capabilities',
+        'Has production experience integrating AI into real banking products used by real clients',
         'Enterprise banking domain expertise (Finacle platform at EdgeVerve)',
-        'Practical prompt engineering skills applied to solve real business problems',
+        'Constraint-first engineering — every agent is designed around what it must NOT do',
     ],
 
     // =========================================================================
@@ -218,7 +252,7 @@ const PROFILE_DATA = {
         careerMotivation: {
             whyLookingForNewOpportunity: 'Looking for roles that combine full-stack development with AI integration',
 
-            idealRoleOrTitle: 'Full Stack Developer with AI focus, or AI Integration Engineer',
+            idealRoleOrTitle: 'AI Agent Developer, Agentic AI Engineer, or AI Integration Engineer',
 
             preferredCompanyCulture: 'Prefer product-based companies with innovation focus, open to both startups and enterprises',
 
@@ -268,7 +302,7 @@ const PROFILE_DATA = {
         // 9.5 TECHNICAL DEPTH
         // =====================================================================
         technicalDepth: {
-            strongestTechnology: 'Spring Boot and Node.js for backend, React for frontend',
+            strongestTechnology: 'Multi-agent RAG orchestration (AI Canvas, Claude/Bedrock, PGVector), plus Spring Boot and Node.js for backend, React for frontend',
 
             agileExperience: 'Yes, worked in Agile/Scrum teams for 5+ years with 2-week sprints',
 
@@ -285,7 +319,7 @@ const PROFILE_DATA = {
         // 9.6 ACHIEVEMENTS & IMPACT
         // =====================================================================
         achievements: {
-            biggestAchievement: 'Built the AI-powered SDK assistant that reduced client support queries by 40%',
+            biggestAchievement: 'Designed and shipped 6 production AI agents and integrations in the past year (multi-agent RAG pipelines, autonomous QA/governance agents, conversational AI UX), including an AI-powered SDK assistant that reduced client support queries by 40%',
 
             challengingProblemSolved: 'Migrated a legacy Polymer.js application to React while maintaining backward compatibility for 50+ banking clients',
 
@@ -396,10 +430,9 @@ function buildProfileContext() {
 
     // Technical Skills
     context += `\n**Technical Skills:**\n`;
-    context += `- Production-Proven: ${p.technicalSkills.productionProven}\n`;
-    context += `- Strong Knowledge: ${p.technicalSkills.strongKnowledge}\n`;
-    context += `- AI Integration: ${p.technicalSkills.aiIntegration}\n`;
-    context += `- Building Depth: ${p.technicalSkills.buildingDepth}\n`;
+    context += `- AI Agent & Integration Engineering: ${p.technicalSkills.aiAgentEngineering}\n`;
+    context += `- Full-Stack Development: ${p.technicalSkills.productionProven}\n`;
+    context += `- Platforms & Tools: ${p.technicalSkills.strongKnowledge}\n`;
 
     // Enterprise Projects
     context += `\n**Enterprise Projects:**\n`;

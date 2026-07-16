@@ -97,12 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== TYPING ANIMATION ==========
     const titles = [
-        'Full Stack Developer',
+        'AI Agent Developer',
         'AI Integration Engineer',
+        'Full Stack Developer',
         'UI Engineer',
         'Spring Boot Specialist',
         'Node.js Expert',
-        'Problem Solver'
     ];
     let titleIndex = 0;
     let charIndex = 0;
