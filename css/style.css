@@ -4628,3 +4628,304 @@ a.detail-value:hover {
         font-size: 18px;
     }
 }
+
+/* ============================================
+   PROJECT HER — PERSONAL BADGE
+   ============================================ */
+
+.project-badge.personal {
+    background: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+    border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+/* ============================================
+   VIDEO AGENT TAB — PROJECT HER
+   ============================================ */
+
+.video-agent-content {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 48px;
+    align-items: start;
+}
+
+/* ── Left column: intro / architecture ── */
+
+.video-agent-intro h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+.video-agent-intro > p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.video-agent-intro strong {
+    color: var(--accent);
+}
+
+/* Pipeline flow */
+.video-agent-pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 24px;
+}
+
+.video-agent-pipeline .pipeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.video-agent-pipeline .pipeline-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.video-agent-pipeline .pipeline-step span {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.video-agent-pipeline .pipeline-arrow {
+    color: var(--accent);
+    font-size: 0.75rem;
+    opacity: 0.6;
+    margin-top: -14px;
+}
+
+/* Tech chips */
+.video-agent-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.va-tech-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.va-tech-chip i {
+    color: var(--accent);
+    font-size: 0.8rem;
+}
+
+.va-tech-chip:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+}
+
+/* Fullscreen button */
+.va-fullscreen-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-primary);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.va-fullscreen-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Right column: iframe embed ── */
+
+.video-agent-demo {
+    position: sticky;
+    top: 100px;
+}
+
+.va-iframe-wrapper {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    position: relative;
+}
+
+/* macOS-style window chrome */
+.va-iframe-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.va-iframe-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.va-iframe-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+}
+
+.va-iframe-dots span:nth-child(1) { background: #ff5f57; }
+.va-iframe-dots span:nth-child(2) { background: #ffbd2e; }
+.va-iframe-dots span:nth-child(3) { background: #28c840; }
+
+.va-iframe-title {
+    flex: 1;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.va-iframe-title i {
+    color: var(--accent);
+}
+
+.va-iframe-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #22c55e;
+}
+
+.va-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: vaPulse 2s infinite;
+}
+
+@keyframes vaPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+}
+
+/* The iframe itself */
+.va-iframe {
+    width: 100%;
+    height: 620px;
+    border: none;
+    display: block;
+    background: var(--bg-primary);
+}
+
+/* Loading placeholder — shown when iframe src is still DEPLOYED_URL placeholder */
+.va-iframe-placeholder {
+    display: none;
+    position: absolute;
+    inset: 52px 0 0 0;   /* below the header */
+    background: var(--bg-card);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--text-tertiary);
+    pointer-events: none;
+}
+
+/* Show placeholder and hide iframe when src is the literal placeholder text */
+.va-iframe[src="DEPLOYED_URL"] {
+    visibility: hidden;
+    height: 0;
+}
+
+.va-iframe[src="DEPLOYED_URL"] ~ .va-iframe-placeholder {
+    display: flex;
+}
+
+.va-iframe-placeholder i {
+    font-size: 2.5rem;
+    color: var(--accent);
+    opacity: 0.4;
+}
+
+.va-iframe-placeholder p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.va-iframe-placeholder .va-placeholder-sub {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-tertiary);
+    margin: 0;
+    padding-bottom: 60px;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 1024px) {
+    .video-agent-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .video-agent-demo {
+        position: static;
+    }
+}
+
+@media (max-width: 600px) {
+    .va-iframe {
+        height: 480px;
+    }
+
+    .video-agent-pipeline {
+        gap: 4px;
+    }
+
+    .video-agent-pipeline .pipeline-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+    }
+}

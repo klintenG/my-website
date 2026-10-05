@@ -683,7 +683,33 @@
                     </div>
                 </div>
 
+                <div class="project-card animate-on-scroll stagger-3" data-category="ai">
+                    <div class="project-icon ai">
+                        <i class="fas fa-clapperboard"></i>
+                    </div>
+                    <div class="project-header">
+                        <h3>Project HER</h3>
+                        <span class="project-type">AI Article-to-Video Agent</span>
+                    </div>
+                    <p class="project-desc">
+                        Built a fully autonomous agent that turns any article, URL, or story into a polished short-form video — AI narration, karaoke captions, Pexels/AI visuals, 99-effect Remotion renderer, and procedural background music. Zero editing required.
+                    </p>
+                    <div class="project-tech">
+                        <span>Python / Flask</span>
+                        <span>Gemini AI</span>
+                        <span>Google TTS</span>
+                        <span>MoviePy</span>
+                        <span>Pexels API</span>
+                        <span>Cloud Run</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-domain"><a href="#ai-playground" onclick="document.querySelector('[data-tab=video]').click()"><i class="fas fa-play-circle"></i> Try Live Demo</a></span>
+                        <span class="project-badge personal">Personal Project</span>
+                    </div>
+                </div>
+
                 <!-- Enterprise Project -->
+
                 <div class="project-card animate-on-scroll stagger-1" data-category="enterprise">
                     <div class="project-icon">
                         <i class="fas fa-university"></i>
@@ -718,7 +744,7 @@
                 <h2 class="section-title">AI Playground</h2>
                 <div class="section-line"></div>
                 <p class="playground-intro">
-                    Three working agents built on this site — chat, resume fit analysis, and code review — all sharing the same
+                    Four working agents built on this site — chat, resume fit analysis, code review, and an AI video generator — all sharing the same
                     constraint-first, structured-output patterns I use in production.
                     <a href="https://github.com/klintenG/my-website" target="_blank" rel="noopener">View source on GitHub <i class="fas fa-arrow-up-right-from-square"></i></a>
                 </p>
@@ -728,6 +754,7 @@
                 <button class="showcase-tab active" data-tab="chat"><i class="fas fa-comment-dots"></i> Chat Assistant</button>
                 <button class="showcase-tab" data-tab="fit"><i class="fas fa-chart-bar"></i> Resume Fit Analyzer</button>
                 <button class="showcase-tab" data-tab="code"><i class="fas fa-search-plus"></i> Code Review</button>
+                <button class="showcase-tab" data-tab="video"><i class="fas fa-clapperboard"></i> Video Agent</button>
             </div>
 
             <!-- Tab 1: Chat Assistant -->
@@ -904,6 +931,85 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Tab 4: Video Agent (Project HER) -->
+            <div class="showcase-panel" id="tab-video">
+                <div class="video-agent-content">
+                    <div class="video-agent-intro animate-on-scroll">
+                        <h3>Project HER — AI Article-to-Video Agent</h3>
+                        <p>
+                            Paste any article, URL, or story — HER autonomously orchestrates a
+                            <strong>multi-stage AI pipeline</strong> to produce a polished short-form video with
+                            AI narration, animated karaoke captions, royalty-free or AI-generated visuals,
+                            and procedural background music. Zero editing required.
+                        </p>
+                        <div class="video-agent-pipeline">
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-file-lines"></i></div>
+                                <span>Story Parsing</span>
+                            </div>
+                            <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-robot"></i></div>
+                                <span>LLM Script Agent</span>
+                            </div>
+                            <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-microphone"></i></div>
+                                <span>TTS Narration</span>
+                            </div>
+                            <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-images"></i></div>
+                                <span>Visual Fetcher</span>
+                            </div>
+                            <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pipeline-step">
+                                <div class="pipeline-icon"><i class="fas fa-film"></i></div>
+                                <span>Video Composer</span>
+                            </div>
+                        </div>
+                        <div class="video-agent-tech">
+                            <span class="va-tech-chip"><i class="fab fa-python"></i> Python / Flask</span>
+                            <span class="va-tech-chip"><i class="fas fa-brain"></i> Gemini AI</span>
+                            <span class="va-tech-chip"><i class="fas fa-microphone-lines"></i> Google TTS</span>
+                            <span class="va-tech-chip"><i class="fas fa-image"></i> Pexels API</span>
+                            <span class="va-tech-chip"><i class="fas fa-video"></i> MoviePy Renderer</span>
+                            <span class="va-tech-chip"><i class="fas fa-cloud"></i> GCP Cloud Run</span>
+                        </div>
+                        <a id="videoAgentFullscreen" href="https://project-her-793574023262.us-central1.run.app" target="_blank" rel="noopener" class="va-fullscreen-btn">
+                            <i class="fas fa-up-right-from-square"></i> Open Full Screen
+                        </a>
+                    </div>
+                    <div class="video-agent-demo animate-on-scroll">
+                        <div class="va-iframe-wrapper">
+                            <div class="va-iframe-header">
+                                <div class="va-iframe-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="va-iframe-title"><i class="fas fa-clapperboard"></i> Project HER &mdash; Live</span>
+                                <div class="va-iframe-status">
+                                    <span class="va-status-dot"></span> Running
+                                </div>
+                            </div>
+                            <iframe
+                                id="projectHerFrame"
+                                src="https://project-her-793574023262.us-central1.run.app"
+                                class="va-iframe"
+                                title="Project HER — AI Video Generator"
+                                allow="clipboard-write; downloads"
+                                loading="lazy"
+                            ></iframe>
+                            <div class="va-iframe-placeholder" id="vaPlaceholder">
+                                <i class="fas fa-clapperboard"></i>
+                                <p>Project HER is deploying&hellip;</p>
+                                <p class="va-placeholder-sub">Check back shortly &mdash; the live demo will appear here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
