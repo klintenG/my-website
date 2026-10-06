@@ -1,16 +1,14 @@
 /* ============================================
    AI CHAT — Powered by Google Gemini
    Function Calling + Tool Use Architecture
-   API key secured on backend (port 8001)
+   API key secured on the proxy (see js/config.js, js/ai-client.js)
    ============================================ */
 
 const AIChat = (() => {
 
     // ========== CONFIGURATION ==========
-    // API key is kept server-side via proxy. See /server/server.js
-    // Local dev: run "cd server && npm start" → http://localhost:3001
-    // Production: replace with your deployed proxy URL
-    const API_URL = 'http://localhost:3001/api/chat';
+    // The endpoint lives in SITE_CONFIG.api.apiUrl; transport is AIClient.
+    const GENERATION_CONFIG = { temperature: 0.4, maxOutputTokens: 1024 };
 
     // ========== TOOL DEFINITIONS (Gemini Function Calling) ==========
     const TOOL_DECLARATIONS = [
@@ -55,7 +53,7 @@ const AIChat = (() => {
                 properties: {
                     sectionId: {
                         type: 'STRING',
-                        description: 'The HTML section ID to scroll to: "about", "experience", "skills", "projects", "education", "contact"'
+                        description: 'The HTML section ID to scroll to: "work", "projects", "experience", "skills", "ai-lab", "about", "contact"'
                     },
                     reason: {
                         type: 'STRING',
@@ -237,49 +235,35 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
     ];
 
     // ========== API CALL (with Function Calling) ==========
-    async function sendToGemini(userMessage, chatType) {
+    async function sendToBackend(userMessage, chatType) {
         const history = conversations[chatType];
 
-        // Build history in {role, content} format for the backend
-        const historyPayload = [];
-        history.forEach(msg => {
-            historyPayload.push({
-                role: msg.role === 'user' ? 'user' : 'assistant',
-                content: msg.text
-            });
-        });
+        const contents = history.map(msg => ({
+            role: msg.role === 'user' ? 'user' : 'model',
+            parts: [{ text: msg.text }]
+        }));
+        contents.push({ role: 'user', parts: [{ text: userMessage }] });
 
         const requestBody = {
-            message: userMessage,
-            history: historyPayload,
-            system_prompt: SYSTEM_PROMPT
+            contents,
+            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            tools: [{ functionDeclarations: TOOL_DECLARATIONS }],
+            generationConfig: GENERATION_CONFIG
         };
 
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody)
-            });
-
-            if (!response.ok) {
-                if (response.status === 429) {
-                    return { text: "I'm getting a lot of questions right now! Please wait a moment and try again.", toolCalls: [] };
-                }
-                return { text: "I'm having trouble connecting right now. Please try again in a moment.", toolCalls: [] };
-            }
-
-            const data = await response.json();
+            const data = await AIClient.generate(requestBody);
+            const parsed = AIClient.parse(data);
+            const text = parsed.text || 'Here is what I found:';
 
             history.push({ role: 'user', text: userMessage });
-            history.push({ role: 'assistant', text: data.text });
+            history.push({ role: 'assistant', text: text });
             if (history.length > 20) history.splice(0, 2);
 
-            return { text: data.text, toolCalls: data.tool_calls || [] };
-
+            return { text: text, toolCalls: parsed.toolCalls };
         } catch (error) {
-            console.error('Network error:', error);
-            return { text: "I'm having trouble connecting. Please check your internet connection and try again.", toolCalls: [] };
+            console.warn('AI chat unavailable:', error.code || error);
+            return { text: AIClient.messageFor(error), toolCalls: [] };
         }
     }
 
@@ -346,7 +330,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
             } else if (fallbackData) {
                 logosHTML += '<div class="tech-logo-item"><span class="tech-emoji">' + fallbackData.emoji + '</span><span>' + fallbackData.label + '</span></div>';
             } else {
-                logosHTML += '<div class="tech-logo-item"><span class="tech-emoji">⚙️</span><span>' + tech + '</span></div>';
+                logosHTML += '<div class="tech-logo-item"><span class="tech-emoji">⚙️</span><span>' + AIClient.esc(tech) + '</span></div>';
             }
         });
 
@@ -358,8 +342,19 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         requestAnimationFrame(function() { container.scrollTop = container.scrollHeight; });
     }
 
+    var SECTION_ALIASES = {
+        'ai-playground': 'ai-lab', 'playground': 'ai-lab', 'lab': 'ai-lab',
+        'education': 'about', 'project': 'projects', 'skill': 'skills'
+    };
+    var SECTION_LABELS = {
+        work: 'Featured Work', projects: 'Selected AI Systems', experience: 'Experience',
+        skills: 'Skills', 'ai-lab': 'Interactive AI Lab', about: 'About', contact: 'Contact'
+    };
+
     function renderSectionHighlight(args, container) {
-        var sectionId = args.sectionId;
+        var requested = String(args.sectionId || '').toLowerCase().trim();
+        var sectionId = SECTION_ALIASES[requested] || requested;
+        if (!SECTION_LABELS[sectionId]) return; // ignore unknown sections
         var reason = args.reason || 'Navigating to section';
 
         var card = document.createElement('div');
@@ -370,9 +365,13 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         var contentDiv = document.createElement('div');
         contentDiv.className = 'chat-bubble tool-card navigate-card';
         contentDiv.innerHTML = '<div class="tool-badge"><i class="fas fa-compass"></i> Navigation Agent</div>' +
-            '<button class="navigate-btn" onclick="document.getElementById(\'' + sectionId + '\')?.scrollIntoView({behavior:\'smooth\',block:\'start\'})">' +
-            '<i class="fas fa-arrow-right"></i> Go to ' + sectionId.charAt(0).toUpperCase() + sectionId.slice(1) + ' Section</button>' +
-            '<span class="navigate-hint">' + reason + '</span>';
+            '<button class="navigate-btn" type="button" data-target="' + sectionId + '">' +
+            '<i class="fas fa-arrow-right"></i> Go to ' + SECTION_LABELS[sectionId] + '</button>' +
+            '<span class="navigate-hint">' + AIClient.esc(reason) + '</span>';
+        contentDiv.querySelector('.navigate-btn').addEventListener('click', function() {
+            var el = document.getElementById(sectionId);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
 
         card.appendChild(avatarDiv);
         card.appendChild(contentDiv);
@@ -383,7 +382,9 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
     function renderProjectCard(args, container) {
         var projectName = args.projectName || '';
         var allProjects = (PROFILE_DATA.enterpriseProjects || []).concat(PROFILE_DATA.aiProjects || []);
-        var project = allProjects.find(function(p) { return p.name.toLowerCase() === projectName.toLowerCase(); });
+        var wanted = projectName.toLowerCase().trim();
+        var project = allProjects.find(function(p) { return p.name.toLowerCase() === wanted; }) ||
+            allProjects.find(function(p) { return wanted && (p.name.toLowerCase().indexOf(wanted) !== -1 || wanted.indexOf(p.name.toLowerCase().split(' — ')[0]) !== -1); });
 
         var card = document.createElement('div');
         card.className = 'chat-message bot tool-output';
@@ -397,12 +398,12 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
             var isAI = (PROFILE_DATA.aiProjects || []).indexOf(project) !== -1;
             var techBadges = project.tech.map(function(t) { return '<span class="project-tech-badge">' + t + '</span>'; }).join('');
             contentDiv.innerHTML = '<div class="tool-badge"><i class="fas fa-project-diagram"></i> Project Agent</div>' +
-                '<div class="project-detail-header"><span class="project-type-badge ' + (isAI ? 'ai' : 'enterprise') + '">' + (isAI ? '🤖 AI Project' : '🏢 Enterprise') + '</span><h4>' + project.name + '</h4></div>' +
+                '<div class="project-detail-header"><span class="project-type-badge ' + (isAI ? 'ai' : 'enterprise') + '">' + (isAI ? '🤖 AI Project' : '🏢 Enterprise') + '</span><h4>' + AIClient.esc(project.name) + '</h4></div>' +
                 '<p class="project-detail-desc">' + project.description + '</p>' +
                 '<div class="project-tech-badges">' + techBadges + '</div>';
         } else {
             contentDiv.innerHTML = '<div class="tool-badge"><i class="fas fa-project-diagram"></i> Project Agent</div>' +
-                '<div class="project-detail-header"><h4>' + projectName + '</h4></div>' +
+                '<div class="project-detail-header"><h4>' + AIClient.esc(projectName) + '</h4></div>' +
                 '<p class="project-detail-desc">Project details available upon request.</p>';
         }
 
@@ -414,7 +415,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
 
     // ========== FORMAT RESPONSE ==========
     function formatResponse(text) {
-        return text
+        return AIClient.esc(text)
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
             .replace(/`(.*?)`/g, '<code>$1</code>')
@@ -523,7 +524,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
                     return k + ': "' + val + '"';
                 }).join(', ');
             }
-            entries += '<div class="tool-log-entry"><code>' + tc.name + '</code>(<span class="tool-log-args">' + argsStr + '</span>)</div>';
+            entries += '<div class="tool-log-entry"><code>' + AIClient.esc(tc.name) + '</code>(<span class="tool-log-args">' + AIClient.esc(argsStr) + '</span>)</div>';
         });
 
         entries += '</div>';
@@ -562,7 +563,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         });
 
         setTimeout(function() {
-            createMessage("Hi there! 👋 I'm Klinten's AI assistant, powered by Gemini with function calling. I can show you location images, tech logos, navigate to sections, and pull up project details. Try asking me something!", 'bot', messages);
+            createMessage("Hi there! 👋 I'm Klinten's portfolio assistant — a Gemini function-calling demo. I answer only from his profile, and I can show tech logos, jump to sections, and pull up project details. Try asking me something!", 'bot', messages);
         }, 500);
     }
 

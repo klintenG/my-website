@@ -97,12 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== TYPING ANIMATION ==========
     const titles = [
-        'AI Agent Developer',
+        'AI Agent Engineer',
         'AI Integration Engineer',
-        'Full Stack Developer',
-        'UI Engineer',
-        'Spring Boot Specialist',
-        'Node.js Expert',
+        'Multi-Agent System Builder',
+        'RAG Pipeline Architect',
+        'Enterprise Software Engineer',
     ];
     let titleIndex = 0;
     let charIndex = 0;
@@ -231,31 +230,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== CONTACT FORM ==========
     const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+            const formData = new FormData(contactForm);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
 
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const subject = formData.get('subject');
-        const message = formData.get('message');
+            const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Klinten,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
 
-        const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Klinten,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
+            window.location.href = mailtoLink;
 
-        window.location.href = mailtoLink;
+            const btn = contactForm.querySelector('button[type="submit"]');
+            if (btn) {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Opening Email Client...';
+                btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
 
-        const btn = contactForm.querySelector('button[type="submit"]');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i> Opening Email Client...';
-        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-
-        setTimeout(() => {
-            btn.innerHTML = originalHTML;
-            btn.style.background = '';
-            contactForm.reset();
-        }, 3000);
-    });
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.style.background = '';
+                    contactForm.reset();
+                }, 3000);
+            }
+        });
+    }
 
     // ========== SMOOTH SCROLL FOR ALL ANCHOR LINKS ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -376,3 +378,81 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+
+    // ========== CENTRALIZED CONFIG INJECTION ==========
+    if (window.SITE_CONFIG) {
+        // Sync stats into any data-stat elements
+        document.querySelectorAll('[data-stat]').forEach(el => {
+            const key = el.getAttribute('data-stat');
+            if (window.SITE_CONFIG.stats && window.SITE_CONFIG.stats[key]) {
+                const countVal = parseInt(window.SITE_CONFIG.stats[key], 10);
+                if (!isNaN(countVal)) {
+                    el.setAttribute('data-count', countVal);
+                }
+            }
+        });
+
+        // Sync links
+        document.querySelectorAll('[data-link]').forEach(el => {
+            const linkKey = el.getAttribute('data-link');
+            if (window.SITE_CONFIG.links && window.SITE_CONFIG.links[linkKey]) {
+                el.setAttribute('href', window.SITE_CONFIG.links[linkKey]);
+            }
+        });
+
+        // Sync resume download buttons
+        document.querySelectorAll('[data-resume]').forEach(el => {
+            if (window.SITE_CONFIG.links && window.SITE_CONFIG.links.resume) {
+                el.setAttribute('href', window.SITE_CONFIG.links.resume);
+            }
+        });
+
+        // Project HER live status probe
+        const herStatusEl = document.getElementById('projectHerStatus');
+        if (herStatusEl && window.SITE_CONFIG.projectHer) {
+            const cfg = window.SITE_CONFIG.projectHer;
+            if (cfg.status === 'live') {
+                herStatusEl.className = 'flagship-status live';
+                herStatusEl.innerHTML = '<span class="va-status-dot"></span> Live — Try it';
+            } else if (cfg.status === 'deploying') {
+                herStatusEl.className = 'flagship-status deploying';
+                herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#f59e0b"></span> Deploying — Watch Demo';
+            } else if (cfg.status === 'offline') {
+                herStatusEl.className = 'flagship-status offline';
+                herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#888"></span> Demo temporarily unavailable';
+            } else if (cfg.status === 'auto') {
+                // Test reachability
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), cfg.probeTimeoutMs || 8000);
+                fetch(cfg.liveUrl, { method: 'HEAD', mode: 'no-cors', signal: controller.signal })
+                    .then(() => {
+                        clearTimeout(timeoutId);
+                        herStatusEl.className = 'flagship-status live';
+                        herStatusEl.innerHTML = '<span class="va-status-dot"></span> Live — Try it';
+                    })
+                    .catch(() => {
+                        clearTimeout(timeoutId);
+                        herStatusEl.className = 'flagship-status deploying';
+                        herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#f59e0b"></span> Deploying / Starting up';
+                    });
+            }
+        }
+    }
+
+    // ========== ACCORDION TOGGLES ==========
+    document.querySelectorAll('.accordion-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const targetBody = document.getElementById(targetId);
+            if (targetBody) {
+                const isOpen = targetBody.classList.contains('open');
+                targetBody.classList.toggle('open', !isOpen);
+                btn.classList.toggle('active', !isOpen);
+                const textSpan = btn.querySelector('.toggle-text');
+                if (textSpan) {
+                    textSpan.textContent = isOpen ? 'View Architecture & Challenges' : 'Hide Architecture & Challenges';
+                }
+            }
+        });
+    });

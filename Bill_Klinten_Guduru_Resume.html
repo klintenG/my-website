@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill Klinten Guduru – Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ======================================================
+       RESET
+    ====================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      font-size: 10px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ======================================================
+       PALETTE — muted, professional, ink-on-paper
+    ====================================================== */
+    :root {
+      --ink:        #1c1c1c;
+      --ink-mid:    #3a3a3a;
+      --ink-light:  #5a5a5a;
+      --ink-faint:  #888;
+      --sidebar-bg: #1e2530;
+      --sidebar-txt:#e8ecf0;
+      --sidebar-dim:#9aa3ae;
+      --sidebar-rule:#3a4252;
+      --accent:     #2a5fa5;
+      --accent-light:#ccdaf0;
+      --rule:       #d4d4d4;
+      --tag-bg:     #eef2f7;
+      --tag-txt:    #2a3a50;
+      --page-bg:    #ffffff;
+      --font: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    /* ======================================================
+       PAGE SHELL
+    ====================================================== */
+    body {
+      font-family: var(--font);
+      background: #dde1e7;
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .page {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr;
+      max-width: 860px;
+      min-height: 1122px;
+      margin: 28px auto 48px;
+      background: var(--page-bg);
+      box-shadow: 0 2px 18px rgba(0,0,0,.18);
+    }
+
+    /* ======================================================
+       TOPBAR — full-width name strip
+    ====================================================== */
+    .topbar {
+      grid-column: 1 / -1;
+      background: var(--sidebar-bg);
+      padding: 26px 32px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .tb-name {
+      font-size: 2.6rem;
+      font-weight: 900;
+      letter-spacing: -.5px;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .tb-name span { color: var(--accent-light); }
+
+    .tb-title {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--sidebar-dim);
+      margin-top: 4px;
+      letter-spacing: .4px;
+    }
+
+    .tb-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: flex-end;
+      font-size: .88rem;
+      color: var(--sidebar-dim);
+    }
+    .tb-contacts a { color: var(--sidebar-dim); text-decoration: none; }
+    .tb-contacts a:hover { color: #fff; }
+    .tb-contact-row { display: flex; align-items: center; gap: 6px; }
+    .tb-contact-row svg { width: 12px; height: 12px; fill: var(--accent-light); flex-shrink: 0; }
+
+    /* ======================================================
+       SIDEBAR
+    ====================================================== */
+    .sidebar {
+      background: var(--sidebar-bg);
+      padding: 20px 20px 32px;
+      color: var(--sidebar-txt);
+    }
+
+    .sb-section { margin-bottom: 22px; }
+
+    .sb-heading {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--accent-light);
+      border-bottom: 1px solid var(--sidebar-rule);
+      padding-bottom: 5px;
+      margin-bottom: 11px;
+    }
+
+    .sb-skill-group { margin-bottom: 12px; }
+    .sb-skill-group-label {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--sidebar-txt);
+      margin-bottom: 5px;
+    }
+    .sb-skill-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .sb-skill-list li {
+      font-size: .78rem;
+      color: var(--sidebar-dim);
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--sidebar-rule);
+      padding: 2px 7px;
+      border-radius: 2px;
+      line-height: 1.4;
+    }
+
+    .sb-edu-degree {
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--sidebar-txt);
+      line-height: 1.35;
+    }
+    .sb-edu-inst {
+      font-size: .8rem;
+      color: var(--accent-light);
+      margin-top: 3px;
+      font-style: italic;
+    }
+    .sb-edu-year {
+      font-size: .77rem;
+      color: var(--ink-faint);
+      margin-top: 2px;
+    }
+
+    .sb-lang-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: .82rem;
+      color: var(--sidebar-dim);
+      margin-bottom: 4px;
+    }
+    .sb-lang-name { color: var(--sidebar-txt); font-weight: 700; }
+    .sb-lang-level { font-size: .75rem; color: var(--ink-faint); }
+
+    .sb-item {
+      font-size: .82rem;
+      color: var(--sidebar-dim);
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+    .sb-item strong { color: var(--sidebar-txt); }
+
+    /* ======================================================
+       MAIN COLUMN
+    ====================================================== */
+    .main {
+      padding: 22px 30px 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sec-heading {
+      font-size: .78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 4px;
+      margin-bottom: 13px;
+      margin-top: 20px;
+    }
+    .main > .sec-heading:first-child { margin-top: 0; }
+
+    /* SUMMARY */
+    .summary-text {
+      font-size: .93rem;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+    .summary-text strong { color: var(--ink); }
+
+    /* EXPERIENCE */
+    .exp-block { margin-bottom: 16px; }
+    .exp-block:last-child { margin-bottom: 0; }
+
+    .exp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 1px;
+    }
+    .exp-role { font-size: .98rem; font-weight: 900; color: var(--ink); }
+    .exp-period { font-size: .82rem; color: var(--ink-faint); white-space: nowrap; font-weight: 400; }
+    .exp-org { font-size: .86rem; font-weight: 700; color: var(--accent); margin-bottom: 1px; }
+    .exp-org span { font-weight: 400; color: var(--ink-faint); font-size: .8rem; }
+
+    .exp-bullets { margin-top: 5px; padding-left: 0; list-style: none; }
+    .exp-bullets li {
+      position: relative;
+      padding-left: 13px;
+      font-size: .88rem;
+      color: var(--ink-mid);
+      margin-bottom: 4px;
+      line-height: 1.48;
+    }
+    .exp-bullets li::before { content: '-'; position: absolute; left: 0; color: var(--ink-faint); font-weight: 700; }
+    .exp-bullets li strong { color: var(--ink); }
+
+    .exp-stack { margin-top: 5px; font-size: .78rem; color: var(--ink-faint); }
+    .exp-stack span { font-weight: 700; color: var(--ink-light); }
+
+    .exp-divider { border: none; border-top: 1px dashed var(--rule); margin: 12px 0; }
+
+    /* PROJECTS */
+    .proj-block { margin-bottom: 11px; }
+    .proj-block:last-child { margin-bottom: 0; }
+
+    .proj-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .proj-name { font-size: .93rem; font-weight: 900; color: var(--ink); }
+    .proj-meta { font-size: .77rem; color: var(--ink-faint); font-style: italic; white-space: nowrap; }
+    .proj-type {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      margin-bottom: 2px;
+    }
+    .proj-desc { font-size: .85rem; color: var(--ink-mid); line-height: 1.45; margin-bottom: 4px; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .proj-tag { font-size: .73rem; color: var(--tag-txt); background: var(--tag-bg); padding: 1px 6px; border-radius: 2px; }
+
+    /* ACHIEVEMENTS */
+    .ach-list { list-style: none; padding: 0; }
+    .ach-list li {
+      position: relative;
+      padding-left: 13px;
+      font-size: .88rem;
+      color: var(--ink-mid);
+      margin-bottom: 5px;
+      line-height: 1.45;
+    }
+    .ach-list li::before { content: '-'; position: absolute; left: 0; color: var(--ink-faint); font-weight: 700; }
+    .ach-list li strong { color: var(--ink); }
+
+    /* ======================================================
+       PRINT / PDF
+    ====================================================== */
+    @media print {
+      html { font-size: 9.2px; }
+      body { background: #fff; }
+      .page { max-width: 100%; margin: 0; box-shadow: none; min-height: 0; }
+      @page { size: A4; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ==================== TOPBAR ==================== -->
+  <header class="topbar">
+    <div>
+      <div class="tb-name">Bill Klinten <span>Guduru</span></div>
+      <div class="tb-title">AI Integration Engineer &nbsp;|&nbsp; AI Agent Developer &nbsp;|&nbsp; Full-Stack Engineer</div>
+    </div>
+    <div class="tb-contacts">
+      <div class="tb-contact-row">
+        <svg viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+        <a href="mailto:klintenguduru@gmail.com">klintenguduru@gmail.com</a>
+      </div>
+      <div class="tb-contact-row">
+        <svg viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+        <a href="tel:+918247315182">+91 824 731 5182</a>
+      </div>
+      <div class="tb-contact-row">
+        <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+        <span>Bengaluru, Karnataka, India</span>
+      </div>
+      <div class="tb-contact-row">
+        <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd"/></svg>
+        <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" target="_blank">linkedin.com/in/bill-klinten-guduru</a>
+      </div>
+      <div class="tb-contact-row">
+        <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd"/></svg>
+        <a href="https://github.com/klintenG" target="_blank">github.com/klintenG</a>
+      </div>
+      <div class="tb-contact-row">
+        <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/></svg>
+        <a href="https://klinteng.com" target="_blank">klinteng.com</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="sidebar">
+
+    <div class="sb-section">
+      <div class="sb-heading">Technical Skills</div>
+
+      <div class="sb-skill-group">
+        <div class="sb-skill-group-label">AI &amp; Agent Engineering</div>
+        <ul class="sb-skill-list">
+          <li>Multi-Agent Orchestration</li>
+          <li>RAG Pipelines</li>
+          <li>PGVector</li>
+          <li>LLM API Integration</li>
+          <li>Prompt Engineering</li>
+          <li>Context Engineering</li>
+          <li>Structured Output (Zod)</li>
+          <li>Agent Automation</li>
+          <li>Claude (Bedrock)</li>
+          <li>Gemini API</li>
+          <li>OpenAI-compatible APIs</li>
+          <li>AI Canvas</li>
+        </ul>
+      </div>
+
+      <div class="sb-skill-group">
+        <div class="sb-skill-group-label">Frontend</div>
+        <ul class="sb-skill-list">
+          <li>React.js</li>
+          <li>Angular</li>
+          <li>TypeScript</li>
+          <li>JavaScript (ES6+)</li>
+          <li>HTML5 / CSS3</li>
+          <li>Polymer.js</li>
+          <li>WaveMaker</li>
+        </ul>
+      </div>
+
+      <div class="sb-skill-group">
+        <div class="sb-skill-group-label">Backend &amp; APIs</div>
+        <ul class="sb-skill-list">
+          <li>Java</li>
+          <li>Spring Boot</li>
+          <li>Node.js</li>
+          <li>Express.js</li>
+          <li>Python</li>
+          <li>RESTful APIs</li>
+          <li>Microservices</li>
+          <li>LoopBack</li>
+        </ul>
+      </div>
+
+      <div class="sb-skill-group">
+        <div class="sb-skill-group-label">Data &amp; Infrastructure</div>
+        <ul class="sb-skill-list">
+          <li>PostgreSQL</li>
+          <li>PGVector</li>
+          <li>AWS S3 / EC2 / Bedrock</li>
+          <li>Docker</li>
+          <li>Git / GitHub</li>
+          <li>Playwright</li>
+          <li>VS Code Extensions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-heading">Education</div>
+      <div class="sb-edu-degree">B.Tech — Electrical &amp; Electronics Engineering</div>
+      <div class="sb-edu-inst">Sri Krishnadevaraya University</div>
+      <div class="sb-edu-year">June 2015 – April 2019</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-heading">Languages</div>
+      <div class="sb-lang-row">
+        <span class="sb-lang-name">English</span>
+        <span class="sb-lang-level">Professional</span>
+      </div>
+      <div class="sb-lang-row">
+        <span class="sb-lang-name">Telugu</span>
+        <span class="sb-lang-level">Native</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-heading">Availability</div>
+      <div class="sb-item"><strong>Notice Period:</strong> [30 / 60 / 90] days</div>
+      <div class="sb-item"><strong>Open to:</strong> Full-time roles &middot; AI engineering teams &middot; Product companies</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-heading">Certifications</div>
+      <div class="sb-item">[ Add any AWS / AI / Infosys certifications here ]</div>
+    </div>
+
+  </aside>
+
+  <!-- ==================== MAIN COLUMN ==================== -->
+  <main class="main">
+
+    <div class="sec-heading">Professional Summary</div>
+    <p class="summary-text">
+      Software engineer with <strong>6+ years</strong> of full-stack experience at Infosys and EdgeVerve Systems (an Infosys subsidiary). Over the past year, designed and shipped <strong>6 production AI agents and integrations</strong> — multi-agent RAG pipelines, autonomous QA agents, and conversational AI UX — deployed to active engineering workflows, not prototypes. Brings a constraint-first approach to AI engineering: every agent is scoped by what it must <em>not</em> do, outputs are validated against strict JSON schemas, and intelligence is embedded as middleware inside existing systems rather than replacing them.
+    </p>
+
+    <div class="sec-heading">Professional Experience</div>
+
+    <div class="exp-block">
+      <div class="exp-top">
+        <div class="exp-role">Member – UI Development</div>
+        <div class="exp-period">Jan 2024 – Present</div>
+      </div>
+      <div class="exp-org">EdgeVerve Systems Limited <span>(an Infosys subsidiary) &nbsp;·&nbsp; Bengaluru, India</span></div>
+      <ul class="exp-bullets">
+        <li>Designed and shipped <strong>DocViz AI</strong>, a 4-agent RAG pipeline (retriever, analyst, creative director, storyboard engineer + QA validator) on AI Canvas using Claude Sonnet 4.5 (Bedrock) + PGVector that converts enterprise documentation into narrated, animated explainer videos — built the browser-side animation and MP4 export engine from scratch</li>
+        <li>Built the <strong>5-Minute RCA Tool</strong>, a zero-dependency Python agent that matches error signatures against curated playbooks and cross-references live GitHub code search across linked repositories, replacing a manual multi-repo debugging routine with a single-query workflow</li>
+        <li>Authored an <strong>autonomous documentation QA agent</strong> using Playwright + LLM validation that crawls documentation portals, scores every checklist item, and produces confidence-scored HTML/JSON audit reports with evidence screenshots</li>
+        <li>Designed <strong>Quota Smart Copilot</strong>, a custom VS Code agent that classifies incoming requests and routes each to the cheapest safe model tier based on remaining Copilot budget — preserving full agentic capability under cost constraints</li>
+        <li>Shipped a <strong>GenAI search overlay</strong> for an enterprise MkDocs portal (Google-AI-Overview-style) and built the context-engineering layer behind a conversational banking UI, summarising user journey state into compact context sent with every AI query to eliminate hallucination on off-scope questions</li>
+        <li>Led UI development and code reviews for Finacle banking product teams; mentored junior developers on component architecture and API integration patterns</li>
+      </ul>
+      <div class="exp-stack"><span>Stack:</span> AI Canvas, Claude (Bedrock), PGVector, React, TypeScript, Node.js, Python, Playwright, Zod</div>
+    </div>
+
+    <hr class="exp-divider">
+
+    <div class="exp-block">
+      <div class="exp-top">
+        <div class="exp-role">Product Engineer</div>
+        <div class="exp-period">2022 – Jan 2024</div>
+      </div>
+      <div class="exp-org">EdgeVerve Systems Limited <span>&nbsp;·&nbsp; Bengaluru, India</span></div>
+      <ul class="exp-bullets">
+        <li>Developed and owned feature modules for the <strong>Finacle Cash Management, Expense Management, and Payments</strong> products — serving 50+ enterprise banking clients globally</li>
+        <li>Built reusable UI component libraries with Polymer.js and WaveMaker, reducing screen delivery time for new feature iterations across the product suite</li>
+        <li>Implemented and maintained RESTful APIs using Spring Boot and LoopBack for payment processing and transaction tracking workflows</li>
+        <li>Collaborated with QA, product, and design teams in agile sprints across three concurrent Finacle banking modules</li>
+      </ul>
+      <div class="exp-stack"><span>Stack:</span> Spring Boot, Polymer.js, WaveMaker, LoopBack, Node.js, Java</div>
+    </div>
+
+    <hr class="exp-divider">
+
+    <div class="exp-block">
+      <div class="exp-top">
+        <div class="exp-role">Senior Systems Engineer</div>
+        <div class="exp-period">2021 – 2022</div>
+      </div>
+      <div class="exp-org">Infosys Limited <span>&nbsp;·&nbsp; India</span></div>
+      <ul class="exp-bullets">
+        <li>Promoted from Systems Engineer for consistent delivery performance — took full ownership of complex feature modules including design, development, and stakeholder sign-off</li>
+        <li>Provided technical guidance and code review support to junior team members; contributed to architecture decisions on the assigned client project</li>
+      </ul>
+      <div class="exp-stack"><span>Stack:</span> Java, Spring Boot, JavaScript, Angular</div>
+    </div>
+
+    <hr class="exp-divider">
+
+    <div class="exp-block">
+      <div class="exp-top">
+        <div class="exp-role">Systems Engineer</div>
+        <div class="exp-period">Dec 2019 – 2021</div>
+      </div>
+      <div class="exp-org">Infosys Limited <span>&nbsp;·&nbsp; India</span></div>
+      <ul class="exp-bullets">
+        <li>Contributed to full-stack development on enterprise client delivery teams — built front-end modules in Angular and backend services in Java / Spring Boot</li>
+        <li>Developed working proficiency across enterprise software delivery processes, agile practices, and production code quality standards</li>
+      </ul>
+      <div class="exp-stack"><span>Stack:</span> Java, Spring Boot, JavaScript, HTML/CSS, Angular</div>
+    </div>
+
+    <div class="sec-heading">Notable Projects</div>
+
+    <div class="proj-block">
+      <div class="proj-top">
+        <div class="proj-name">DocViz AI</div>
+        <div class="proj-meta">AI Hackathon 2026 &middot; EdgeVerve</div>
+      </div>
+      <div class="proj-type">Multi-Agent RAG &middot; Video Generation</div>
+      <p class="proj-desc">4-agent pipeline (retriever, analyst, creative director, storyboard engineer) with a QA validator that converts enterprise docs into narrated animated videos. Built the client-side animation engine and MP4 export from scratch.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Claude Sonnet 4.5 (Bedrock)</span>
+        <span class="proj-tag">PGVector</span>
+        <span class="proj-tag">React / TypeScript</span>
+        <span class="proj-tag">Zod</span>
+        <span class="proj-tag">AI Canvas</span>
+      </div>
+    </div>
+
+    <div class="proj-block">
+      <div class="proj-top">
+        <div class="proj-name">Personal Portfolio — Live AI Playground</div>
+        <div class="proj-meta">Open Source &middot; klinteng.com</div>
+      </div>
+      <div class="proj-type">Agentic Web Application</div>
+      <p class="proj-desc">Three live AI agents in a single site: Chat Assistant (Gemini function-calling, 4 tool definitions), Resume Fit Analyzer (structured JSON output), and Code Review Agent (constraint-bounded, multi-dimensional scoring). Source on GitHub.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">HTML / CSS / JS</span>
+        <span class="proj-tag">Gemini API</span>
+        <span class="proj-tag">Groq</span>
+        <span class="proj-tag">Function Calling</span>
+      </div>
+    </div>
+
+    <div class="sec-heading">Achievements &amp; Recognition</div>
+    <ul class="ach-list">
+      <li>Shipped <strong>6 production AI agents and integrations</strong> in under 12 months — RAG pipelines, autonomous QA agents, usage governance, and conversational UX, all deployed to real engineering teams</li>
+      <li>Selected for <strong>EdgeVerve AI Hackathon 2026</strong> — built DocViz AI, a production-grade multi-agent RAG-to-video system [add placement / outcome if applicable]</li>
+      <li>Promoted through four successive roles across Infosys and EdgeVerve (Dec 2019 to present) reflecting sustained performance growth and increased scope of ownership</li>
+      <li>[ Add any internal recognitions, performance ratings, or awards — e.g., "Star Performer, Q3 2023" ]</li>
+    </ul>
+
+  </main>
+
+</div>
+
+</body>
+</html>

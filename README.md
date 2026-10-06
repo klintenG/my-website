@@ -1,76 +1,110 @@
-# Klinten
+# Klinteng.com — AI Agent Engineer Portfolio
 
-# klinteng.com — Personal Resume Website
+A recruiter-focused portfolio and interactive AI engineering laboratory for **Bill Klinten Guduru** — AI Agent Engineer & AI Integration Engineer with 6+ years of enterprise software engineering experience across Infosys and EdgeVerve.
 
-A modern, responsive resume/portfolio website for **Bill Klinten Guduru** — Full Stack Developer & AI Integration Engineer.
+**Live Site:** [https://klinteng.com](https://klinteng.com)  
+**Flagship Demo (Project HER):** [https://project-her-793574023262.us-central1.run.app](https://project-her-793574023262.us-central1.run.app)
 
-**Live:** [https://klinteng.com](https://klinteng.com)
+---
 
-## Features
+## What This Demonstrates
 
-- **Visual Resume** — Complete professional profile with experience timeline, competency matrix, and project showcase
-- **Dark/Light Theme** — Toggle between themes with preference saved in localStorage
-- **Responsive Design** — Fully responsive across all devices (mobile, tablet, desktop)
-- **Animations** — Smooth scroll animations, typing effect, and counter animations
-- **AI Chat Assistant** — Live Gemini-powered chat with function calling (tool dispatch)
-- **Resume Fit Analyzer** — AI-powered job description analysis agent
-- **Print-Friendly** — Optimized print styles for recruiter-friendly PDF export
+- **AI Function & Tool Calling** — Client-side Gemini tool calling with real-time UI dispatches (maps, tech stacks, page navigation, and rich project detail cards).
+- **Strict JSON Schema Enforcement** — Structured LLM outputs validated with deterministic schemas and automatic repair pipelines.
+- **Context Engineering** — Compact flow-state context summaries and bounded profile memory grounding every model response.
+- **Multi-Agent Orchestration & Media Generation** — Flagship autonomous article-to-video agent (**Project HER**) containerized and running on GCP Cloud Run.
+- **Enterprise Software Foundation** — 6+ years delivering high-availability banking platforms (Finacle), Spring Boot microservices, and modern TypeScript/React applications.
 
-## Tech Stack
+---
 
-- **HTML5** — Semantic markup
-- **CSS3** — Custom properties, Grid, Flexbox, animations
-- **Vanilla JavaScript** — No dependencies, no build tools
-- **Font Awesome** — Icons
-- **Google Fonts** — Inter + JetBrains Mono
+## Architectural Highlights
+
+```text
+User / Recruiter
+      │
+      ▼
+Interactive AI Lab (klinteng.com)
+  ├── Portfolio Assistant  ──► Function Calling (Tools: Logos, Location, Nav)
+  ├── Resume Fit Analyzer  ──► Strict JSON Schema Output (Fit scoring & Gaps)
+  └── Code Review Agent    ──► Multi-Dimension Evaluation & Boundary Constraint
+      │
+      ▼
+Serverless Edge Proxy (api/proxy.js)
+  └── Enforces CORS, IP Rate Limiting, and guards GEMINI_API_KEY
+      │
+      ▼
+Google Gemini API (gemini-2.5-flash)
+```
+
+### Flagship: Project HER (GCP Cloud Run)
+
+```text
+Article / URL / Story
+        ↓
+Content Analysis & Scene Partitioning
+        ↓
+LLM Script Generation (Gemini)
+        ↓
+Neural Narration (Google TTS)
+        ↓
+Visual Retrieval (Pexels API)
+        ↓
+Dynamic Karaoke Captions
+        ↓
+Video Composition (MoviePy)
+        ↓
+Final MP4 Explainer Video
+```
+
+---
 
 ## Project Structure
 
 ```
 my-website/
-├── index.html          # Main resume page
+├── index.html          # Recruiter-focused portfolio layout
 ├── css/
-│   └── style.css       # All styles (light/dark themes, responsive)
+│   └── style.css       # Design system, dark/light themes, animations & responsive styling
 ├── js/
-│   ├── main.js         # Interactions (theme toggle, animations, typing effect)
-│   ├── profile-data.js # Professional profile data (editable)
-│   ├── ai-chat.js      # Gemini-powered chat with function calling
-│   └── resume-agent.js # Resume fit analysis agent
+│   ├── config.js       # Centralized stats, links, and demo status configuration
+│   ├── ai-client.js    # Shared AI transport with friendly errors, JSON repair, and escaping
+│   ├── profile-data.js # Structured career profile context injected into LLM tools
+│   ├── ai-chat.js      # Gemini function-calling assistant with tool transparency log
+│   ├── resume-agent.js # Resume fit analyzer with structured JSON schema
+│   ├── code-review-agent.js # Multi-dimensional code quality analyzer
+│   └── main.js         # Navigation, theme toggle, mobile menu, and live status probes
 ├── api/
-│   └── proxy.js        # Serverless API proxy (deploy to Cloudflare/Vercel)
+│   └── proxy.js        # Serverless edge function (Cloudflare / Vercel proxy)
+├── server/             # Local development proxy server
+│   ├── server.js
+│   ├── package.json
+│   └── .env.example
 ├── assets/
-│   └── favicon.svg     # SVG favicon
-├── CNAME               # Custom domain for GitHub Pages
+│   ├── Bill_Klinten_Guduru_Resume.pdf  # Recruiter download resume
+│   └── favicon.svg
+├── CNAME               # Custom domain config for GitHub Pages
 └── README.md
 ```
 
-## Deployment
-
-This site is designed to be hosted on **GitHub Pages**:
-
-1. Push this repo to GitHub
-2. Go to **Settings → Pages**
-3. Set source to **Deploy from a branch** → `main` / `root`
-4. If using a custom domain, ensure DNS is configured to point to GitHub Pages
+---
 
 ## Local Development
 
-Simply open `index.html` in a browser, or use a local server:
-
 ```bash
-# Using Python
+# 1. Run local web server
 python3 -m http.server 8000
-
-# Using Node.js
+# or
 npx serve .
+
+# 2. (Optional) Run local AI proxy server
+cd server
+npm install
+cp .env.example .env   # Add your GEMINI_API_KEY
+npm start              # Runs on http://localhost:3001
 ```
 
-## Customization
+---
 
-- Edit `index.html` to update content (experience, projects, skills, etc.)
-- Modify CSS variables in `:root` in `css/style.css` to change colors and theme
-- Add a profile photo by replacing the avatar placeholder in the hero section
+## License & Source
 
-## License
-
-© 2026 Bill Klinten Guduru. All Rights Reserved.
+Source available for reference and review. All personal project code © 2026 Bill Klinten Guduru. All Rights Reserved.

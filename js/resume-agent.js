@@ -6,10 +6,6 @@
 
 const ResumeAgent = (() => {
 
-    // API key is kept server-side via proxy. See /server/server.js
-    // Local dev: run "cd server && npm start" → http://localhost:3001
-    const API_URL = 'http://localhost:3001/api/chat';
-
     // ========== ANALYSIS STAGES (for progress display) ==========
     const AGENT_STEPS = [
         { id: 'send', icon: 'fa-paper-plane', label: 'Sending to AI...', detail: 'Transmitting JD and profile to Gemini for analysis' },
@@ -59,23 +55,21 @@ IMPORTANT:
 
     // ========== CALL GEMINI ==========
     async function analyzeJD(jobDescription) {
+        const prompt = getTailoringPrompt();
         const requestBody = {
-            job_description: jobDescription,
-            profile_context: buildProfileContext()
+            contents: [{
+                role: 'user',
+                parts: [{ text: `${prompt}\n\nJOB DESCRIPTION TO ANALYZE:\n${jobDescription}` }]
+            }],
+            generationConfig: {
+                temperature: 0.2,
+                maxOutputTokens: 2048
+            }
         };
 
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-            const errData = await response.json().catch(() => ({}));
-            throw new Error(errData.detail || `API error: ${response.status}`);
-        }
-
-        return await response.json();
+        const data = await AIClient.generate(requestBody);
+        const parsed = AIClient.parse(data);
+        return AIClient.parseJSON(parsed.text);
     }
 
     // ========== RENDER FUNCTIONS ==========
@@ -272,12 +266,12 @@ IMPORTANT:
             renderResults(resultsContainer, result);
 
         } catch (error) {
-            console.error('Resume Agent error:', error);
+            console.warn('Resume Agent error:', error);
+            const userMsg = AIClient.messageFor(error);
             resultsContainer.innerHTML = `
                 <div class="agent-result-card error-card">
-                    <h4><i class="fas fa-exclamation-circle" style="color: #ef4444"></i> Analysis Error</h4>
-                    <p>Sorry, I couldn't analyze this job description. Please make sure you've pasted a complete JD and try again.</p>
-                    <p class="error-detail">${error.message}</p>
+                    <h4><i class="fas fa-exclamation-circle" style="color: #ef4444"></i> Analysis Notice</h4>
+                    <p>${userMsg}</p>
                 </div>
             `;
         } finally {

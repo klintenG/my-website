@@ -36,7 +36,7 @@ const PROFILE_DATA = {
     // =========================================================================
     // SECTION 2: PROFESSIONAL SUMMARY
     // =========================================================================
-    professionalSummary: `Software engineer who has designed and shipped 6 production AI agents and integrations in the past year — multi-agent RAG pipelines (AI Canvas, Claude/Bedrock, PGVector), autonomous QA and governance agents, and conversational AI UX — on top of 6+ years shipping full-stack applications at Infosys/EdgeVerve. My approach: constraint-first, structured-output AI that operates inside real production limits — not demos.`
+    professionalSummary: `AI Agent Engineer & AI Integration Engineer with 6+ years of enterprise software engineering across Infosys and EdgeVerve. Specializing in multi-agent RAG pipelines, LLM-powered integrations, autonomous engineering workflows, and context engineering that operate reliably within real production constraints.`,
 
     // =========================================================================
     // SECTION 3: WORK EXPERIENCE
@@ -194,14 +194,14 @@ const PROFILE_DATA = {
             name: 'AI-Powered Code Review Agent',
             description: 'Live interactive demo on this portfolio. Paste any code snippet — agent auto-detects language, sends to Gemini with constraint prompt (refuses non-code), scores across 5 quality dimensions, returns structured JSON with severity-tagged issues and a refactored snippet.',
             tech: ['Gemini API', 'Constraint Prompting', 'JSON Schema', 'Multi-Dimension Analysis'],
-            context: 'Open Source — klinteng.com',
+            context: 'Public Repository — klinteng.com',
             status: 'Live Demo',
         },
         {
             name: 'Gemini Chat with Function Calling (This Website)',
             description: 'AI chat assistant on this portfolio using Gemini function calling with 4 tool definitions. LLM autonomously decides which tools to invoke. Profile data injected as structured context. Includes a transparent tool-call log showing raw function names and arguments.',
             tech: ['Gemini API', 'Function Calling', 'System Prompt', 'Vanilla JS'],
-            context: 'Open Source — klinteng.com',
+            context: 'Public Repository — klinteng.com',
             status: 'Live Demo',
         },
     ],

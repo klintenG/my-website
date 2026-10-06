@@ -17,10 +17,6 @@
 
 const CodeReviewAgent = (() => {
 
-    // API key is kept server-side via proxy. See /server/server.js
-    // Local dev: run "cd server && npm start" → http://localhost:3001
-    const API_URL = 'http://localhost:3001/api/chat';
-
     // ========== LANGUAGE DETECTION (heuristic) ==========
     const LANGUAGE_PATTERNS = [
         { lang: 'JavaScript', patterns: [/\bconst\b.*=/, /\blet\b.*=/, /=>\s*{/, /function\s+\w+/, /console\.log/, /document\.\w+/, /require\(/, /import\s+.*from/, /\.addEventListener/] },
@@ -104,9 +100,10 @@ RULES:
 
     // ========== CALL GEMINI ==========
     async function reviewCode(code, language) {
+        const prompt = getReviewPrompt(language);
         const requestBody = {
-            system_instruction: {
-                parts: [{ text: getReviewPrompt(language) }]
+            systemInstruction: {
+                parts: [{ text: prompt }]
             },
             contents: [{
                 role: 'user',
@@ -120,37 +117,9 @@ RULES:
             }
         };
 
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-        // Clean up LLM output
-        text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-        text = text.replace(/,\s*([}\]])/g, '$1');
-
-        try {
-            return JSON.parse(text);
-        } catch (e) {
-            const jsonMatch = text.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                let cleaned = jsonMatch[0];
-                cleaned = cleaned.replace(/"([^"]*?)"/g, (match) => {
-                    return match.replace(/\n/g, ' ').replace(/\r/g, '');
-                });
-                cleaned = cleaned.replace(/,\s*([}\]])/g, '$1');
-                return JSON.parse(cleaned);
-            }
-            throw new Error('Could not parse AI response as JSON');
-        }
+        const data = await AIClient.generate(requestBody);
+        const parsed = AIClient.parse(data);
+        return AIClient.parseJSON(parsed.text);
     }
 
     // ========== RENDER FUNCTIONS ==========
@@ -344,12 +313,12 @@ RULES:
             renderResults(resultsContainer, result);
 
         } catch (error) {
-            console.error('Code Review Agent error:', error);
+            console.warn('Code Review Agent error:', error);
+            const userMsg = AIClient.messageFor(error);
             resultsContainer.innerHTML = `
                 <div class="agent-result-card error-card">
-                    <h4><i class="fas fa-exclamation-circle" style="color: #ef4444"></i> Review Error</h4>
-                    <p>Sorry, I couldn't review this code. Please try again.</p>
-                    <p class="error-detail">${error.message}</p>
+                    <h4><i class="fas fa-exclamation-circle" style="color: #ef4444"></i> Review Notice</h4>
+                    <p>${userMsg}</p>
                 </div>
             `;
         } finally {
