@@ -46,7 +46,7 @@ const SITE_CONFIG = (() => {
         //            video exists — the "Watch Demo" button stays hidden meanwhile.
         projectHer: {
             status: 'auto',
-            liveUrl: 'https://project-her-793574023262.us-central1.run.app',
+            liveUrl: 'https://project-her-svnnlerw4q-uc.a.run.app',
             demoVideo: '',
             demoPoster: '',
             probeTimeoutMs: 12000,

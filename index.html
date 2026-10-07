@@ -196,56 +196,38 @@
                             <span class="project-badge personal">Personal Project</span>
                         </div>
                         <h3 class="flagship-title">Project HER</h3>
-                        <p class="flagship-subtitle">Autonomous Article → Video AI Agent</p>
+                        <p class="flagship-subtitle">Autonomous Article & Topic → Video AI Agent</p>
                     </div>
-                    <div id="projectHerStatus" class="flagship-status live">
-                        <span class="va-status-dot"></span> Checking demo status…
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                        <div id="projectHerStatus" class="flagship-status live">
+                            <span class="va-status-dot"></span> Checking demo status…
+                        </div>
+                        <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.85rem;">
+                            <i class="fas fa-external-link-alt"></i> Open Fullscreen Studio
+                        </a>
                     </div>
                 </div>
 
-                <div class="flagship-body">
-                    <!-- Left: Details & Architecture -->
-                    <div class="flagship-info-col">
+                <!-- 1. Top Executive Overview Grid -->
+                <div class="flagship-overview-grid">
+                    <!-- Column A: Description, Contribution & Impact -->
+                    <div class="flagship-overview-col">
                         <p class="flagship-desc">
-                            Turns an article, URL, or story into a polished, narrated short-form video through an automated multi-stage AI pipeline. The agent handles content analysis, scene scripting, neural narration, visual retrieval, synchronized captions, and video composition — zero manual editing required.
+                            Turns any raw topic, story prompt, or article URL into an engaging, narrated short-form video through an automated multi-stage pipeline. The agent autonomously handles content analysis, scene scripting, neural voice narration, AI visual generation, and Remotion 4.0 video composition — with zero manual editing.
                         </p>
-
-                        <!-- Architecture Flow Diagram -->
-                        <div class="arch-mini-box">
-                            <div class="arch-mini-title">
-                                <i class="fas fa-diagram-project"></i> Pipeline Architecture (5–10s Scan)
-                            </div>
-                            <div class="arch-flow-inline">
-                                <span class="arch-step-chip">Article / URL</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Content Analysis</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">LLM Scripting</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">TTS Narration</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Visual Sourcing</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Captions</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Video Composer</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip" style="border-color:var(--accent);color:var(--accent);">Final Video</span>
-                            </div>
-                        </div>
 
                         <!-- Contribution & Impact -->
                         <div class="detail-callouts-grid">
                             <div class="callout-box">
-                                <span class="callout-label"><i class="fas fa-user-check"></i> My Contribution</span>
+                                <span class="callout-label"><i class="fas fa-user-check"></i> Engineering Contribution</span>
                                 <p class="callout-text">
-                                    Designed the multi-stage orchestration pipeline, LLM prompt constraints, asynchronous media generation tasks, and deployed containerized service to GCP Cloud Run.
+                                    Architected the multi-agent orchestration pipeline, dynamic scene-splitting prompts, asynchronous Remotion React compositor, and containerized deployment on GCP Cloud Run.
                                 </p>
                             </div>
                             <div class="callout-box">
                                 <span class="callout-label"><i class="fas fa-chart-line"></i> Impact / Result</span>
                                 <p class="callout-text">
-                                    Fully automated a 45-minute manual video-creation workflow into an autonomous, hands-off pipeline producing ready-to-share vertical explainer videos.
+                                    Fully automated a 45-minute manual video-creation workflow into an autonomous, hands-off pipeline producing ready-to-share vertical explainer videos in under 90 seconds.
                                 </p>
                             </div>
                         </div>
@@ -254,87 +236,157 @@
                         <div class="demonstrates-box">
                             <div class="demonstrates-title">What This Demonstrates (Hiring Signals)</div>
                             <div class="demonstrates-list">
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> Multi-stage AI orchestration</span>
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> LLM structured scripting</span>
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> External API & media composition</span>
+                                <span class="demonstrates-item"><i class="fas fa-check"></i> Multi-agent AI orchestration</span>
+                                <span class="demonstrates-item"><i class="fas fa-check"></i> Remotion React 4.0 composition</span>
+                                <span class="demonstrates-item"><i class="fas fa-check"></i> LLM structured JSON storyboarding</span>
+                                <span class="demonstrates-item"><i class="fas fa-check"></i> Server-Sent Events (SSE) live streaming</span>
                                 <span class="demonstrates-item"><i class="fas fa-check"></i> GCP Cloud Run container deployment</span>
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> Asynchronous failure handling</span>
-                            </div>
-                        </div>
-
-                        <!-- Tech Stack Chips -->
-                        <div class="video-agent-tech" style="margin-bottom: 20px;">
-                            <span class="va-tech-chip"><i class="fab fa-python"></i> Python / Flask</span>
-                            <span class="va-tech-chip"><i class="fas fa-brain"></i> Gemini AI</span>
-                            <span class="va-tech-chip"><i class="fas fa-microphone-lines"></i> Google TTS</span>
-                            <span class="va-tech-chip"><i class="fas fa-image"></i> Pexels API</span>
-                            <span class="va-tech-chip"><i class="fas fa-video"></i> MoviePy Renderer</span>
-                            <span class="va-tech-chip"><i class="fas fa-cloud"></i> GCP Cloud Run</span>
-                        </div>
-
-                        <!-- Primary Actions -->
-                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                            <a href="https://project-her-793574023262.us-central1.run.app" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 10px 22px;">
-                                <i class="fas fa-external-link-alt"></i> Try Live Agent (Full Screen)
-                            </a>
-                        </div>
-
-                        <!-- Expandable Engineering Deep Dive -->
-                        <div class="engineering-details-accordion">
-                            <button class="accordion-toggle-btn" data-target="herEngDetails" type="button">
-                                <span class="toggle-text">View Architecture & Engineering Challenges</span>
-                                <i class="fas fa-chevron-down toggle-icon"></i>
-                            </button>
-                            <div class="accordion-body" id="herEngDetails">
-                                <div class="eng-detail-item">
-                                    <h5><i class="fas fa-cogs"></i> How It Works</h5>
-                                    <p>
-                                        The user provides text or a URL. A content extractor strips boilerplate and feeds clean context to Gemini with structured output guidelines for multi-scene storyboarding. For each scene, the agent generates narration audio (Google TTS), extracts visual keywords to query royalty-free video clips via Pexels, burns animated karaoke captions aligned to timestamped word intervals, and renders the composite MP4 via MoviePy.
-                                    </p>
-                                </div>
-                                <div class="eng-detail-item">
-                                    <h5><i class="fas fa-shield-alt"></i> Engineering Challenges & Solutions</h5>
-                                    <p>
-                                        <strong>Audio/Caption Synchronization:</strong> Naive speech-rate estimates caused drifting text. Solved by extracting exact audio chunk durations and normalizing words per timestamp.<br>
-                                        <strong>API Rate Limiting & Cold Starts:</strong> Asynchronous batch fetching for stock visuals with fallback solid-color motion gradients when external search yields low-confidence matches.<br>
-                                        <strong>Memory-efficient Cloud Run Rendering:</strong> MoviePy memory leaks were mitigated by per-scene intermediate file cleanup and bounded video resolution limits.
-                                    </p>
-                                </div>
-                                <div class="eng-detail-item">
-                                    <h5><i class="fas fa-server"></i> Deployment & Reliability</h5>
-                                    <p>
-                                        Containerized with Docker, deployed to Google Cloud Run with autoscaling (0-N instances) and graceful error fallback if third-party visual APIs fail.
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right: Live Interactive Frame -->
-                    <div class="flagship-demo-col">
-                        <div class="va-iframe-wrapper">
-                            <div class="va-iframe-header">
-                                <div class="va-iframe-dots">
-                                    <span></span><span></span><span></span>
+                    <!-- Column B: Pipeline Flow, Specs & Tech Stack -->
+                    <div class="flagship-overview-col">
+                        <!-- Architecture Flow Diagram -->
+                        <div class="arch-mini-box">
+                            <div class="arch-mini-title">
+                                <i class="fas fa-diagram-project"></i> Pipeline Architecture (5–10s Scan)
+                            </div>
+                            <div class="arch-flow-inline">
+                                <span class="arch-step-chip">Topic / URL</span>
+                                <i class="fas fa-arrow-right arch-arrow"></i>
+                                <span class="arch-step-chip">Content Analysis</span>
+                                <i class="fas fa-arrow-right arch-arrow"></i>
+                                <span class="arch-step-chip">Gemini Scripting</span>
+                                <i class="fas fa-arrow-right arch-arrow"></i>
+                                <span class="arch-step-chip">Neural Voiceover</span>
+                                <i class="fas fa-arrow-right arch-arrow"></i>
+                                <span class="arch-step-chip">AI Visual Assets</span>
+                                <i class="fas fa-arrow-right arch-arrow"></i>
+                                <span class="arch-step-chip">Remotion React</span>
+                                <i class="fas fa-arrow-right arch-arrow"></i>
+                                <span class="arch-step-chip" style="border-color:var(--accent);color:var(--accent);">Final 1080p Video</span>
+                            </div>
+                        </div>
+
+                        <!-- System Specs -->
+                        <div class="flagship-specs-box">
+                            <div class="flagship-spec-item">
+                                <span class="flagship-spec-icon"><i class="fas fa-bolt"></i></span>
+                                <div>
+                                    <div class="flagship-spec-label">Execution Time</div>
+                                    <div class="flagship-spec-val">&lt; 90s End-to-End</div>
                                 </div>
-                                <span class="va-iframe-title"><i class="fas fa-clapperboard"></i> Project HER &mdash; Live Agent</span>
+                            </div>
+                            <div class="flagship-spec-item">
+                                <span class="flagship-spec-icon"><i class="fas fa-clapperboard"></i></span>
+                                <div>
+                                    <div class="flagship-spec-label">Render Engine</div>
+                                    <div class="flagship-spec-val">Remotion 4.0 React</div>
+                                </div>
+                            </div>
+                            <div class="flagship-spec-item">
+                                <span class="flagship-spec-icon"><i class="fas fa-microphone"></i></span>
+                                <div>
+                                    <div class="flagship-spec-label">Audio & Subtitles</div>
+                                    <div class="flagship-spec-val">Word-Aligned Sync</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack Chips -->
+                        <div class="video-agent-tech" style="margin-top: 18px; margin-bottom: 20px;">
+                            <span class="va-tech-chip"><i class="fab fa-python"></i> Python / Flask</span>
+                            <span class="va-tech-chip"><i class="fas fa-brain"></i> Gemini 2.5 Pro</span>
+                            <span class="va-tech-chip"><i class="fab fa-react"></i> Remotion React 4.0</span>
+                            <span class="va-tech-chip"><i class="fas fa-microphone-lines"></i> Google Neural TTS</span>
+                            <span class="va-tech-chip"><i class="fab fa-docker"></i> Docker Container</span>
+                            <span class="va-tech-chip"><i class="fas fa-cloud"></i> GCP Cloud Run</span>
+                        </div>
+
+                        <!-- Primary CTA Buttons -->
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <a href="#flagshipLiveStage" class="btn btn-primary" style="padding: 10px 22px;">
+                                <i class="fas fa-play"></i> Test Interactive Studio Below
+                            </a>
+                            <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="btn btn-outline" style="padding: 10px 22px;">
+                                <i class="fas fa-external-link-alt"></i> Full Screen Mode
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Full-Width Flagship Live Studio (Center Stage) -->
+                <div class="flagship-stage-showcase" id="flagshipLiveStage">
+                    <div class="va-iframe-wrapper">
+                        <div class="va-iframe-header">
+                            <div class="va-iframe-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="va-iframe-address-bar">
+                                <i class="fas fa-lock"></i>
+                                <span>https://project-her-svnnlerw4q-uc.a.run.app</span>
+                            </div>
+                            <div class="va-iframe-actions">
                                 <div class="va-iframe-status">
-                                    <span class="va-status-dot"></span> Live
+                                    <span class="va-status-dot"></span> Live Studio
                                 </div>
+                                <button class="va-iframe-btn" id="refreshHerFrame" type="button" title="Reload Frame">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                                <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="va-iframe-btn" title="Open Fullscreen in New Tab">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
                             </div>
-                            <iframe
-                                id="projectHerFrame"
-                                src="https://project-her-793574023262.us-central1.run.app"
-                                class="va-iframe"
-                                title="Project HER — AI Video Generator"
-                                allow="clipboard-write; downloads"
-                                loading="lazy"
-                            ></iframe>
-                            <div class="va-iframe-placeholder" id="vaPlaceholder">
-                                <i class="fas fa-clapperboard"></i>
-                                <p>Project HER is deploying or warming up&hellip;</p>
-                                <p class="va-placeholder-sub">Cloud Run instances scale to zero when idle. It will appear here shortly.</p>
-                            </div>
+                        </div>
+
+                        <!-- Full-Width 820px High Iframe -->
+                        <iframe
+                            id="projectHerFrame"
+                            src="https://project-her-svnnlerw4q-uc.a.run.app"
+                            class="va-iframe flagship-full-iframe"
+                            title="Project HER — Autonomous AI Video Generator"
+                            allow="clipboard-write; downloads"
+                            loading="lazy"
+                        ></iframe>
+
+                        <div class="va-iframe-placeholder" id="vaPlaceholder">
+                            <i class="fas fa-clapperboard"></i>
+                            <p>Project HER is deploying or warming up&hellip;</p>
+                            <p class="va-placeholder-sub">Cloud Run instances scale to zero when idle. It will appear here shortly.</p>
+                            <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="margin-top: 12px;">
+                                Open Directly in New Tab <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Expandable Engineering Deep Dive (Bottom Tier) -->
+                <div class="engineering-details-accordion">
+                    <button class="accordion-toggle-btn" data-target="herEngDetails" type="button">
+                        <span class="toggle-text">View Architecture & Engineering Challenges</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </button>
+                    <div class="accordion-body" id="herEngDetails">
+                        <div class="eng-detail-item">
+                            <h5><i class="fas fa-cogs"></i> How It Works</h5>
+                            <p>
+                                The user provides a topic, story, or article URL. A content extractor cleans and structures context for Gemini with strict JSON schema storyboarding. For each screen, the agent generates neural narration (Google TTS), orchestrates visual assets, aligns word-level timestamps for animated captions, and renders the composite video via Remotion React 4.0.
+                            </p>
+                        </div>
+                        <div class="eng-detail-item">
+                            <h5><i class="fas fa-shield-alt"></i> Engineering Challenges & Solutions</h5>
+                            <p>
+                                <strong>Audio/Caption Synchronization:</strong> Naive speech-rate estimates caused drifting text. Solved by extracting exact audio chunk durations and normalizing words per timestamp.<br>
+                                <strong>Remotion Containerized Rendering:</strong> Rendered headless React video compositions via Chrome within resource-constrained Docker containers on Cloud Run.<br>
+                                <strong>Cold Starts & Quota Protection:</strong> Implemented per-visitor rate limiting, daily video caps, and persistent SSE status streaming to handle transient network interruptions.
+                            </p>
+                        </div>
+                        <div class="eng-detail-item">
+                            <h5><i class="fas fa-server"></i> Deployment & Reliability</h5>
+                            <p>
+                                Containerized with Docker, deployed to Google Cloud Run with autoscaling (0-N instances) and graceful error fallback if third-party visual APIs fail.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1077,12 +1129,12 @@
                         <span class="project-badge personal">Cloud Run</span>
                     </div>
                     <p>
-                        Autonomous article-to-video generator containerized with Docker and running on GCP Cloud Run. Multi-stage script, narration, and MoviePy composition.
+                        Autonomous article & topic-to-video generator containerized with Docker and running on GCP Cloud Run. Multi-stage script, neural voiceover, and Remotion React 4.0 composition.
                     </p>
                     <div class="proof-demonstrates">
-                        <strong>Demonstrates:</strong> Multi-Stage AI Pipelines · Media Composition · GCP Cloud Run
+                        <strong>Demonstrates:</strong> Multi-Stage AI Pipelines · Remotion React Video · GCP Cloud Run
                     </div>
-                    <a href="https://project-her-793574023262.us-central1.run.app" target="_blank" rel="noopener" class="proof-link">
+                    <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="proof-link">
                         <i class="fas fa-play-circle"></i> View Live Deployment &rarr;
                     </a>
                 </div>

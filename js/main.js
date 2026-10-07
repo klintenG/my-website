@@ -437,6 +437,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#f59e0b"></span> Deploying / Starting up';
                     });
             }
+        // Refresh frame button
+        const refreshFrameBtn = document.getElementById('refreshHerFrame');
+        if (refreshFrameBtn) {
+            refreshFrameBtn.addEventListener('click', () => {
+                const frame = document.getElementById('projectHerFrame');
+                if (frame) {
+                    const originalSrc = frame.src;
+                    frame.src = 'about:blank';
+                    setTimeout(() => { frame.src = originalSrc; }, 100);
+                }
+            });
         }
     }
 
