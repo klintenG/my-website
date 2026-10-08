@@ -578,8 +578,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Backend API discovery helper (Port 7860)
+    async function getProjectHerBackendUrl() {
+        const candidates = ['http://localhost:7860', 'http://127.0.0.1:7860'];
+        for (const base of candidates) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 1500);
+                const res = await fetch(`${base}/api/preview`, {
+                    method: 'OPTIONS',
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                if (res.ok || res.status === 200 || res.status === 204) {
+                    return base;
+                }
+            } catch (e) {
+                // Try next candidate
+            }
+        }
+        return null;
+    }
+
     if (herBtnGenerate) {
-        herBtnGenerate.addEventListener('click', function() {
+        herBtnGenerate.addEventListener('click', async function() {
             const inputVal = herPromptInput ? herPromptInput.value.trim() : '';
             if (!inputVal) {
                 showHerToast('Please enter a topic, bedtime story, or article URL.', 'error');
@@ -594,8 +616,8 @@ document.addEventListener('DOMContentLoaded', () => {
             herBtnGenerate.disabled = true;
 
             if (herProgressBar) herProgressBar.style.width = '0%';
-            if (herStatusText) herStatusText.textContent = 'Starting AI pipeline...';
-            if (herLiveMessage) herLiveMessage.textContent = 'Submitting prompt to Project HER multi-agent orchestrator...';
+            if (herStatusText) herStatusText.textContent = 'Connecting to Project HER orchestrator...';
+            if (herLiveMessage) herLiveMessage.textContent = 'Checking local AI backend on port 7860...';
 
             // Start timer
             herStartTime = Date.now();
@@ -605,18 +627,197 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (herElapsedTime) herElapsedTime.textContent = `${sec}s elapsed`;
             }, 200);
 
-            // Progressive pipeline sequence
+            // Determine if input is kids story or article
+            const isUrl = /^https?:\/\//i.test(inputVal);
+            const isKidsStory = /Barnaby|rabbit|bedtime|story|once upon a time|little dreamer|bear|moon/i.test(inputVal);
+            const contentMode = isKidsStory ? 'kids_story' : 'article';
+
+            // Probe backend on localhost:7860
+            let backendBase = null;
+            try {
+                backendBase = await getProjectHerBackendUrl();
+            } catch (e) {
+                backendBase = null;
+            }
+
+            // ── SCENARIO A: LIVE BACKEND ENGINE DETECTED ──
+            if (backendBase) {
+                if (herStatusText) herStatusText.textContent = 'Connected to Project HER Backend';
+                if (herLiveMessage) herLiveMessage.textContent = `Active agent session established on ${backendBase}. Sending payload...`;
+
+                try {
+                    const resp = await fetch(`${backendBase}/api/generate`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            url: isUrl ? inputVal : '',
+                            text: isUrl ? '' : inputVal,
+                            tone: herSelTone ? herSelTone.value : 'explainer',
+                            format: herSelFormat ? herSelFormat.value : 'vertical',
+                            visual_style: herSelVisualStyle ? herSelVisualStyle.value : 'claymorphism',
+                            target_duration: herSelDuration ? parseInt(herSelDuration.value) : 60,
+                            renderer: 'remotion',
+                            ai_images: true,
+                            content_mode: contentMode,
+                        })
+                    });
+
+                    const data = await resp.json();
+                    if (data.error) {
+                        clearInterval(herTimerInterval);
+                        showHerToast(`Pipeline error: ${data.error}`, 'error');
+                        resetHerStudio();
+                        return;
+                    }
+
+                    const jobId = data.job_id;
+                    const evtSource = new EventSource(`${backendBase}/api/progress/${jobId}`);
+
+                    const stageMap = {
+                        scrape: 'herStageScrape',
+                        analyze: 'herStageAnalyze',
+                        visuals: 'herStageVisuals',
+                        narrate: 'herStageNarrate',
+                        compose: 'herStageCompose'
+                    };
+
+                    evtSource.addEventListener('progress', function(e) {
+                        const stage = JSON.parse(e.data);
+                        if (herStatusText) herStatusText.textContent = stage.label || 'Generating...';
+                        if (herLiveMessage) herLiveMessage.textContent = stage.message || stage.label;
+
+                        const pct = Math.min(100, Math.max(5, ((stage.index - 1 + (stage.progress_pct || 0)) / (stage.total || 5)) * 100));
+                        if (herProgressBar) herProgressBar.style.width = `${pct}%`;
+
+                        const domId = stageMap[stage.stage];
+                        if (domId) {
+                            setStageStatus(domId, stage.status);
+                        }
+                    });
+
+                    function finishWithResult(res) {
+                        evtSource.close();
+                        clearInterval(herTimerInterval);
+                        if (herProgressBar) herProgressBar.style.width = '100%';
+
+                        const actualVideoUrl = res.video_url.startsWith('http') ? res.video_url : `${backendBase}${res.video_url}`;
+                        const actualDownloadUrl = res.download_url ? (res.download_url.startsWith('http') ? res.download_url : `${backendBase}${res.download_url}`) : actualVideoUrl;
+                        const thumbUrl = res.thumbnail_url ? (res.thumbnail_url.startsWith('http') ? res.thumbnail_url : `${backendBase}${res.thumbnail_url}`) : '';
+
+                        const resTitle = document.getElementById('herResultTitle');
+                        const resHook = document.getElementById('herResultHook');
+                        if (resTitle) resTitle.textContent = res.title || inputVal.slice(0, 42);
+                        if (resHook) resHook.textContent = res.hook || 'Generated AI Video rendered and ready.';
+
+                        const mDur = document.getElementById('herMetricDuration');
+                        const mRes = document.getElementById('herMetricResolution');
+                        const mTime = document.getElementById('herMetricRenderTime');
+                        if (mDur) mDur.textContent = `${res.duration || 0}s`;
+                        if (mRes) mRes.textContent = res.resolution || '1080x1920';
+                        if (mTime) mTime.textContent = `${res.processing_time || 0}s render`;
+
+                        if (herVideoContainer) {
+                            herVideoContainer.innerHTML = `
+                                <div style="position:relative; width:100%; border-radius:var(--radius-md); overflow:hidden; background:#050811; border:1px solid rgba(246, 173, 85, 0.2); box-shadow:0 12px 36px rgba(0,0,0,0.6);">
+                                    <video id="herVideoPlayer" controls autoplay playsinline preload="auto" poster="${thumbUrl}" src="${actualVideoUrl}" style="width:100%; max-height:420px; display:block; object-fit:contain; background:#000;">
+                                        Your browser does not support HTML5 video playback.
+                                    </video>
+                                    <div style="position:absolute; top:12px; left:12px; display:flex; gap:6px; z-index:3; pointer-events:none;">
+                                        <span class="her-spec-badge" style="background:rgba(10,15,29,0.85); backdrop-filter:blur(8px); border-color:var(--accent);">
+                                            <i class="fas fa-circle text-success" style="font-size:0.55rem;"></i> LIVE RENDER
+                                        </span>
+                                        <span class="her-spec-badge" style="background:rgba(10,15,29,0.85); backdrop-filter:blur(8px);">
+                                            ${res.resolution || '1080x1920'}
+                                        </span>
+                                    </div>
+                                </div>
+                            `;
+                            const vPlayer = document.getElementById('herVideoPlayer');
+                            if (vPlayer) {
+                                vPlayer.load();
+                                vPlayer.play().catch(() => {
+                                    vPlayer.muted = true;
+                                    vPlayer.play().catch(() => {});
+                                });
+                            }
+                        }
+
+                        const btnDownload = document.getElementById('herBtnDownloadMp4');
+                        if (btnDownload) {
+                            btnDownload.href = actualDownloadUrl;
+                            const safeFileName = ((res.title || 'project_her_video').replace(/[^a-z0-9_-]/gi, '_').toLowerCase()) + '.mp4';
+                            btnDownload.setAttribute('download', safeFileName);
+                        }
+
+                        if (herStateProgress) herStateProgress.style.display = 'none';
+                        if (herStateCompleted) herStateCompleted.style.display = 'flex';
+                        herBtnGenerate.disabled = false;
+                        showHerToast('Custom AI Video rendered successfully!', 'success');
+                    }
+
+                    evtSource.addEventListener('done', function(e) {
+                        const res = JSON.parse(e.data);
+                        if (res.error) {
+                            evtSource.close();
+                            clearInterval(herTimerInterval);
+                            showHerToast(`Generation error: ${res.error}`, 'error');
+                            resetHerStudio();
+                            return;
+                        }
+                        finishWithResult(res);
+                    });
+
+                    function pollBackend(jobId, attempts = 0) {
+                        if (attempts > 120) {
+                            clearInterval(herTimerInterval);
+                            showHerToast('Generation timed out on server.', 'error');
+                            resetHerStudio();
+                            return;
+                        }
+                        fetch(`${backendBase}/api/result/${jobId}`)
+                            .then(r => r.ok ? r.json() : null)
+                            .then(res => {
+                                if (res && res.video_url) {
+                                    finishWithResult(res);
+                                } else if (res && res.error) {
+                                    clearInterval(herTimerInterval);
+                                    showHerToast(`Pipeline error: ${res.error}`, 'error');
+                                    resetHerStudio();
+                                } else {
+                                    setTimeout(() => pollBackend(jobId, attempts + 1), 3000);
+                                }
+                            })
+                            .catch(() => {
+                                setTimeout(() => pollBackend(jobId, attempts + 1), 3000);
+                            });
+                    }
+
+                    evtSource.onerror = function() {
+                        evtSource.close();
+                        pollBackend(jobId);
+                    };
+
+                    return; // Live generation handled!
+
+                } catch (err) {
+                    console.warn('Backend call encountered issue:', err);
+                }
+            }
+
+            // ── SCENARIO B: STANDALONE PORTFOLIO SIMULATION (Backend on 7860 not started) ──
+            showHerToast("Notice: Local Project HER server on port 7860 not running. Run 'python web_ui.py' to generate full custom videos.", "info");
+
             setTimeout(() => {
                 setStageStatus('herStageScrape', 'running');
                 if (herProgressBar) herProgressBar.style.width = '12%';
-                if (herLiveMessage) herLiveMessage.textContent = 'Ingesting content, extracting core thesis, and sanitizing prompt...';
+                if (herLiveMessage) herLiveMessage.textContent = 'Ingesting prompt and structuring storyboard scenes...';
             }, 600);
 
             setTimeout(() => {
                 setStageStatus('herStageScrape', 'completed');
                 setStageStatus('herStageAnalyze', 'running');
                 if (herProgressBar) herProgressBar.style.width = '32%';
-                if (herLiveMessage) herLiveMessage.textContent = 'Gemini 2.5 Pro decomposing narrative into 3 storyboard scenes with strict JSON schema...';
+                if (herLiveMessage) herLiveMessage.textContent = 'Analyzing context: ' + inputVal.slice(0, 48) + '...';
             }, 1600);
 
             setTimeout(() => {
@@ -630,14 +831,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 setStageStatus('herStageVisuals', 'completed');
                 setStageStatus('herStageNarrate', 'running');
                 if (herProgressBar) herProgressBar.style.width = '78%';
-                if (herLiveMessage) herLiveMessage.textContent = 'Generating Google Neural TTS voiceover and aligning word-level subtitle timestamps...';
+                if (herLiveMessage) herLiveMessage.textContent = 'Generating neural voiceover and aligning word-level subtitle timestamps...';
             }, 4200);
 
             setTimeout(() => {
                 setStageStatus('herStageNarrate', 'completed');
                 setStageStatus('herStageCompose', 'running');
                 if (herProgressBar) herProgressBar.style.width = '92%';
-                if (herLiveMessage) herLiveMessage.textContent = 'Compiling headless Remotion React 4.0 video composition at 60 FPS...';
+                if (herLiveMessage) herLiveMessage.textContent = 'Rendering Remotion React 4.0 composition...';
             }, 5300);
 
             setTimeout(() => {
@@ -645,10 +846,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (herProgressBar) herProgressBar.style.width = '100%';
                 if (herTimerInterval) clearInterval(herTimerInterval);
 
-                // Determine dynamic title & synopsis
-                let title = 'Project HER Generated Video';
+                // Dynamically format title from user input
+                let title = inputVal.split(/[\n.]/)[0].trim();
+                if (title.length > 48) title = title.slice(0, 48) + '…';
                 let hook = 'Rendered via Remotion React Compositor · 1080x1920 Vertical Explainer';
-                if (/Barnaby|rabbit|bedtime|bear|moon|sleep/i.test(inputVal)) {
+                if (isKidsStory) {
                     title = "Barnaby's Moonlit Adventure";
                     hook = "Why the quiet night was made for little dreamers to rest for tomorrow's journey.";
                 } else if (/AI|Agent|Software|Engineering|Model/i.test(inputVal)) {
@@ -657,9 +859,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (/Quantum|Encryption|Crypt/i.test(inputVal)) {
                     title = "Quantum Cryptography Frontiers";
                     hook = "How post-quantum lattice cryptography protects global networks from Shor's algorithm.";
-                } else {
-                    title = inputVal.slice(0, 42) + (inputVal.length > 42 ? '…' : '');
-                    hook = "Automated multi-stage video generation complete in under 60 seconds.";
                 }
 
                 const resTitle = document.getElementById('herResultTitle');
@@ -667,7 +866,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (resTitle) resTitle.textContent = title;
                 if (resHook) resHook.textContent = hook;
 
-                // Render real playable HTML5 video player
+                // Render video player
                 if (herVideoContainer) {
                     herVideoContainer.innerHTML = `
                         <div style="position:relative; width:100%; border-radius:var(--radius-md); overflow:hidden; background:#050811; border:1px solid rgba(246, 173, 85, 0.2); box-shadow:0 12px 36px rgba(0,0,0,0.6);">
@@ -676,7 +875,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </video>
                             <div style="position:absolute; top:12px; left:12px; display:flex; gap:6px; z-index:3; pointer-events:none;">
                                 <span class="her-spec-badge" style="background:rgba(10,15,29,0.85); backdrop-filter:blur(8px); border-color:var(--accent);">
-                                    <i class="fas fa-circle text-danger" style="font-size:0.55rem; animation:pulse 1.5s infinite;"></i> 1080x1920 (9:16)
+                                    <i class="fas fa-circle text-warning" style="font-size:0.55rem;"></i> DEMO PREVIEW
                                 </span>
                                 <span class="her-spec-badge" style="background:rgba(10,15,29,0.85); backdrop-filter:blur(8px);">
                                     Remotion 4.0
@@ -687,13 +886,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const vPlayer = document.getElementById('herVideoPlayer');
                     if (vPlayer) {
                         vPlayer.load();
-                        vPlayer.play().catch(e => {
-                            console.log('Video autoplay deferred or awaiting user gesture:', e);
+                        vPlayer.play().catch(() => {
+                            vPlayer.muted = true;
+                            vPlayer.play().catch(() => {});
                         });
                     }
                 }
 
-                // Configure direct MP4 download
+                // Download MP4 button
                 const btnDownload = document.getElementById('herBtnDownloadMp4');
                 if (btnDownload) {
                     btnDownload.href = 'assets/project_her_demo.mp4';
@@ -705,7 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (herStateProgress) herStateProgress.style.display = 'none';
                 if (herStateCompleted) herStateCompleted.style.display = 'flex';
                 herBtnGenerate.disabled = false;
-                showHerToast('AI Video generated successfully!', 'success');
+                showHerToast('Video preview ready. Start local engine for real-time video generation.', 'success');
             }, 6400);
         });
     }
