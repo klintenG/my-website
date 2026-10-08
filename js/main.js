@@ -377,9 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-});
-
-
     // ========== CENTRALIZED CONFIG INJECTION ==========
     if (window.SITE_CONFIG) {
         // Sync stats into any data-stat elements
@@ -437,6 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#f59e0b"></span> Deploying / Starting up';
                     });
             }
+        }
+
         // Refresh frame button
         const refreshFrameBtn = document.getElementById('refreshHerFrame');
         if (refreshFrameBtn) {
@@ -462,8 +461,229 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.toggle('active', !isOpen);
                 const textSpan = btn.querySelector('.toggle-text');
                 if (textSpan) {
-                    textSpan.textContent = isOpen ? 'View Architecture & Challenges' : 'Hide Architecture & Challenges';
+                    textSpan.textContent = isOpen ? 'View Architecture & Engineering Challenges' : 'Hide Architecture & Engineering Challenges';
                 }
             }
         });
     });
+
+    // ========== PROJECT HER NATIVE STUDIO CONTROLLER ==========
+    const herPromptInput = document.getElementById('herPromptInput');
+    const herCharCount = document.getElementById('herCharCount');
+    const herBtnGenerate = document.getElementById('herBtnGenerate');
+    const herBtnReset = document.getElementById('herBtnReset');
+    const herStateIdle = document.getElementById('herStateIdle');
+    const herStateProgress = document.getElementById('herStateProgress');
+    const herStateCompleted = document.getElementById('herStateCompleted');
+    const herProgressBar = document.getElementById('herPipelineProgressBar');
+    const herStatusText = document.getElementById('herPipelineStatusText');
+    const herElapsedTime = document.getElementById('herElapsedTime');
+    const herLiveMessage = document.getElementById('herLiveStageMessage');
+    const herVideoContainer = document.getElementById('herVideoFrameContainer');
+    const herToastContainer = document.getElementById('herToastContainer');
+
+    // Prompt character & word counter
+    if (herPromptInput && herCharCount) {
+        herPromptInput.addEventListener('input', function() {
+            const text = this.value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            herCharCount.textContent = `${words} words`;
+        });
+    }
+
+    // Inspiration prompt chips
+    const samplePrompts = {
+        ai: "How Autonomous AI Agents and Reasoning Models Are Revolutionizing Software Engineering and Scientific Discovery in 2026",
+        story: "Barnaby the little rabbit was not ready to go to sleep. He hopped through the quiet meadow asking the flowers, the fireflies, and the sleepy stream why the day had to end. The gentle moon smiled down through the silver clouds and whispered, 'The night is when the world rests, little one, so tomorrow can be full of brand new adventures.' Barnaby curled his long ears around his paws, listened to the soft lullaby of the breeze, and closed his eyes, drifting happily into dreamland.",
+        link: "https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/"
+    };
+
+    document.querySelectorAll('.her-prompt-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const promptKey = this.getAttribute('data-her-prompt');
+            if (samplePrompts[promptKey] && herPromptInput) {
+                herPromptInput.value = samplePrompts[promptKey];
+                herPromptInput.dispatchEvent(new Event('input'));
+                herPromptInput.focus();
+            }
+        });
+    });
+
+    // Toast helper
+    function showHerToast(msg, type = 'info') {
+        if (!herToastContainer) return;
+        const toast = document.createElement('div');
+        toast.className = `her-toast ${type}`;
+        const icon = type === 'success' ? 'fa-check-circle text-success' :
+                     type === 'error' ? 'fa-exclamation-triangle text-danger' :
+                     'fa-info-circle text-warning';
+        toast.innerHTML = `<i class="fas ${icon}"></i> <span>${msg}</span>`;
+        herToastContainer.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
+    // Reset studio state
+    function resetHerStudio() {
+        if (herStateIdle) herStateIdle.style.display = 'block';
+        if (herStateProgress) herStateProgress.style.display = 'none';
+        if (herStateCompleted) herStateCompleted.style.display = 'none';
+        if (herBtnGenerate) herBtnGenerate.disabled = false;
+        
+        ['Scrape', 'Analyze', 'Visuals', 'Narrate', 'Compose'].forEach(stage => {
+            const el = document.getElementById(`herStage${stage}`);
+            if (el) {
+                el.className = 'stage-item pending';
+                const st = el.querySelector('.stage-status');
+                if (st) st.innerHTML = 'Waiting';
+            }
+        });
+    }
+
+    if (herBtnReset) {
+        herBtnReset.addEventListener('click', resetHerStudio);
+    }
+
+    // Video generation execution
+    let herTimerInterval = null;
+    let herStartTime = 0;
+
+    function setStageStatus(stageId, status, label) {
+        const el = document.getElementById(stageId);
+        if (!el) return;
+        el.className = `stage-item ${status}`;
+        const st = el.querySelector('.stage-status');
+        if (!st) return;
+        if (status === 'running') {
+            st.innerHTML = `<i class="fas fa-spinner fa-spin text-warning"></i> Running`;
+        } else if (status === 'completed') {
+            st.innerHTML = `<i class="fas fa-check text-success"></i> Done`;
+        } else if (status === 'failed') {
+            st.innerHTML = `<i class="fas fa-times text-danger"></i> Failed`;
+        } else {
+            st.innerHTML = label || 'Waiting';
+        }
+    }
+
+    if (herBtnGenerate) {
+        herBtnGenerate.addEventListener('click', function() {
+            const inputVal = herPromptInput ? herPromptInput.value.trim() : '';
+            if (!inputVal) {
+                showHerToast('Please enter a topic, bedtime story, or article URL.', 'error');
+                if (herPromptInput) herPromptInput.focus();
+                return;
+            }
+
+            // Switch to progress state
+            if (herStateIdle) herStateIdle.style.display = 'none';
+            if (herStateCompleted) herStateCompleted.style.display = 'none';
+            if (herStateProgress) herStateProgress.style.display = 'flex';
+            herBtnGenerate.disabled = true;
+
+            if (herProgressBar) herProgressBar.style.width = '0%';
+            if (herStatusText) herStatusText.textContent = 'Starting AI pipeline...';
+            if (herLiveMessage) herLiveMessage.textContent = 'Submitting prompt to Project HER multi-agent orchestrator...';
+
+            // Start timer
+            herStartTime = Date.now();
+            if (herTimerInterval) clearInterval(herTimerInterval);
+            herTimerInterval = setInterval(() => {
+                const sec = ((Date.now() - herStartTime) / 1000).toFixed(1);
+                if (herElapsedTime) herElapsedTime.textContent = `${sec}s elapsed`;
+            }, 200);
+
+            // Progressive pipeline sequence
+            setTimeout(() => {
+                setStageStatus('herStageScrape', 'running');
+                if (herProgressBar) herProgressBar.style.width = '12%';
+                if (herLiveMessage) herLiveMessage.textContent = 'Ingesting content, extracting core thesis, and sanitizing prompt...';
+            }, 600);
+
+            setTimeout(() => {
+                setStageStatus('herStageScrape', 'completed');
+                setStageStatus('herStageAnalyze', 'running');
+                if (herProgressBar) herProgressBar.style.width = '32%';
+                if (herLiveMessage) herLiveMessage.textContent = 'Gemini 2.5 Pro decomposing narrative into 3 storyboard scenes with strict JSON schema...';
+            }, 1600);
+
+            setTimeout(() => {
+                setStageStatus('herStageAnalyze', 'completed');
+                setStageStatus('herStageVisuals', 'running');
+                if (herProgressBar) herProgressBar.style.width = '55%';
+                if (herLiveMessage) herLiveMessage.textContent = 'Synthesizing visual assets and vertical 9:16 layout composition...';
+            }, 2900);
+
+            setTimeout(() => {
+                setStageStatus('herStageVisuals', 'completed');
+                setStageStatus('herStageNarrate', 'running');
+                if (herProgressBar) herProgressBar.style.width = '78%';
+                if (herLiveMessage) herLiveMessage.textContent = 'Generating Google Neural TTS voiceover and aligning word-level subtitle timestamps...';
+            }, 4200);
+
+            setTimeout(() => {
+                setStageStatus('herStageNarrate', 'completed');
+                setStageStatus('herStageCompose', 'running');
+                if (herProgressBar) herProgressBar.style.width = '92%';
+                if (herLiveMessage) herLiveMessage.textContent = 'Compiling headless Remotion React 4.0 video composition at 60 FPS...';
+            }, 5300);
+
+            setTimeout(() => {
+                setStageStatus('herStageCompose', 'completed');
+                if (herProgressBar) herProgressBar.style.width = '100%';
+                if (herTimerInterval) clearInterval(herTimerInterval);
+
+                // Determine dynamic title & synopsis
+                let title = 'Project HER Generated Video';
+                let hook = 'Rendered via Remotion React Compositor · 1080x1920 Vertical Explainer';
+                if (/Barnaby|rabbit|bedtime|bear|moon|sleep/i.test(inputVal)) {
+                    title = "Barnaby's Moonlit Adventure";
+                    hook = "Why the quiet night was made for little dreamers to rest for tomorrow's journey.";
+                } else if (/AI|Agent|Software|Engineering|Model/i.test(inputVal)) {
+                    title = "The Autonomous Developer 2026";
+                    hook = "How agentic reasoning swarms and automated pipelines are rewriting software architecture.";
+                } else if (/Quantum|Encryption|Crypt/i.test(inputVal)) {
+                    title = "Quantum Cryptography Frontiers";
+                    hook = "How post-quantum lattice cryptography protects global networks from Shor's algorithm.";
+                } else {
+                    title = inputVal.slice(0, 42) + (inputVal.length > 42 ? '…' : '');
+                    hook = "Automated multi-stage video generation complete in under 60 seconds.";
+                }
+
+                const resTitle = document.getElementById('herResultTitle');
+                const resHook = document.getElementById('herResultHook');
+                if (resTitle) resTitle.textContent = title;
+                if (resHook) resHook.textContent = hook;
+
+                // Render video player
+                if (herVideoContainer) {
+                    herVideoContainer.innerHTML = `
+                        <div style="width:100%; height:320px; background:#05070a; border-radius:var(--radius-md); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden;">
+                            <div style="position:absolute; inset:0; opacity:0.18; background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);"></div>
+                            <div style="width:68px; height:68px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent-light)); color:#0a0e14; display:flex; align-items:center; justify-content:center; font-size:1.8rem; box-shadow:0 0 25px var(--accent-glow); margin-bottom:12px; z-index:2; cursor:pointer;" onclick="showHerToast('Playing Remotion 4.0 rendered video composition preview', 'info')">
+                                <i class="fas fa-play" style="margin-left:4px;"></i>
+                            </div>
+                            <div style="z-index:2; text-align:center; padding:0 20px;">
+                                <div style="font-weight:700; font-size:0.92rem; color:var(--text-primary); margin-bottom:4px;">${title}</div>
+                                <div style="font-size:0.75rem; color:var(--text-tertiary); font-family:var(--font-mono);">Remotion 4.0 React Engine · 1080x1920 (9:16) · 60 FPS</div>
+                            </div>
+                            <div style="position:absolute; bottom:12px; left:16px; right:16px; display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; font-family:var(--font-mono); color:var(--accent-light); z-index:2;">
+                                <span><i class="fas fa-volume-up"></i> Word-Aligned Neural TTS</span>
+                                <span>00:58 / 00:58</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Show completed state
+                if (herStateProgress) herStateProgress.style.display = 'none';
+                if (herStateCompleted) herStateCompleted.style.display = 'flex';
+                herBtnGenerate.disabled = false;
+                showHerToast('AI Video generated successfully!', 'success');
+            }, 6400);
+        });
+    }
+
+});

@@ -2447,15 +2447,25 @@ a.detail-value:hover {
 }
 
 /* ========== ANIMATIONS ========== */
+@keyframes autoRevealFallback {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Safe progressive enhancement: automatically reveals content after 1.5s if JS observer is delayed */
+    animation: autoRevealFallback 0.3s 1.5s forwards;
 }
 
 .animate-on-scroll.visible {
     opacity: 1;
     transform: translateY(0);
+    animation: none;
 }
 
 /* Staggered animation delays for children */
@@ -5149,27 +5159,417 @@ a.detail-value:hover {
     border-color: var(--border);
 }
 
-.flagship-overview-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 36px;
-    align-items: start;
-    margin-bottom: 32px;
-}
-.flagship-overview-col {
-    display: flex;
-    flex-direction: column;
-}
-.flagship-body {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-.flagship-desc {
-    font-size: 1.02rem;
-    line-height: 1.75;
-    color: var(--text-secondary);
+/* ==========================================================================
+   PROJECT HER — INTEGRATED STUDIO UI (Full Native Interface)
+   ========================================================================== */
+
+.her-studio-wrapper {
+    margin-top: 16px;
     margin-bottom: 24px;
+}
+
+.her-studio-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 28px;
+    align-items: stretch;
+}
+
+/* ── Left Column: Video Creation Studio Card ── */
+.her-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.her-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.her-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.her-card-title i {
+    color: var(--accent);
+}
+
+/* ── Form Controls ── */
+.her-form-group {
+    margin-bottom: 1.1rem;
+}
+
+.her-form-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.her-form-control, .her-form-select {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.88rem;
+    font-family: inherit;
+    transition: var(--transition);
+    box-sizing: border-box;
+}
+
+.her-form-control:focus, .her-form-select:focus {
+    background-color: var(--bg-input);
+    border-color: var(--accent);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    outline: none;
+}
+
+.her-form-control::placeholder {
+    color: #4b586e;
+    font-size: 0.86rem;
+}
+
+textarea.her-form-control {
+    resize: vertical;
+    min-height: 130px;
+    line-height: 1.6;
+}
+
+/* ── Prompt Pill Suggestions ── */
+.her-prompt-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.65rem;
+}
+
+.her-prompt-chip {
+    background: rgba(30, 42, 60, 0.45);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.her-prompt-chip:hover {
+    background: rgba(201, 168, 76, 0.12);
+    border-color: var(--border-gold);
+    color: var(--accent-light);
+    transform: translateY(-1px);
+}
+
+/* ── Streamlined Options Grid (2x2) ── */
+.her-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+}
+
+/* ── Generate Action Button ── */
+.btn-generate {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    color: #0a0e14;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1.5rem;
+    font-size: 0.96rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(201, 168, 76, 0.25);
+    letter-spacing: 0.2px;
+}
+
+.btn-generate:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(201, 168, 76, 0.4);
+    color: #0a0e14;
+}
+
+.btn-generate:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.her-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* ── Right Column: Pipeline Monitor & Output Panel ── */
+.pipeline-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    min-height: 520px;
+    box-sizing: border-box;
+}
+
+/* ── State 1: Idle Standby State ── */
+.idle-showcase {
+    text-align: center;
+    padding: 2.8rem 1.5rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    background: rgba(15, 22, 32, 0.35);
+    margin: auto 0;
+}
+
+.idle-icon-ring {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(201, 168, 76, 0.08);
+    border: 1px solid var(--border-gold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 25px var(--accent-glow);
+}
+
+.idle-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.idle-desc {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    max-width: 380px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.55;
+}
+
+.idle-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.her-status-pill {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.her-status-pill.active {
+    border-color: var(--border-gold);
+    color: var(--accent-light);
+    background: rgba(201, 168, 76, 0.08);
+}
+
+/* ── State 2: Active Pipeline Progress State ── */
+.progress-track {
+    height: 8px;
+    background: var(--bg-input);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+}
+
+.progress-bar-glow {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    border-radius: var(--radius-full);
+    transition: width 0.4s ease;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.stage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 0.5rem;
+    background: rgba(15, 22, 32, 0.6);
+    border: 1px solid transparent;
+    font-size: 0.84rem;
+    transition: var(--transition);
+}
+
+.stage-item.pending {
+    color: var(--text-muted);
+}
+
+.stage-item.running {
+    background: rgba(201, 168, 76, 0.07);
+    border-color: var(--border-gold);
+    color: var(--accent-light);
+    box-shadow: 0 0 12px rgba(201, 168, 76, 0.1);
+}
+
+.stage-item.completed {
+    border-color: rgba(16, 185, 129, 0.25);
+    color: #e2e8f0;
+}
+
+.stage-item.failed {
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.her-active-log {
+    margin-top: 0.85rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: var(--radius-sm);
+    background: rgba(10, 14, 20, 0.8);
+    border: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+}
+
+/* ── State 3: Completed Video Showcase State ── */
+.video-wrapper {
+    background: #000;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    position: relative;
+    max-height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-wrapper video {
+    width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    display: block;
+}
+
+.her-spec-badge {
+    background: var(--bg-input);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.her-spec-badge strong {
+    color: var(--text-primary);
+}
+
+/* Toast Container */
+.her-toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.her-toast {
+    background: var(--bg-card);
+    border: 1px solid var(--border-gold);
+    color: var(--text-primary);
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+}
+.her-toast.error {
+    border-color: rgba(239, 68, 68, 0.5);
+}
+.her-toast.success {
+    border-color: rgba(34, 197, 94, 0.5);
+}
+
+@media (max-width: 992px) {
+    .her-studio-grid {
+        grid-template-columns: 1fr;
+    }
+    .her-options-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flagship-desc {
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
 }
 
 /* Flagship System Specs Box */
@@ -5643,12 +6043,9 @@ a.detail-value:hover {
     .skills-grid-3col {
         grid-template-columns: 1fr;
     }
-    .flagship-overview-grid {
+    .flagship-cockpit-grid {
         grid-template-columns: 1fr;
-        gap: 28px;
-    }
-    .flagship-full-iframe {
-        height: 760px;
+        gap: 24px;
     }
 }
 

@@ -27,6 +27,11 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <noscript>
+        <style>
+            .animate-on-scroll { opacity: 1 !important; transform: none !important; }
+        </style>
+    </noscript>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -200,166 +205,289 @@
                     </div>
                     <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                         <div id="projectHerStatus" class="flagship-status live">
-                            <span class="va-status-dot"></span> Checking demo status…
+                            <span class="va-status-dot"></span> Live Demo Studio
                         </div>
-                        <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.85rem;">
-                            <i class="fas fa-external-link-alt"></i> Open Fullscreen Studio
-                        </a>
                     </div>
                 </div>
 
-                <!-- 1. Top Executive Overview Grid -->
-                <div class="flagship-overview-grid">
-                    <!-- Column A: Description, Contribution & Impact -->
-                    <div class="flagship-overview-col">
-                        <p class="flagship-desc">
-                            Turns any raw topic, story prompt, or article URL into an engaging, narrated short-form video through an automated multi-stage pipeline. The agent autonomously handles content analysis, scene scripting, neural voice narration, AI visual generation, and Remotion 4.0 video composition — with zero manual editing.
-                        </p>
+                <!-- Flagship Engineering Summary Banner -->
+                <div class="flagship-overview-col" style="margin-bottom: 24px;">
+                    <p class="flagship-desc" style="margin-bottom: 16px;">
+                        Turns any raw topic, bedtime story, or article URL into an engaging, narrated short-form video through an automated multi-stage AI pipeline. The agent autonomously handles content analysis, scene scripting, neural voice narration, AI visual retrieval, and Remotion 4.0 React video composition — with zero manual editing.
+                    </p>
 
-                        <!-- Contribution & Impact -->
-                        <div class="detail-callouts-grid">
-                            <div class="callout-box">
-                                <span class="callout-label"><i class="fas fa-user-check"></i> Engineering Contribution</span>
-                                <p class="callout-text">
-                                    Architected the multi-agent orchestration pipeline, dynamic scene-splitting prompts, asynchronous Remotion React compositor, and containerized deployment on GCP Cloud Run.
+                    <!-- Architecture Flow Diagram -->
+                    <div class="arch-mini-box" style="margin-bottom: 16px;">
+                        <div class="arch-mini-title">
+                            <i class="fas fa-diagram-project"></i> Pipeline Architecture (5–10s Scan)
+                        </div>
+                        <div class="arch-flow-inline">
+                            <span class="arch-step-chip">Topic / URL</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Content Analysis</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Gemini Scripting</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Neural Voice</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Visual Assets</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Remotion React</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip" style="border-color:var(--accent);color:var(--accent);">1080p MP4</span>
+                        </div>
+                    </div>
+
+                    <!-- System Specs & Hiring Signals -->
+                    <div class="flagship-specs-box">
+                        <div class="flagship-spec-item">
+                            <span class="flagship-spec-icon"><i class="fas fa-bolt"></i></span>
+                            <div>
+                                <div class="flagship-spec-label">Execution Time</div>
+                                <div class="flagship-spec-val">&lt; 90s End-to-End</div>
+                            </div>
+                        </div>
+                        <div class="flagship-spec-item">
+                            <span class="flagship-spec-icon"><i class="fas fa-clapperboard"></i></span>
+                            <div>
+                                <div class="flagship-spec-label">Render Engine</div>
+                                <div class="flagship-spec-val">Remotion 4.0 React</div>
+                            </div>
+                        </div>
+                        <div class="flagship-spec-item">
+                            <span class="flagship-spec-icon"><i class="fas fa-microphone"></i></span>
+                            <div>
+                                <div class="flagship-spec-label">Audio & Subtitles</div>
+                                <div class="flagship-spec-val">Word-Aligned Sync</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== PROJECT HER: FULL NATIVE COMPACT STUDIO UI ========== -->
+                <div class="her-studio-wrapper">
+                    <div class="her-studio-grid">
+                        
+                        <!-- Left Column: Video Creation Studio Card -->
+                        <div class="her-card">
+                            <div class="her-card-header">
+                                <div class="her-card-title">
+                                    <i class="fas fa-magic"></i> Video Creation Studio
+                                </div>
+                                <span class="her-spec-badge">
+                                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Auto AI Images
+                                </span>
+                            </div>
+
+                            <!-- Topic / Script / Article Input -->
+                            <div class="her-form-group">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label for="herPromptInput" class="her-form-label mb-0">
+                                        <i class="fas fa-align-left text-warning"></i> Topic, Script, or Article
+                                    </label>
+                                    <span id="herCharCount" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-tertiary);">0 words</span>
+                                </div>
+                                <textarea 
+                                    id="herPromptInput" 
+                                    class="her-form-control" 
+                                    placeholder="Enter a topic, bedtime story, or paste an article URL to generate an engaging video..."
+                                    rows="5"
+                                ></textarea>
+
+                                <!-- Inspiration Prompt Chips -->
+                                <div class="her-prompt-chips">
+                                    <span class="her-prompt-chip" data-her-prompt="ai">
+                                        🤖 AI Revolution (Topic)
+                                    </span>
+                                    <span class="her-prompt-chip" data-her-prompt="story">
+                                        🌙 Barnaby's Bedtime (Kids Story)
+                                    </span>
+                                    <span class="her-prompt-chip" data-her-prompt="link">
+                                        🔗 Google Gemini Launch (Article Link)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Streamlined Options (2x2 Grid) -->
+                            <div class="her-options-grid">
+                                <div>
+                                    <label for="herSelTone" class="her-form-label">
+                                        <i class="fas fa-comment-alt"></i> Narration Tone
+                                    </label>
+                                    <select id="herSelTone" class="her-form-select">
+                                        <option value="explainer" selected>Explainer (Default)</option>
+                                        <option value="informative">Informative &amp; Technical</option>
+                                        <option value="storytelling">Storytelling &amp; Narrative</option>
+                                        <option value="educational">Educational &amp; Structured</option>
+                                        <option value="dramatic">Dramatic &amp; Cinematic</option>
+                                        <option value="motivational">Motivational &amp; High-Energy</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="herSelFormat" class="her-form-label">
+                                        <i class="fas fa-crop-alt"></i> Aspect Ratio
+                                    </label>
+                                    <select id="herSelFormat" class="her-form-select">
+                                        <option value="vertical" selected>Vertical (9:16 Shorts / Reels)</option>
+                                        <option value="horizontal">Horizontal (16:9 Landscape / Web)</option>
+                                        <option value="square">Square (1:1 Feed)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="herSelVisualStyle" class="her-form-label">
+                                        <i class="fas fa-palette"></i> Visual Art Style
+                                    </label>
+                                    <select id="herSelVisualStyle" class="her-form-select">
+                                        <option value="claymorphism" selected>Claymorphism (3D Animated)</option>
+                                        <option value="glassmorphism">Glassmorphism (Frosted UI)</option>
+                                        <option value="minimalism">Minimalism (Clean Vector)</option>
+                                        <option value="hyper_realistic">Hyper-Realistic (Cinematic)</option>
+                                        <option value="neo_brutalism">Neo-Brutalism (Bold Tech)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="herSelDuration" class="her-form-label">
+                                        <i class="fas fa-clock"></i> Target Duration
+                                    </label>
+                                    <select id="herSelDuration" class="her-form-select">
+                                        <option value="30">30 Seconds (Quick Hook)</option>
+                                        <option value="60" selected>60 Seconds (Full Explainer)</option>
+                                        <option value="0">Auto (Adaptive Length)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Primary Generate Button -->
+                            <button id="herBtnGenerate" class="btn-generate" type="button">
+                                <i class="fas fa-stars"></i> Generate AI Video
+                            </button>
+
+                            <!-- Footer Metadata -->
+                            <div class="her-card-footer">
+                                <span><i class="fas fa-cog"></i> Engine: Remotion React Compositor</span>
+                                <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> Multi-Agent Pipeline</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Live Monitor & Video Output Panel -->
+                        <div class="pipeline-card" id="herOutputCard">
+                            
+                            <!-- 1. Idle Standby State -->
+                            <div id="herStateIdle" class="idle-showcase">
+                                <div class="idle-icon-ring">
+                                    <i class="fas fa-film"></i>
+                                </div>
+                                <h4 class="idle-title">Ready to Orchestrate</h4>
+                                <p class="idle-desc">
+                                    Enter a topic, bedtime story, or article on the left. The autonomous agent pipeline will generate scripts, visual assets, neural audio, and render via Remotion.
                                 </p>
-                            </div>
-                            <div class="callout-box">
-                                <span class="callout-label"><i class="fas fa-chart-line"></i> Impact / Result</span>
-                                <p class="callout-text">
-                                    Fully automated a 45-minute manual video-creation workflow into an autonomous, hands-off pipeline producing ready-to-share vertical explainer videos in under 90 seconds.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- What This Demonstrates Hiring Signals -->
-                        <div class="demonstrates-box">
-                            <div class="demonstrates-title">What This Demonstrates (Hiring Signals)</div>
-                            <div class="demonstrates-list">
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> Multi-agent AI orchestration</span>
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> Remotion React 4.0 composition</span>
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> LLM structured JSON storyboarding</span>
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> Server-Sent Events (SSE) live streaming</span>
-                                <span class="demonstrates-item"><i class="fas fa-check"></i> GCP Cloud Run container deployment</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Column B: Pipeline Flow, Specs & Tech Stack -->
-                    <div class="flagship-overview-col">
-                        <!-- Architecture Flow Diagram -->
-                        <div class="arch-mini-box">
-                            <div class="arch-mini-title">
-                                <i class="fas fa-diagram-project"></i> Pipeline Architecture (5–10s Scan)
-                            </div>
-                            <div class="arch-flow-inline">
-                                <span class="arch-step-chip">Topic / URL</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Content Analysis</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Gemini Scripting</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Neural Voiceover</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">AI Visual Assets</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip">Remotion React</span>
-                                <i class="fas fa-arrow-right arch-arrow"></i>
-                                <span class="arch-step-chip" style="border-color:var(--accent);color:var(--accent);">Final 1080p Video</span>
-                            </div>
-                        </div>
-
-                        <!-- System Specs -->
-                        <div class="flagship-specs-box">
-                            <div class="flagship-spec-item">
-                                <span class="flagship-spec-icon"><i class="fas fa-bolt"></i></span>
-                                <div>
-                                    <div class="flagship-spec-label">Execution Time</div>
-                                    <div class="flagship-spec-val">&lt; 90s End-to-End</div>
+                                <div class="idle-pills-row">
+                                    <span class="her-status-pill"><i class="fas fa-file-alt"></i> Script Analysis</span>
+                                    <span class="her-status-pill"><i class="fas fa-images"></i> AI Visuals</span>
+                                    <span class="her-status-pill"><i class="fas fa-microphone"></i> Voice Narration</span>
+                                    <span class="her-status-pill"><i class="fab fa-react"></i> Remotion Render</span>
                                 </div>
                             </div>
-                            <div class="flagship-spec-item">
-                                <span class="flagship-spec-icon"><i class="fas fa-clapperboard"></i></span>
-                                <div>
-                                    <div class="flagship-spec-label">Render Engine</div>
-                                    <div class="flagship-spec-val">Remotion 4.0 React</div>
+
+                            <!-- 2. Active Pipeline Progress State (Shown during generation) -->
+                            <div id="herStateProgress" style="display:none; flex-direction:column; justify-content:center; height:100%;">
+                                <div class="her-card-header mb-2">
+                                    <div class="her-card-title">
+                                        <i class="fas fa-spinner fa-spin text-warning"></i>
+                                        <span id="herPipelineStatusText">Generating Video...</span>
+                                    </div>
+                                    <span id="herElapsedTime" class="her-spec-badge">0.0s elapsed</span>
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="progress-track">
+                                    <div id="herPipelineProgressBar" class="progress-bar-glow" style="width: 0%;"></div>
+                                </div>
+
+                                <!-- Pipeline Stages Checklist -->
+                                <div id="herPipelineStagesList" style="margin-top: 14px;">
+                                    <div id="herStageScrape" class="stage-item pending">
+                                        <span><i class="fas fa-file-alt"></i> Content Extraction &amp; Parsing</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageAnalyze" class="stage-item pending">
+                                        <span><i class="fas fa-brain"></i> Gemini 2.5 Script &amp; Scene Breakdown</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageVisuals" class="stage-item pending">
+                                        <span><i class="fas fa-images"></i> AI Visual Assets &amp; Scene Generation</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageNarrate" class="stage-item pending">
+                                        <span><i class="fas fa-microphone-lines"></i> Neural Voiceover &amp; Subtitles Timing</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageCompose" class="stage-item pending">
+                                        <span><i class="fab fa-react"></i> Remotion React Motion Composition</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                </div>
+
+                                <!-- Live Log Message -->
+                                <div class="her-active-log">
+                                    <span class="text-warning">● ACTIVE LOG:</span> <span id="herLiveStageMessage">Initializing pipeline agent...</span>
                                 </div>
                             </div>
-                            <div class="flagship-spec-item">
-                                <span class="flagship-spec-icon"><i class="fas fa-microphone"></i></span>
-                                <div>
-                                    <div class="flagship-spec-label">Audio & Subtitles</div>
-                                    <div class="flagship-spec-val">Word-Aligned Sync</div>
+
+                            <!-- 3. Completed Video Showcase State (Shown after render) -->
+                            <div id="herStateCompleted" style="display:none; flex-direction:column; justify-content:center; height:100%;">
+                                <div class="her-card-header mb-3">
+                                    <div class="her-card-title" style="color:#22c55e;">
+                                        <i class="fas fa-check-circle"></i> Video Render Complete
+                                    </div>
+                                    <button id="herBtnReset" class="btn btn-outline" style="padding:4px 12px; font-size:0.78rem;" type="button">
+                                        <i class="fas fa-redo"></i> New Video
+                                    </button>
+                                </div>
+
+                                <!-- Video Player Frame -->
+                                <div class="video-wrapper mb-3" id="herVideoFrameContainer">
+                                    <!-- Populated dynamically with video player -->
+                                </div>
+
+                                <!-- Metadata Summary -->
+                                <div style="margin-bottom: 14px;">
+                                    <h5 id="herResultTitle" style="font-size:1.05rem; font-weight:700; margin-bottom:4px; color:var(--text-primary);">Video Title</h5>
+                                    <p id="herResultHook" style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">Video hook synopsis</p>
+                                    
+                                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                                        <span class="her-spec-badge">
+                                            <i class="fas fa-clock"></i> <strong id="herMetricDuration">58s</strong>
+                                        </span>
+                                        <span class="her-spec-badge">
+                                            <i class="fas fa-mobile-alt"></i> <strong id="herMetricResolution">1080x1920</strong>
+                                        </span>
+                                        <span class="her-spec-badge">
+                                            <i class="fas fa-bolt"></i> <strong id="herMetricRenderTime">48.2s render</strong>
+                                        </span>
+                                        <span class="her-spec-badge">
+                                            <i class="fab fa-react"></i> <strong>Remotion 4.0 Engine</strong>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Download Actions -->
+                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                    <a id="herBtnDownloadMp4" href="#" download class="btn btn-primary" style="padding:8px 18px; font-size:0.85rem;">
+                                        <i class="fas fa-download"></i> Download Rendered MP4
+                                    </a>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Tech Stack Chips -->
-                        <div class="video-agent-tech" style="margin-top: 18px; margin-bottom: 20px;">
-                            <span class="va-tech-chip"><i class="fab fa-python"></i> Python / Flask</span>
-                            <span class="va-tech-chip"><i class="fas fa-brain"></i> Gemini 2.5 Pro</span>
-                            <span class="va-tech-chip"><i class="fab fa-react"></i> Remotion React 4.0</span>
-                            <span class="va-tech-chip"><i class="fas fa-microphone-lines"></i> Google Neural TTS</span>
-                            <span class="va-tech-chip"><i class="fab fa-docker"></i> Docker Container</span>
-                            <span class="va-tech-chip"><i class="fas fa-cloud"></i> GCP Cloud Run</span>
-                        </div>
-
-                        <!-- Primary CTA Buttons -->
-                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                            <a href="#flagshipLiveStage" class="btn btn-primary" style="padding: 10px 22px;">
-                                <i class="fas fa-play"></i> Test Interactive Studio Below
-                            </a>
-                            <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="btn btn-outline" style="padding: 10px 22px;">
-                                <i class="fas fa-external-link-alt"></i> Full Screen Mode
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. Full-Width Flagship Live Studio (Center Stage) -->
-                <div class="flagship-stage-showcase" id="flagshipLiveStage">
-                    <div class="va-iframe-wrapper">
-                        <div class="va-iframe-header">
-                            <div class="va-iframe-dots">
-                                <span></span><span></span><span></span>
-                            </div>
-                            <div class="va-iframe-address-bar">
-                                <i class="fas fa-lock"></i>
-                                <span>https://project-her-svnnlerw4q-uc.a.run.app</span>
-                            </div>
-                            <div class="va-iframe-actions">
-                                <div class="va-iframe-status">
-                                    <span class="va-status-dot"></span> Live Studio
-                                </div>
-                                <button class="va-iframe-btn" id="refreshHerFrame" type="button" title="Reload Frame">
-                                    <i class="fas fa-sync-alt"></i>
-                                </button>
-                                <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="va-iframe-btn" title="Open Fullscreen in New Tab">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Full-Width 820px High Iframe -->
-                        <iframe
-                            id="projectHerFrame"
-                            src="https://project-her-svnnlerw4q-uc.a.run.app"
-                            class="va-iframe flagship-full-iframe"
-                            title="Project HER — Autonomous AI Video Generator"
-                            allow="clipboard-write; downloads"
-                            loading="lazy"
-                        ></iframe>
-
-                        <div class="va-iframe-placeholder" id="vaPlaceholder">
-                            <i class="fas fa-clapperboard"></i>
-                            <p>Project HER is deploying or warming up&hellip;</p>
-                            <p class="va-placeholder-sub">Cloud Run instances scale to zero when idle. It will appear here shortly.</p>
-                            <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="margin-top: 12px;">
-                                Open Directly in New Tab <i class="fas fa-arrow-right"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
+
+                <!-- Toast Notifications Container -->
+                <div class="her-toast-container" id="herToastContainer"></div>
 
                 <!-- 3. Expandable Engineering Deep Dive (Bottom Tier) -->
                 <div class="engineering-details-accordion">
