@@ -533,6 +533,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (herStateCompleted) herStateCompleted.style.display = 'none';
         if (herBtnGenerate) herBtnGenerate.disabled = false;
         
+        const activePlayer = document.getElementById('herVideoPlayer');
+        if (activePlayer) {
+            activePlayer.pause();
+            activePlayer.removeAttribute('src');
+            activePlayer.load();
+        }
+        if (herVideoContainer) {
+            herVideoContainer.innerHTML = '';
+        }
+
         ['Scrape', 'Analyze', 'Visuals', 'Narrate', 'Compose'].forEach(stage => {
             const el = document.getElementById(`herStage${stage}`);
             if (el) {
@@ -657,24 +667,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (resTitle) resTitle.textContent = title;
                 if (resHook) resHook.textContent = hook;
 
-                // Render video player
+                // Render real playable HTML5 video player
                 if (herVideoContainer) {
                     herVideoContainer.innerHTML = `
-                        <div style="width:100%; height:320px; background:#05070a; border-radius:var(--radius-md); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden;">
-                            <div style="position:absolute; inset:0; opacity:0.18; background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);"></div>
-                            <div style="width:68px; height:68px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent-light)); color:#0a0e14; display:flex; align-items:center; justify-content:center; font-size:1.8rem; box-shadow:0 0 25px var(--accent-glow); margin-bottom:12px; z-index:2; cursor:pointer;" onclick="showHerToast('Playing Remotion 4.0 rendered video composition preview', 'info')">
-                                <i class="fas fa-play" style="margin-left:4px;"></i>
-                            </div>
-                            <div style="z-index:2; text-align:center; padding:0 20px;">
-                                <div style="font-weight:700; font-size:0.92rem; color:var(--text-primary); margin-bottom:4px;">${title}</div>
-                                <div style="font-size:0.75rem; color:var(--text-tertiary); font-family:var(--font-mono);">Remotion 4.0 React Engine · 1080x1920 (9:16) · 60 FPS</div>
-                            </div>
-                            <div style="position:absolute; bottom:12px; left:16px; right:16px; display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; font-family:var(--font-mono); color:var(--accent-light); z-index:2;">
-                                <span><i class="fas fa-volume-up"></i> Word-Aligned Neural TTS</span>
-                                <span>00:58 / 00:58</span>
+                        <div style="position:relative; width:100%; border-radius:var(--radius-md); overflow:hidden; background:#050811; border:1px solid rgba(246, 173, 85, 0.2); box-shadow:0 12px 36px rgba(0,0,0,0.6);">
+                            <video id="herVideoPlayer" controls autoplay playsinline preload="auto" src="assets/project_her_demo.mp4" style="width:100%; max-height:420px; display:block; object-fit:contain; background:#000;">
+                                Your browser does not support HTML5 video playback.
+                            </video>
+                            <div style="position:absolute; top:12px; left:12px; display:flex; gap:6px; z-index:3; pointer-events:none;">
+                                <span class="her-spec-badge" style="background:rgba(10,15,29,0.85); backdrop-filter:blur(8px); border-color:var(--accent);">
+                                    <i class="fas fa-circle text-danger" style="font-size:0.55rem; animation:pulse 1.5s infinite;"></i> 1080x1920 (9:16)
+                                </span>
+                                <span class="her-spec-badge" style="background:rgba(10,15,29,0.85); backdrop-filter:blur(8px);">
+                                    Remotion 4.0
+                                </span>
                             </div>
                         </div>
                     `;
+                    const vPlayer = document.getElementById('herVideoPlayer');
+                    if (vPlayer) {
+                        vPlayer.load();
+                        vPlayer.play().catch(e => {
+                            console.log('Video autoplay deferred or awaiting user gesture:', e);
+                        });
+                    }
+                }
+
+                // Configure direct MP4 download
+                const btnDownload = document.getElementById('herBtnDownloadMp4');
+                if (btnDownload) {
+                    btnDownload.href = 'assets/project_her_demo.mp4';
+                    const safeFileName = (title.replace(/[^a-z0-9_-]/gi, '_').toLowerCase() || 'project_her_video') + '.mp4';
+                    btnDownload.setAttribute('download', safeFileName);
                 }
 
                 // Show completed state
@@ -684,6 +708,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 showHerToast('AI Video generated successfully!', 'success');
             }, 6400);
         });
+    }
+
+    // Initialize initial download button state
+    const initialBtnDownload = document.getElementById('herBtnDownloadMp4');
+    if (initialBtnDownload) {
+        initialBtnDownload.href = 'assets/project_her_demo.mp4';
+        initialBtnDownload.setAttribute('download', 'project_her_video.mp4');
     }
 
 });
