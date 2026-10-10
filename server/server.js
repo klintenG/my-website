@@ -46,7 +46,7 @@ app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (curl, Postman, file://)
         if (!origin) return callback(null, true);
-        if (ALLOWED_ORIGINS.includes(origin)) {
+        if (ALLOWED_ORIGINS.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
             return callback(null, true);
         }
         return callback(new Error('Not allowed by CORS'));

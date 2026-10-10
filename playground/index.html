@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Playground — Project HER and Experiments | Bill Klinten Guduru</title>
+    <meta name="description" content="Explore Project HER and the source for portfolio AI experiments. Embedded demos show their availability before use.">
+    <meta name="keywords" content="Bill Klinten Guduru, AI Agent Engineer, Software Engineer, Full Stack, RAG, Spring Boot, React, EdgeVerve, Infosys">
+    <meta name="author" content="Bill Klinten Guduru">
+
+    <link rel="canonical" href="https://klinteng.com/playground/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="AI Playground — Project HER and Experiments | Bill Klinten Guduru">
+    <meta property="og:description" content="Explore Project HER and the source for portfolio AI experiments. Embedded demos show their availability before use.">
+    <meta property="og:url" content="https://klinteng.com/playground/">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/projects/" class="nav-link">Work</a></li>
+                <li><a href="/experience/" class="nav-link">Experience</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
+                <li><a href="/playground/" class="nav-link active">Playground</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener" class="nav-resume-btn">
+                    <i class="fas fa-file-pdf"></i> Resume
+                </a>
+                <a href="/contact/" class="nav-cta">Get in Touch</a>
+                <button class="hamburger" id="hamburger" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <header class="page-header-section">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <span class="separator">/</span>
+                <span>AI Playground</span>
+            </nav>
+            <span class="section-tag"><i class="fas fa-flask"></i> Engineering experiments</span>
+            <h1 class="page-title">AI Playground</h1>
+            <p class="page-subtitle">Explore the Project HER demo and the source code for three smaller AI experiments.</p>
+            <div class="page-header-meta">
+                <a href="#flagship-studio" class="btn btn-primary" style="padding:8px 18px; font-size:0.85rem;"><i class="fas fa-video"></i> Project HER details</a>
+                <a href="#interactive-lab" class="btn btn-outline" style="padding:8px 18px; font-size:0.85rem;"><i class="fas fa-robot"></i> AI Assistant & Agents</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- 1. Flagship Video Generator (Project HER) -->
+        <div id="flagship-studio" style="padding-top: 20px;">
+            <section class="featured-work-section" id="work">
+        <div class="flagship-container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-star"></i> Flagship Project</span>
+                <h2 class="section-title">Project HER</h2>
+                <div class="section-line"></div>
+                <p class="skills-intro" style="margin-top: 12px;">
+                    A personal article-to-video project with an external demo. The embedded generator is paused until the generation API and output can be verified.
+                </p>
+            </div>
+
+            <div class="flagship-card animate-on-scroll">
+                <div class="flagship-header">
+                    <div>
+                        <div class="flagship-tag-group">
+                            <span class="flagship-pill">Featured AI Engineering</span>
+                            <span class="project-badge personal">Personal Project</span>
+                        </div>
+                        <h3 class="flagship-title">Project HER</h3>
+                        <p class="flagship-subtitle">Autonomous Article & Topic → Video AI Agent</p>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                        <div id="projectHerStatus" class="flagship-status checking">
+                            External demo · availability varies
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flagship Engineering Summary Banner -->
+                <div class="flagship-overview-col" style="margin-bottom: 24px;">
+                    <p class="flagship-desc" style="margin-bottom: 16px;">
+                        Project HER explores a staged workflow for turning topics and articles into narrated videos. The external demo may be available, but a reachable homepage does not prove that video generation works.
+                    </p>
+
+                    <!-- Architecture Flow Diagram -->
+                    <div class="arch-mini-box" style="margin-bottom: 16px;">
+                        <div class="arch-mini-title">
+                            <i class="fas fa-diagram-project"></i> Pipeline Architecture (5–10s Scan)
+                        </div>
+                        <div class="arch-flow-inline">
+                            <span class="arch-step-chip">Topic / URL</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Content Analysis</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Gemini Scripting</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Neural Voice</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Visual Assets</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip">Remotion React</span>
+                            <i class="fas fa-arrow-right arch-arrow"></i>
+                            <span class="arch-step-chip" style="border-color:var(--accent);color:var(--accent);">1080p MP4</span>
+                        </div>
+                    </div>
+
+                    <!-- System Specs & Hiring Signals -->
+                    <div class="flagship-specs-box">
+                        <div class="flagship-spec-item">
+                            <span class="flagship-spec-icon"><i class="fas fa-bolt"></i></span>
+                            <div>
+                                <div class="flagship-spec-label">Execution Time</div>
+                                <div class="flagship-spec-val">Varies by input and service load</div>
+                            </div>
+                        </div>
+                        <div class="flagship-spec-item">
+                            <span class="flagship-spec-icon"><i class="fas fa-clapperboard"></i></span>
+                            <div>
+                                <div class="flagship-spec-label">Render Engine</div>
+                                <div class="flagship-spec-val">Remotion 4.0 React</div>
+                            </div>
+                        </div>
+                        <div class="flagship-spec-item">
+                            <span class="flagship-spec-icon"><i class="fas fa-microphone"></i></span>
+                            <div>
+                                <div class="flagship-spec-label">Audio & Subtitles</div>
+                                <div class="flagship-spec-val">Word-Aligned Sync</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="demo-availability" role="status">Embedded generation is unavailable until the backend is verified. <a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener">Open the external demo</a> or <a href="/projects/project-her/">read the case study</a>. The existing overview video is promotional, not a captured generated result.</p>
+                <!-- Preserved locally for a future verified backend integration. -->
+                <div class="her-studio-wrapper" hidden>
+                    <div class="her-studio-grid">
+                        
+                        <!-- Left Column: Video Creation Studio Card -->
+                        <div class="her-card">
+                            <div class="her-card-header">
+                                <div class="her-card-title">
+                                    <i class="fas fa-magic"></i> Video Creation Studio
+                                </div>
+                                <span class="her-spec-badge">
+                                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Auto AI Images
+                                </span>
+                            </div>
+
+                            <!-- Topic / Script / Article Input -->
+                            <div class="her-form-group">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label for="herPromptInput" class="her-form-label mb-0">
+                                        <i class="fas fa-align-left text-warning"></i> Topic, Script, or Article
+                                    </label>
+                                    <span id="herCharCount" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-tertiary);">0 words</span>
+                                </div>
+                                <textarea 
+                                    id="herPromptInput" 
+                                    class="her-form-control" 
+                                    placeholder="Enter a topic, bedtime story, or paste an article URL to generate an engaging video..."
+                                    rows="5"
+                                ></textarea>
+
+                                <!-- Inspiration Prompt Chips -->
+                                <div class="her-prompt-chips">
+                                    <span class="her-prompt-chip" data-her-prompt="ai">
+                                        🤖 AI Revolution (Topic)
+                                    </span>
+                                    <span class="her-prompt-chip" data-her-prompt="story">
+                                        🌙 Barnaby's Bedtime (Kids Story)
+                                    </span>
+                                    <span class="her-prompt-chip" data-her-prompt="link">
+                                        🔗 Google Gemini Launch (Article Link)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Streamlined Options (2x2 Grid) -->
+                            <div class="her-options-grid">
+                                <div>
+                                    <label for="herSelTone" class="her-form-label">
+                                        <i class="fas fa-comment-alt"></i> Narration Tone
+                                    </label>
+                                    <select id="herSelTone" class="her-form-select">
+                                        <option value="explainer" selected>Explainer (Default)</option>
+                                        <option value="informative">Informative &amp; Technical</option>
+                                        <option value="storytelling">Storytelling &amp; Narrative</option>
+                                        <option value="educational">Educational &amp; Structured</option>
+                                        <option value="dramatic">Dramatic &amp; Cinematic</option>
+                                        <option value="motivational">Motivational &amp; High-Energy</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="herSelFormat" class="her-form-label">
+                                        <i class="fas fa-crop-alt"></i> Aspect Ratio
+                                    </label>
+                                    <select id="herSelFormat" class="her-form-select">
+                                        <option value="vertical" selected>Vertical (9:16 Shorts / Reels)</option>
+                                        <option value="horizontal">Horizontal (16:9 Landscape / Web)</option>
+                                        <option value="square">Square (1:1 Feed)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="herSelVisualStyle" class="her-form-label">
+                                        <i class="fas fa-palette"></i> Visual Art Style
+                                    </label>
+                                    <select id="herSelVisualStyle" class="her-form-select">
+                                        <option value="claymorphism" selected>Claymorphism (3D Animated)</option>
+                                        <option value="glassmorphism">Glassmorphism (Frosted UI)</option>
+                                        <option value="minimalism">Minimalism (Clean Vector)</option>
+                                        <option value="hyper_realistic">Hyper-Realistic (Cinematic)</option>
+                                        <option value="neo_brutalism">Neo-Brutalism (Bold Tech)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="herSelDuration" class="her-form-label">
+                                        <i class="fas fa-clock"></i> Target Duration
+                                    </label>
+                                    <select id="herSelDuration" class="her-form-select">
+                                        <option value="30">30 Seconds (Quick Hook)</option>
+                                        <option value="60" selected>60 Seconds (Full Explainer)</option>
+                                        <option value="0">Auto (Adaptive Length)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Primary Generate Button -->
+                            <button id="herBtnGenerate" class="btn-generate" type="button" disabled>
+                                <i class="fas fa-stars"></i> Generate AI Video
+                            </button>
+
+                            <!-- Footer Metadata -->
+                            <div class="her-card-footer">
+                                <span><i class="fas fa-cog"></i> Engine: Remotion React Compositor</span>
+                                <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> Multi-Agent Pipeline</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Live Monitor & Video Output Panel -->
+                        <div class="pipeline-card" id="herOutputCard">
+                            
+                            <!-- 1. Idle Standby State -->
+                            <div id="herStateIdle" class="idle-showcase">
+                                <div class="idle-icon-ring">
+                                    <i class="fas fa-film"></i>
+                                </div>
+                                <h4 class="idle-title">Ready to Orchestrate</h4>
+                                <p class="idle-desc">
+                                    Enter a topic, bedtime story, or article on the left. The autonomous agent pipeline will generate scripts, visual assets, neural audio, and render via Remotion.
+                                </p>
+                                <div class="idle-pills-row">
+                                    <span class="her-status-pill"><i class="fas fa-file-alt"></i> Script Analysis</span>
+                                    <span class="her-status-pill"><i class="fas fa-images"></i> AI Visuals</span>
+                                    <span class="her-status-pill"><i class="fas fa-microphone"></i> Voice Narration</span>
+                                    <span class="her-status-pill"><i class="fab fa-react"></i> Remotion Render</span>
+                                </div>
+                            </div>
+
+                            <!-- 2. Active Pipeline Progress State (Shown during generation) -->
+                            <div id="herStateProgress" style="display:none; flex-direction:column; justify-content:center; height:100%;">
+                                <div class="her-card-header mb-2">
+                                    <div class="her-card-title">
+                                        <i class="fas fa-spinner fa-spin text-warning"></i>
+                                        <span id="herPipelineStatusText">Generating Video...</span>
+                                    </div>
+                                    <span id="herElapsedTime" class="her-spec-badge">0.0s elapsed</span>
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="progress-track">
+                                    <div id="herPipelineProgressBar" class="progress-bar-glow" style="width: 0%;"></div>
+                                </div>
+
+                                <!-- Pipeline Stages Checklist -->
+                                <div id="herPipelineStagesList" style="margin-top: 14px;">
+                                    <div id="herStageScrape" class="stage-item pending">
+                                        <span><i class="fas fa-file-alt"></i> Content Extraction &amp; Parsing</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageAnalyze" class="stage-item pending">
+                                        <span><i class="fas fa-brain"></i> Gemini 2.5 Script &amp; Scene Breakdown</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageVisuals" class="stage-item pending">
+                                        <span><i class="fas fa-images"></i> AI Visual Assets &amp; Scene Generation</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageNarrate" class="stage-item pending">
+                                        <span><i class="fas fa-microphone-lines"></i> Neural Voiceover &amp; Subtitles Timing</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                    <div id="herStageCompose" class="stage-item pending">
+                                        <span><i class="fab fa-react"></i> Remotion React Motion Composition</span>
+                                        <span class="stage-status" style="font-size:0.75rem; color:var(--text-tertiary);">Waiting</span>
+                                    </div>
+                                </div>
+
+                                <!-- Live Log Message -->
+                                <div class="her-active-log">
+                                    <span class="text-warning">● ACTIVE LOG:</span> <span id="herLiveStageMessage">Initializing pipeline agent...</span>
+                                </div>
+                            </div>
+
+                            <!-- 3. Completed Video Showcase State (Shown after render) -->
+                            <div id="herStateCompleted" style="display:none; flex-direction:column; justify-content:center; height:100%;">
+                                <div class="her-card-header mb-3">
+                                    <div class="her-card-title" style="color:#22c55e;">
+                                        <i class="fas fa-check-circle"></i> Video Render Complete
+                                    </div>
+                                    <button id="herBtnReset" class="btn btn-outline" style="padding:4px 12px; font-size:0.78rem;" type="button">
+                                        <i class="fas fa-redo"></i> New Video
+                                    </button>
+                                </div>
+
+                                <!-- Video Player Frame -->
+                                <div class="video-wrapper mb-3" id="herVideoFrameContainer">
+                                    <!-- Populated dynamically with video player -->
+                                </div>
+
+                                <!-- Metadata Summary -->
+                                <div style="margin-bottom: 14px;">
+                                    <h5 id="herResultTitle" style="font-size:1.05rem; font-weight:700; margin-bottom:4px; color:var(--text-primary);">Video Title</h5>
+                                    <p id="herResultHook" style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">Video hook synopsis</p>
+                                    
+                                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                                        <span class="her-spec-badge">
+                                            <i class="fas fa-clock"></i> <strong id="herMetricDuration">58s</strong>
+                                        </span>
+                                        <span class="her-spec-badge">
+                                            <i class="fas fa-mobile-alt"></i> <strong id="herMetricResolution">1080x1920</strong>
+                                        </span>
+                                        <span class="her-spec-badge">
+                                            <i class="fas fa-bolt"></i> <strong id="herMetricRenderTime">48.2s render</strong>
+                                        </span>
+                                        <span class="her-spec-badge">
+                                            <i class="fab fa-react"></i> <strong>Remotion 4.0 Engine</strong>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Download Actions -->
+                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                    <a id="herBtnDownloadMp4" href="#" download class="btn btn-primary" style="padding:8px 18px; font-size:0.85rem;">
+                                        <i class="fas fa-download"></i> Download Rendered MP4
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toast Notifications Container -->
+                <div class="her-toast-container" id="herToastContainer"></div>
+
+                <!-- 3. Expandable Engineering Deep Dive (Bottom Tier) -->
+                <div class="engineering-details-accordion">
+                    <button class="accordion-toggle-btn" data-target="herEngDetails" type="button">
+                        <span class="toggle-text">View Architecture & Engineering Challenges</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </button>
+                    <div class="accordion-body" id="herEngDetails">
+                        <div class="eng-detail-item">
+                            <h5><i class="fas fa-cogs"></i> How It Works</h5>
+                            <p>
+                                The proposed workflow takes a topic, story, or article URL through extraction, script generation, narration, media selection, and Remotion composition. The external backend and output schema still need direct verification; see the Project HER case study for current limitations.
+                            </p>
+                        </div>
+                        <div class="eng-detail-item">
+                            <h5><i class="fas fa-shield-alt"></i> Engineering Challenges & Solutions</h5>
+                            <p>
+                                The rendering design must account for audio and caption timing, container resources, cold starts, and third-party media failures. The portfolio frontend does not contain the backend code needed to verify each mitigation.
+                            </p>
+                        </div>
+                        <div class="eng-detail-item">
+                            <h5><i class="fas fa-server"></i> Deployment & Reliability</h5>
+                            <p>
+                                An external Cloud Run demo link is available, but its current generation path has not been verified here. Availability is checked separately from successful video generation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+        </div>
+
+        <!-- 2. Interactive AI Lab (Assistant, Resume Analyzer, Code Review Agent) -->
+        <div id="interactive-lab" style="margin-top: 40px;">
+            <!-- ========== 8. INTERACTIVE AI LAB ========== -->
+    <section class="section ai-showcase-section" id="ai-lab">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag"><i class="fas fa-flask"></i> Experiments</span>
+                <h2 class="section-title">Interactive AI Lab</h2>
+                <div class="section-line"></div>
+                <p class="playground-intro">
+                    Experiments with function calling, prompt instructions, and structured JSON output.
+                    <a href="https://github.com/klintenG/my-website" data-link="portfolioRepo" target="_blank" rel="noopener">View public repository <i class="fas fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </div>
+
+            <p class="demo-availability" id="labAvailability" role="status">The portfolio assistant, fit analyzer, and code review demo are currently unavailable on the public site. You can <a href="https://github.com/klintenG/my-website" target="_blank" rel="noopener">review their source</a> or <a href="mailto:klintenguduru@gmail.com">ask me about the implementation</a>.</p>
+            <div class="showcase-tabs animate-on-scroll">
+                <button class="showcase-tab active" data-tab="chat"><i class="fas fa-comment-dots"></i> Portfolio Assistant (Function Calling)</button>
+                <button class="showcase-tab" data-tab="fit"><i class="fas fa-chart-bar"></i> Resume Fit Analyzer (Structured Output)</button>
+                <button class="showcase-tab" data-tab="code"><i class="fas fa-code"></i> Code Review Agent (Constraint Demo)</button>
+            </div>
+
+            <!-- Tab 1: Chat Assistant -->
+            <div class="showcase-panel active" id="tab-chat">
+                <div class="ai-chat-content">
+                    <div class="ai-chat-intro animate-on-scroll">
+                        <h3>Portfolio Assistant — Function Calling & Context Control</h3>
+                        <p>
+                            This assistant uses <strong>Gemini Function Calling</strong> with 4 custom tool definitions. The model autonomously decides which UI tool to invoke based on conversation context. Candidate profile information is injected as bounded structured context.
+                        </p>
+                        <div class="ai-how-it-works">
+                            <h4><i class="fas fa-cogs"></i> What This Demonstrates</h4>
+                            <ul class="ai-features">
+                                <li>
+                                    <div class="ai-feature-icon"><i class="fas fa-brain"></i></div>
+                                    <div>
+                                        <strong>Tool & Function Calling</strong>
+                                        <span>Model dispatches tools dynamically (logos, location, section navigation, project detail cards).</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ai-feature-icon"><i class="fas fa-shield-alt"></i></div>
+                                    <div>
+                                        <strong>Context Boundary & Guardrails</strong>
+                                        <span>Prompt constraints restrict answers solely to profile facts, rejecting off-topic queries.</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ai-feature-icon"><i class="fas fa-terminal"></i></div>
+                                    <div>
+                                        <strong>Transparent Execution Log</strong>
+                                        <span>Inspect raw tool invocations and argument payloads dispatched by the model in real time.</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ai-chat-window animate-on-scroll">
+                        <div class="chat-window-header">
+                            <div class="chat-header-info">
+                                <div class="chat-header-avatar">
+                                    <i class="fas fa-robot"></i>
+                                    <span class="chat-status-dot"></span>
+                                </div>
+                                <div>
+                                    <span class="chat-header-name">BKG Portfolio Assistant</span>
+                                    <span class="chat-header-status">Gemini Function Calling</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="sectionChatMessages">
+                            <div class="chat-suggestions" id="sectionChatSuggestions">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="sectionChatInput" placeholder="Ask about Klinten's AI agents, experience, or skills..." autocomplete="off">
+                            <button id="sectionChatSend" class="chat-send-btn" aria-label="Send">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Resume Fit Analyzer -->
+            <div class="showcase-panel" id="tab-fit">
+                <div class="resume-agent-content">
+                    <div class="resume-agent-intro animate-on-scroll">
+                        <h3>Resume Fit Analyzer — Structured JSON Experiment</h3>
+                        <p>
+                            Paste a job description to compare it with my public professional profile. The model returns a structured suggestion; the score is illustrative and should not be treated as a hiring assessment.
+                        </p>
+                        <div class="agent-architecture">
+                            <div class="agent-pipeline">
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-paste"></i></div>
+                                    <span>JD + Profile</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-brain"></i></div>
+                                    <span>LLM Analysis</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-code"></i></div>
+                                    <span>JSON Parsing</span>
+                                </div>
+                                <div class="pipeline-arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="pipeline-step">
+                                    <div class="pipeline-icon"><i class="fas fa-chart-bar"></i></div>
+                                    <span>Visual Report</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resume-agent-workspace animate-on-scroll">
+                        <div class="jd-input-area">
+                            <label for="jdInput"><i class="fas fa-paste"></i> Paste Job Description</label>
+                            <textarea id="jdInput" rows="8" placeholder="Paste an AI Engineer, Full Stack, or Agentic AI job description here... The agent analyzes fit against Klinten's profile and returns a structured match report."></textarea>
+                            <div class="jd-actions">
+                                <button id="analyzeBtn" class="agent-btn primary" onclick="ResumeAgent.analyze()">
+                                    <i class="fas fa-rocket"></i> Analyze Fit
+                                </button>
+                                <button class="agent-btn secondary" onclick="ResumeAgent.clearAll()">
+                                    <i class="fas fa-redo"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="agentOutput" class="agent-output" style="display: none;">
+                            <div id="agentSteps" class="agent-steps-container"></div>
+                            <div id="agentResults" class="agent-results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Code Review Agent -->
+            <div class="showcase-panel" id="tab-code">
+                <div class="code-review-content">
+                    <div class="code-review-intro animate-on-scroll">
+                        <h3>Code Review Agent — Constraint Prompting & Multi-Dimension Scoring</h3>
+                        <p>
+                            Paste a code snippet. The demo uses heuristic language detection and asks the model for a structured review. Its suggestions need human verification.
+                        </p>
+                        <div class="code-review-patterns">
+                            <div class="pattern-tag"><i class="fas fa-shield-alt"></i> Constraint Bounding</div>
+                            <div class="pattern-tag"><i class="fas fa-file-code"></i> Structured JSON Output</div>
+                            <div class="pattern-tag"><i class="fas fa-layer-group"></i> Multi-Dimensional Review</div>
+                            <div class="pattern-tag"><i class="fas fa-search"></i> Language Detection</div>
+                        </div>
+                    </div>
+
+                    <div class="code-review-workspace animate-on-scroll">
+                        <div class="code-input-area">
+                            <div class="code-input-header">
+                                <label for="codeInput"><i class="fas fa-code"></i> Paste Code Snippet</label>
+                                <span class="detected-lang-badge" id="detectedLang" style="display: none;">JavaScript</span>
+                            </div>
+                            <textarea id="codeInput" rows="12" placeholder="Paste a function or class in JavaScript, Python, Java, or TypeScript..." spellcheck="false"></textarea>
+                            <div class="code-actions">
+                                <button id="reviewBtn" class="agent-btn primary" onclick="CodeReviewAgent.review()">
+                                    <i class="fas fa-search"></i> Review Code
+                                </button>
+                                <button class="agent-btn secondary" onclick="CodeReviewAgent.loadSample()">
+                                    <i class="fas fa-flask"></i> Load Sample
+                                </button>
+                                <button class="agent-btn secondary" onclick="CodeReviewAgent.clearAll()">
+                                    <i class="fas fa-redo"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="reviewOutput" class="agent-output" style="display: none;">
+                            <div id="reviewSteps" class="agent-steps-container"></div>
+                            <div id="reviewResults" class="agent-results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+        </div>
+    </main>
+
+    
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+                    </a>
+                    <p>Bill Klinten Guduru — Software Engineer & AI Engineering practitioner with 6+ years enterprise experience at Infosys and EdgeVerve.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="/projects/">Projects</a>
+                    <a href="/experience/">Experience</a>
+                    <a href="/contact/">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:klintenguduru@gmail.com" data-link="email" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bill Klinten Guduru. All Rights Reserved.</p>
+                
+            </div>
+        </div>
+    </footer>
+    <!-- ========== FLOATING AI CHAT WIDGET ========== -->
+    <div class="floating-chat-widget" id="floatingChatWidget">
+        <div class="floating-chat-header">
+            <div class="floating-chat-header-info">
+                <div class="floating-chat-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <span class="floating-chat-name">BKG Portfolio Assistant</span>
+                    <span class="floating-chat-status">Gemini Function Calling</span>
+                </div>
+            </div>
+            <button class="floating-chat-close" id="floatingChatClose" aria-label="Close chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="floating-chat-messages" id="floatingChatMessages">
+            <div class="chat-suggestions" id="floatingChatSuggestions"></div>
+        </div>
+        <div class="floating-chat-input-area">
+            <input type="text" id="floatingChatInput" placeholder="Ask a question..." autocomplete="off">
+            <button id="floatingChatSend" class="chat-send-btn" aria-label="Send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    <button class="ai-chat-fab" id="aiChatFab" aria-label="Open AI Assistant">
+        <i class="fas fa-comment-dots"></i>
+        <span class="fab-pulse"></span>
+    </button>
+
+    <!-- Scripts -->
+    <script src="/js/config.js"></script>
+    <script src="/js/profile-data.js"></script>
+    <script src="/js/ai-client.js"></script>
+    <script src="/js/ai-chat.js"></script>
+    <script src="/js/resume-agent.js"></script>
+    <script src="/js/code-review-agent.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -12,16 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = (scrollTop / docHeight) * 100;
-        scrollProgress.style.width = scrollPercent + '%';
+        if (scrollProgress) scrollProgress.style.width = (Number.isFinite(scrollPercent) ? scrollPercent : 0) + '%';
     }
 
     // ========== THEME TOGGLE ==========
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
+    if (themeToggle) updateThemeIcon(savedTheme);
 
-    themeToggle.addEventListener('click', () => {
+    themeToggle?.addEventListener('click', () => {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
@@ -37,17 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== NAVBAR SCROLL ==========
     const navbar = document.getElementById('navbar');
     const backToTop = document.getElementById('backToTop');
-    const sections = document.querySelectorAll('.section');
+    const sections = document.querySelectorAll('.section[id], .portfolio-section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
 
     function handleScroll() {
         const scrollY = window.scrollY;
 
         // Navbar background
-        navbar.classList.toggle('scrolled', scrollY > 50);
+        navbar?.classList.toggle('scrolled', scrollY > 50);
 
         // Back to top
-        backToTop.classList.toggle('visible', scrollY > 500);
+        backToTop?.classList.toggle('visible', scrollY > 500);
 
         // Active nav link
         let currentSection = '';
@@ -59,12 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSection}`) {
-                link.classList.add('active');
-            }
-        });
+        // On pages with dedicated routes, only update active state if section anchors exist
+        const hasSectionAnchors = Array.from(navLinks).some(link => (link.getAttribute('href') || '').startsWith('#'));
+        if (hasSectionAnchors && currentSection) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
 
         // Update scroll progress
         updateScrollProgress();
@@ -74,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     handleScroll();
 
     // Back to top click
-    backToTop.addEventListener('click', () => {
+    backToTop?.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
@@ -82,58 +86,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.getElementById('hamburger');
     const navLinksContainer = document.getElementById('navLinks');
 
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navLinksContainer.classList.toggle('active');
-    });
+    if (hamburger && navLinksContainer) {
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-controls', 'navLinks');
 
-    // Close mobile menu on link click
-    navLinksContainer.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinksContainer.classList.remove('active');
+        function toggleMenu(open) {
+            const shouldOpen = open !== undefined ? open : !navLinksContainer.classList.contains('active');
+            hamburger.classList.toggle('active', shouldOpen);
+            navLinksContainer.classList.toggle('active', shouldOpen);
+            hamburger.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+            document.body.style.overflow = shouldOpen ? 'hidden' : '';
+        }
+
+        hamburger.addEventListener('click', () => toggleMenu());
+
+        // Close mobile menu on link click
+        navLinksContainer.querySelectorAll('.nav-link, a').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu(false);
+            });
         });
-    });
 
-    // ========== TYPING ANIMATION ==========
-    const titles = [
-        'AI Agent Engineer',
-        'AI Integration Engineer',
-        'Multi-Agent System Builder',
-        'RAG Pipeline Architect',
-        'Enterprise Software Engineer',
-    ];
-    let titleIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typingElement = document.getElementById('typingText');
-
-    function typeWriter() {
-        const current = titles[titleIndex];
-
-        if (isDeleting) {
-            typingElement.textContent = current.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingElement.textContent = current.substring(0, charIndex + 1);
-            charIndex++;
-        }
-
-        let speed = isDeleting ? 35 : 70;
-
-        if (!isDeleting && charIndex === current.length) {
-            speed = 2200;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            titleIndex = (titleIndex + 1) % titles.length;
-            speed = 500;
-        }
-
-        setTimeout(typeWriter, speed);
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
+                toggleMenu(false);
+                hamburger.focus();
+            }
+        });
     }
-
-    typeWriter();
 
     // ========== SCROLL ANIMATIONS (Enhanced with stagger) ==========
     const observerOptions = {
@@ -216,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             projectCards.forEach((card, index) => {
                 const category = card.getAttribute('data-category');
-                if (filter === 'all' || category === filter) {
+                if (filter === 'all' || (category || '').split(',').includes(filter)) {
                     card.classList.remove('hidden');
                     card.style.animation = 'none';
                     card.offsetHeight; // Trigger reflow
@@ -228,35 +209,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ========== CONTACT FORM ==========
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    // Direct email is available in HTML even when JavaScript is disabled.
+    const copyEmail = document.getElementById('copyEmail');
+    copyEmail?.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText('klintenguduru@gmail.com');
+            copyEmail.textContent = 'Email copied';
+        } catch {
+            copyEmail.textContent = 'Select the email address above to copy it';
+        }
+    });
 
-            const formData = new FormData(contactForm);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const subject = formData.get('subject');
-            const message = formData.get('message');
-
-            const mailtoLink = `mailto:klintenguduru@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Klinten,\n\nMy name is ${name} (${email}).\n\n${message}`)}`;
-
-            window.location.href = mailtoLink;
-
-            const btn = contactForm.querySelector('button[type="submit"]');
-            if (btn) {
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> Opening Email Client...';
-                btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.style.background = '';
-                    contactForm.reset();
-                }, 3000);
-            }
+    // Do not invite visitors to enter text when the public AI proxy is absent.
+    const labAvailability = document.getElementById('labAvailability');
+    if (labAvailability && typeof AIClient !== 'undefined') {
+        const controls = ['sectionChatInput', 'sectionChatSend', 'jdInput', 'analyzeBtn', 'codeInput', 'reviewBtn'];
+        controls.forEach(id => {
+            const control = document.getElementById(id);
+            if (control) control.disabled = true;
         });
+        if (AIClient.isConfigured()) {
+            // Only the local proxy exposes this read-only check. It never calls Gemini.
+            const healthUrl = new URL('/health', SITE_CONFIG.api.apiUrl);
+            fetch(healthUrl, { signal: AbortSignal.timeout(3000) })
+                .then(response => response.ok ? response.json() : null)
+                .then(health => {
+                    if (health?.hasApiKey) {
+                        controls.forEach(id => {
+                            const control = document.getElementById(id);
+                            if (control) control.disabled = false;
+                        });
+                        labAvailability.hidden = true;
+                    }
+                })
+                .catch(() => {});
+        }
     }
 
     // ========== SMOOTH SCROLL FOR ALL ANCHOR LINKS ==========
@@ -292,91 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ========== PARALLAX-LIKE EFFECT ON SHAPES ==========
-    let ticking = false;
-    window.addEventListener('mousemove', (e) => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                const shapes = document.querySelectorAll('.shape');
-                const x = (e.clientX / window.innerWidth - 0.5) * 2;
-                const y = (e.clientY / window.innerHeight - 0.5) * 2;
-
-                shapes.forEach((shape, i) => {
-                    const speed = (i + 1) * 4;
-                    shape.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-                });
-
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-
-    // ========== PROFILE CARD TILT EFFECT ==========
-    const profileCard = document.querySelector('.profile-card');
-    if (profileCard) {
-        profileCard.addEventListener('mousemove', (e) => {
-            const rect = profileCard.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -6;
-            const rotateY = ((x - centerX) / centerX) * 6;
-
-            profileCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-        });
-
-        profileCard.addEventListener('mouseleave', () => {
-            profileCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-        });
-    }
-
-    // ========== MAGNETIC HOVER EFFECT ON BUTTONS ==========
-    const magneticBtns = document.querySelectorAll('.btn-primary, .btn-outline, .nav-cta');
-
-    magneticBtns.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-        });
-
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = '';
-        });
-    });
-
-    // ========== KEYBOARD NAVIGATION ==========
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            hamburger.classList.remove('active');
-            navLinksContainer.classList.remove('active');
-        }
-    });
-
-    // ========== WAVE DIVIDER DYNAMIC COLOR (for theme changes) ==========
-    function updateWaveDividers() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        const wavePaths = document.querySelectorAll('.wave-divider path');
-        // CSS custom properties handle this through var() in SVG
-    }
-
-    // ========== NAVBAR LINK HOVER SOUND-LIKE FEEDBACK ==========
-    // Subtle focus ring for accessibility
-    document.querySelectorAll('.nav-link, .filter-btn, .social-link, .contact-card').forEach(el => {
-        el.addEventListener('focus', () => {
-            el.style.outline = `2px solid var(--accent)`;
-            el.style.outlineOffset = '2px';
-        });
-        el.addEventListener('blur', () => {
-            el.style.outline = '';
-            el.style.outlineOffset = '';
-        });
-    });
-
     // ========== CENTRALIZED CONFIG INJECTION ==========
     if (window.SITE_CONFIG) {
         // Sync stats into any data-stat elements
@@ -405,35 +307,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Project HER live status probe
+        // A reachability probe cannot verify that video generation works.
         const herStatusEl = document.getElementById('projectHerStatus');
-        if (herStatusEl && window.SITE_CONFIG.projectHer) {
-            const cfg = window.SITE_CONFIG.projectHer;
-            if (cfg.status === 'live') {
-                herStatusEl.className = 'flagship-status live';
-                herStatusEl.innerHTML = '<span class="va-status-dot"></span> Live — Try it';
-            } else if (cfg.status === 'deploying') {
-                herStatusEl.className = 'flagship-status deploying';
-                herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#f59e0b"></span> Deploying — Watch Demo';
-            } else if (cfg.status === 'offline') {
-                herStatusEl.className = 'flagship-status offline';
-                herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#888"></span> Demo temporarily unavailable';
-            } else if (cfg.status === 'auto') {
-                // Test reachability
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), cfg.probeTimeoutMs || 8000);
-                fetch(cfg.liveUrl, { method: 'HEAD', mode: 'no-cors', signal: controller.signal })
-                    .then(() => {
-                        clearTimeout(timeoutId);
-                        herStatusEl.className = 'flagship-status live';
-                        herStatusEl.innerHTML = '<span class="va-status-dot"></span> Live — Try it';
-                    })
-                    .catch(() => {
-                        clearTimeout(timeoutId);
-                        herStatusEl.className = 'flagship-status deploying';
-                        herStatusEl.innerHTML = '<span class="va-status-dot" style="background:#f59e0b"></span> Deploying / Starting up';
-                    });
-            }
+        if (herStatusEl) {
+            herStatusEl.className = 'flagship-status checking';
+            herStatusEl.textContent = 'External demo · availability varies';
         }
 
         // Refresh frame button
@@ -619,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return deployedUrl;
     }
 
-    if (herBtnGenerate) {
+    if (herBtnGenerate && !herBtnGenerate.disabled) {
         herBtnGenerate.addEventListener('click', async function() {
             const inputVal = herPromptInput ? herPromptInput.value.trim() : '';
             if (!inputVal) {
@@ -897,8 +775,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize initial download button state
     const initialBtnDownload = document.getElementById('herBtnDownloadMp4');
     if (initialBtnDownload) {
-        initialBtnDownload.href = 'assets/project_her_demo.mp4';
-        initialBtnDownload.setAttribute('download', 'project_her_video.mp4');
+        initialBtnDownload.removeAttribute('href');
+        initialBtnDownload.removeAttribute('download');
     }
 
 });

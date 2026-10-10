@@ -1,110 +1,41 @@
-# Klinteng.com — AI Agent Engineer Portfolio
+# klinteng.com
 
-A recruiter-focused portfolio and interactive AI engineering laboratory for **Bill Klinten Guduru** — AI Agent Engineer & AI Integration Engineer with 6+ years of enterprise software engineering experience across Infosys and EdgeVerve.
+Personal portfolio for Bill Klinten Guduru, a software engineer in Bengaluru. The site presents enterprise product experience, selected AI projects, case studies, and contact information.
 
-**Live Site:** [https://klinteng.com](https://klinteng.com)  
-**Flagship Demo (Project HER):** [https://project-her-793574023262.us-central1.run.app](https://project-her-793574023262.us-central1.run.app)
+The site uses static HTML, CSS, and JavaScript. GitHub Pages can serve it without a build step. The homepage, project pages, and contact links work without an AI backend.
 
----
-
-## What This Demonstrates
-
-- **AI Function & Tool Calling** — Client-side Gemini tool calling with real-time UI dispatches (maps, tech stacks, page navigation, and rich project detail cards).
-- **Strict JSON Schema Enforcement** — Structured LLM outputs validated with deterministic schemas and automatic repair pipelines.
-- **Context Engineering** — Compact flow-state context summaries and bounded profile memory grounding every model response.
-- **Multi-Agent Orchestration & Media Generation** — Flagship autonomous article-to-video agent (**Project HER**) containerized and running on GCP Cloud Run.
-- **Enterprise Software Foundation** — 6+ years delivering high-availability banking platforms (Finacle), Spring Boot microservices, and modern TypeScript/React applications.
-
----
-
-## Architectural Highlights
-
-```text
-User / Recruiter
-      │
-      ▼
-Interactive AI Lab (klinteng.com)
-  ├── Portfolio Assistant  ──► Function Calling (Tools: Logos, Location, Nav)
-  ├── Resume Fit Analyzer  ──► Strict JSON Schema Output (Fit scoring & Gaps)
-  └── Code Review Agent    ──► Multi-Dimension Evaluation & Boundary Constraint
-      │
-      ▼
-Serverless Edge Proxy (api/proxy.js)
-  └── Enforces CORS, IP Rate Limiting, and guards GEMINI_API_KEY
-      │
-      ▼
-Google Gemini API (gemini-2.5-flash)
-```
-
-### Flagship: Project HER (GCP Cloud Run)
-
-```text
-Article / URL / Story
-        ↓
-Content Analysis & Scene Partitioning
-        ↓
-LLM Script Generation (Gemini)
-        ↓
-Neural Narration (Google TTS)
-        ↓
-Visual Retrieval (Pexels API)
-        ↓
-Dynamic Karaoke Captions
-        ↓
-Video Composition (MoviePy)
-        ↓
-Final MP4 Explainer Video
-```
-
----
-
-## Project Structure
-
-```
-my-website/
-├── index.html          # Recruiter-focused portfolio layout
-├── css/
-│   └── style.css       # Design system, dark/light themes, animations & responsive styling
-├── js/
-│   ├── config.js       # Centralized stats, links, and demo status configuration
-│   ├── ai-client.js    # Shared AI transport with friendly errors, JSON repair, and escaping
-│   ├── profile-data.js # Structured career profile context injected into LLM tools
-│   ├── ai-chat.js      # Gemini function-calling assistant with tool transparency log
-│   ├── resume-agent.js # Resume fit analyzer with structured JSON schema
-│   ├── code-review-agent.js # Multi-dimensional code quality analyzer
-│   └── main.js         # Navigation, theme toggle, mobile menu, and live status probes
-├── api/
-│   └── proxy.js        # Serverless edge function (Cloudflare / Vercel proxy)
-├── server/             # Local development proxy server
-│   ├── server.js
-│   ├── package.json
-│   └── .env.example
-├── assets/
-│   ├── Bill_Klinten_Guduru_Resume.pdf  # Recruiter download resume
-│   └── favicon.svg
-├── CNAME               # Custom domain config for GitHub Pages
-└── README.md
-```
-
----
-
-## Local Development
+## Local preview
 
 ```bash
-# 1. Run local web server
-python3 -m http.server 8000
-# or
-npx serve .
-
-# 2. (Optional) Run local AI proxy server
-cd server
-npm install
-cp .env.example .env   # Add your GEMINI_API_KEY
-npm start              # Runs on http://localhost:3001
+python3 -m http.server 8766
+# Open http://127.0.0.1:8766/
 ```
 
----
+The optional portfolio assistant, resume-fit experiment, and code-review experiment require a separate Gemini proxy. On the public site the proxy URL in `js/config.js` is empty, so those controls show an unavailable state before visitors enter data. A local proxy can be started with `cd server && npm install && npm start` after configuring `server/.env`; see `server/.env.example`. A healthy local proxy with a configured API key enables the experiments. Project HER is an independent external demo whose availability can vary. Its embedded generator is hidden until its backend and output are verified; the playground links to the external demo and case study.
 
-## License & Source
+## Content and evidence
 
-Source available for reference and review. All personal project code © 2026 Bill Klinten Guduru. All Rights Reserved.
+- The homepage distinguishes a personal project, a hackathon prototype, and internal tools.
+- The four DocViz specialist agents are followed by a separate QA step.
+- The public case studies describe architecture, contribution, limits, and next steps. Internal artifacts are omitted.
+- `assets/project_her_demo.mp4` is a promotional overview, not a recorded generated output.
+- The browser-delivered `js/profile-data.js` contains only professional information intended to be public.
+- `review-private/claims-to-verify.md` is an ignored local checklist of claims and assets to confirm before publication. It is not part of the public source.
+
+## Checks
+
+The focused browser smoke test covers the homepage and all routes at four widths, JavaScript errors, overflow, resume links, mobile navigation, tabs, project filters, contact actions, the missing AI backend, no-JavaScript navigation, and reduced motion. It uses an existing Puppeteer installation:
+
+```bash
+PUPPETEER_MODULE=/absolute/path/to/puppeteer/module.js \
+SITE_URL=http://127.0.0.1:8766 \
+node tests/browser-smoke.mjs
+```
+
+`PORTFOLIO_CHROME` can point to a Chrome binary when auto-detection is unavailable. The test saves screenshots to `/private/tmp/portfolio-final` by default. It never calls a paid AI generation endpoint.
+
+## Source
+
+`index.html` is the recruiter-facing overview. `projects/` contains the project index and case studies. `playground/` contains optional experiments. Shared site behavior is in `js/main.js`; `js/config.js` holds public links and endpoint settings. `css/style.css` retains the existing design system, while `css/portfolio.css` contains the focused portfolio and shared route refinements.
+
+All personal project code © 2026 Bill Klinten Guduru. All rights reserved.

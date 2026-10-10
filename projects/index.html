@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects — Bill Klinten Guduru | AI Systems & Engineering</title>
+    <meta name="description" content="Personal projects, hackathon prototypes, internal tools, and enterprise software work by Bill Klinten Guduru.">
+    <meta name="keywords" content="Bill Klinten Guduru, AI Agent Engineer, Software Engineer, Full Stack, RAG, Spring Boot, React, EdgeVerve, Infosys">
+    <meta name="author" content="Bill Klinten Guduru">
+
+    <link rel="canonical" href="https://klinteng.com/projects/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Projects — Bill Klinten Guduru | AI Systems & Engineering">
+    <meta property="og:description" content="Personal projects, hackathon prototypes, internal tools, and enterprise software work by Bill Klinten Guduru.">
+    <meta property="og:url" content="https://klinteng.com/projects/">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/projects/" class="nav-link active">Work</a></li>
+                <li><a href="/experience/" class="nav-link">Experience</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
+                <li><a href="/playground/" class="nav-link">Playground</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener" class="nav-resume-btn">
+                    <i class="fas fa-file-pdf"></i> Resume
+                </a>
+                <a href="/contact/" class="nav-cta">Get in Touch</a>
+                <button class="hamburger" id="hamburger" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <header class="page-header-section">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <span class="separator">/</span>
+                <span>Projects</span>
+            </nav>
+            <span class="section-tag"><i class="fas fa-brain"></i> System Architecture</span>
+            <h1 class="page-title">Technical Projects</h1>
+            <p class="page-subtitle">
+                Selected personal projects, hackathon prototypes, internal engineering tools, and enterprise product work. Each detailed case study states its context and limitations.
+            </p>
+        </div>
+    </header>
+
+    <main id="main" class="case-study-article">
+        <div class="container">
+            <!-- Category Filter Tabs -->
+            <div class="project-filters" style="margin-bottom: 32px;">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="ai-agents">AI Agents</button>
+                <button class="filter-btn" data-filter="rag">RAG & LLM Apps</button>
+                <button class="filter-btn" data-filter="video">Video Generation</button>
+                <button class="filter-btn" data-filter="automation">Automation</button>
+                <button class="filter-btn" data-filter="enterprise">Enterprise Software</button>
+            </div>
+
+            <div class="projects-grid">
+                
+                <!-- Project 1: DocViz AI -->
+                <div class="project-card featured-card" data-category="rag,ai-agents,video">
+                    <div class="project-icon ai">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge hackathon">Hackathon Build</span>
+                            <span class="project-domain"><i class="fas fa-trophy"></i> AI Hackathon 2026</span>
+                        </div>
+                        <h3>DocViz AI</h3>
+                        <span class="project-type">Multi-Agent RAG + Video Generation</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        Problem: 50-page enterprise architecture documents take hours to read and onboard developers or clients.
+                    </div>
+                    <p class="project-desc">
+                        A four specialist agents followed by a QA validation step converting complex technical docs into animated explainer videos in the browser, powered by Claude Sonnet 4.5 and PGVector.
+                    </p>
+                    <div class="project-tech">
+                        <span>Claude 4.5 (Bedrock)</span>
+                        <span>PGVector</span>
+                        <span>React</span>
+                        <span>TypeScript</span>
+                        <span>Zod</span>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+                        <a href="/projects/docviz-ai/" class="btn btn-primary" style="padding:8px 16px; font-size:0.85rem;">
+                            <i class="fas fa-book-open"></i> Read Case Study
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Project HER -->
+                <div class="project-card featured-card" data-category="video,ai-agents">
+                    <div class="project-icon ai">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge personal">Flagship AI System</span>
+                            <span class="project-domain"><i class="fas fa-cloud"></i> GCP Cloud Run</span>
+                        </div>
+                        <h3>Project HER</h3>
+                        <span class="project-type">Autonomous Article & Story → Video AI Agent</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        Problem: High latency and manual video editing make turning written articles into engaging social content costly.
+                    </div>
+                    <p class="project-desc">
+                        Autonomous article-to-video agent that extracts content, partitions scenes, writes narration with Gemini 2.5, synthesizes neural voiceover, fetches visual assets, and renders full MP4 compositions via Remotion on Cloud Run.
+                    </p>
+                    <div class="project-tech">
+                        <span>Gemini 2.5 Flash</span>
+                        <span>Python</span>
+                        <span>FastAPI</span>
+                        
+                        <span>Cloud Run</span>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+                        <a href="/projects/project-her/" class="btn btn-primary" style="padding:8px 16px; font-size:0.85rem;">
+                            <i class="fas fa-book-open"></i> Read Case Study
+                        </a>
+                        <a href="/playground/" class="btn btn-outline" style="padding:8px 16px; font-size:0.85rem;">
+                            <i class="fas fa-play"></i> Launch Video Studio
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3: 5-Minute RCA Tool -->
+                <div class="project-card featured-card" data-category="ai-agents,rag,automation">
+                    <div class="project-icon ai">
+                        <i class="fas fa-magnifying-glass-chart"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge internal">Internal Enterprise</span>
+                            <span class="project-domain"><i class="fas fa-building"></i> Used by Engineering</span>
+                        </div>
+                        <h3>5-Minute RCA Tool</h3>
+                        <span class="project-type">AI Root-Cause Analysis Agent</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        Problem: Investigating platform incidents required hours manually cross-referencing PDFs, runbooks, and multiple GitHub repositories.
+                    </div>
+                    <p class="project-desc">
+                        Zero-dependency Python backend agent matching production error signatures against curated playbooks and executing real-time multi-repo code search, outputting match verdict, root cause, fix, and exact file paths.
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>GitHub Search API</span>
+                        <span>RAG</span>
+                        <span>FastAPI</span>
+                        <span>React</span>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+                        <a href="/projects/rca-tool/" class="btn btn-primary" style="padding:8px 16px; font-size:0.85rem;">
+                            <i class="fas fa-book-open"></i> Read Case Study
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 4: Doc Portal Reviewer Agent -->
+                <div class="project-card" data-category="automation,ai-agents">
+                    <div class="project-icon ai">
+                        <i class="fas fa-vial-circle-check"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge internal">Internal Enterprise</span>
+                            <span class="project-domain"><i class="fas fa-building"></i> QA Automation</span>
+                        </div>
+                        <h3>Doc Portal Reviewer Agent</h3>
+                        <span class="project-type">Autonomous Documentation QA Crawler</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        Problem: Enterprise documentation portals suffered from broken links, outdated code snippets, and inconsistent layout schemas.
+                    </div>
+                    <p class="project-desc">
+                        Autonomous crawler built with Playwright and LLM verification that traverses documentation sites, validates checklist rules, captures screenshot evidence, and compiles structured audit reports.
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Playwright</span>
+                        <span>LLM Validation</span>
+                        <span>Confidence Scoring</span>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+                        <a href="/projects/doc-portal-reviewer/" class="btn btn-primary" style="padding:8px 16px; font-size:0.85rem;">
+                            <i class="fas fa-book-open"></i> Read Case Study
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 5: Quota Smart Copilot -->
+                <div class="project-card" data-category="automation,ai-agents">
+                    <div class="project-icon ai">
+                        <i class="fas fa-gauge-high"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge internal">Internal Enterprise</span>
+                            <span class="project-domain"><i class="fas fa-building"></i> Developer Tooling</span>
+                        </div>
+                        <h3>Quota Smart Copilot</h3>
+                        <span class="project-type">AI Usage Governor Agent</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        Problem: Engineering teams exhausted monthly developer Copilot quotas prematurely on basic code formatting.
+                    </div>
+                    <p class="project-desc">
+                        Custom VS Code agent that analyzes request complexity, monitors remaining credit budgets, and guides developers to optimal, cost-efficient model tiers while preserving agentic capabilities.
+                    </p>
+                    <div class="project-tech">
+                        <span>VS Code Custom Agents</span>
+                        <span>TypeScript</span>
+                        <span>Copilot Usage API</span>
+                    </div>
+                </div>
+
+                <!-- Project 6: AI Doc Portal & Conversational Banking UI -->
+                <div class="project-card" data-category="rag,enterprise">
+                    <div class="project-icon ai">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge internal">Internal work</span>
+                            <span class="project-domain"><i class="fas fa-building"></i> EdgeVerve</span>
+                        </div>
+                        <h3>AI Doc Portal & Conversational Banking UI</h3>
+                        <span class="project-type">GenAI UX + Context Engineering</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        Problem: Conversational banking queries need screen and interaction context to be useful.
+                    </div>
+                    <p class="project-desc">
+                        Engineered a client-side interaction-tracking context summarizer for conversational banking interfaces and built an AI-overview search integration over enterprise MkDocs portals.
+                    </p>
+                    <div class="project-tech">
+                        <span>React / TypeScript</span>
+                        <span>Context Engineering</span>
+                        <span>MkDocs / Vanilla JS</span>
+                    </div>
+                </div>
+
+                <!-- Project 7: Finacle Banking Platform -->
+                <div class="project-card" data-category="enterprise">
+                    <div class="project-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge internal">Enterprise Foundation</span>
+                            <span class="project-domain"><i class="fas fa-building"></i> EdgeVerve — Finacle</span>
+                        </div>
+                        <h3>Finacle Banking Platform</h3>
+                        <span class="project-type">Cash Management · Expenses · Payments</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        Enterprise product work across banking interfaces and API integration.
+                    </div>
+                    <p class="project-desc">
+                        Built frontend modules and integrated backend services for Finacle Cash Management, My Expenses, and Payment Services. This employer work is described at a high level because client materials are private.
+                    </p>
+                    <div class="project-tech">
+                        <span>Spring Boot</span>
+                        <span>React</span>
+                        <span>Angular</span>
+                        <span>Node.js</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+                    </a>
+                    <p>Bill Klinten Guduru — Software Engineer & AI Engineering practitioner with 6+ years enterprise experience at Infosys and EdgeVerve.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="/projects/">Projects</a>
+                    <a href="/experience/">Experience</a>
+                    <a href="/contact/">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:klintenguduru@gmail.com" data-link="email" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bill Klinten Guduru. All Rights Reserved.</p>
+                
+            </div>
+        </div>
+    </footer>
+    <script src="/js/config.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+    // Project Category Filtering
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.getAttribute('data-filter');
+            document.querySelectorAll('.project-card').forEach(card => {
+                const cats = (card.getAttribute('data-category') || '').split(',');
+                if (filter === 'all' || cats.includes(filter)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

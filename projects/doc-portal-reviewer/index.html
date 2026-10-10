@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doc Portal Reviewer Agent — Autonomous Documentation QA | Case Study</title>
+    <meta name="description" content="Technical case study of Doc Portal Reviewer: An autonomous Python agent combining Playwright web crawling and LLM verification to audit developer documentation portals.">
+    <meta name="keywords" content="Bill Klinten Guduru, AI Agent Engineer, Software Engineer, Full Stack, RAG, Spring Boot, React, EdgeVerve, Infosys">
+    <meta name="author" content="Bill Klinten Guduru">
+
+    <link rel="canonical" href="https://klinteng.com/projects/doc-portal-reviewer/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Doc Portal Reviewer Agent — Autonomous Documentation QA | Case Study">
+    <meta property="og:description" content="Technical case study of Doc Portal Reviewer: An autonomous Python agent combining Playwright web crawling and LLM verification to audit developer documentation portals.">
+    <meta property="og:url" content="https://klinteng.com/projects/doc-portal-reviewer/">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/projects/" class="nav-link active">Work</a></li>
+                <li><a href="/experience/" class="nav-link">Experience</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
+                <li><a href="/playground/" class="nav-link">Playground</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener" class="nav-resume-btn">
+                    <i class="fas fa-file-pdf"></i> Resume
+                </a>
+                <a href="/contact/" class="nav-cta">Get in Touch</a>
+                <button class="hamburger" id="hamburger" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <header class="page-header-section">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <span class="separator">/</span>
+                <a href="/projects/">Projects</a>
+                <span class="separator">/</span>
+                <span>Doc Portal Reviewer</span>
+            </nav>
+            <div class="page-header-meta">
+                <span class="project-badge internal">Internal Enterprise</span>
+                <span class="her-spec-badge"><i class="fas fa-vial"></i> QA Automation</span>
+            </div>
+            <h1 class="page-title">Doc Portal Reviewer: Autonomous QA Crawler</h1>
+            <p class="page-subtitle">
+                An autonomous verification agent that traverses enterprise documentation portals with Playwright, validates checklist items using LLM evaluators, and captures visual evidence.
+            </p>
+        </div>
+    </header>
+
+    <main id="main" class="case-study-article">
+        <div class="container">
+            <div class="case-study-grid">
+                <div class="case-study-main">
+                    
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-info-circle"></i> 1. Overview</h3>
+                        <p>
+                            Large enterprise portals containing thousands of API documentation pages frequently suffer from outdated code snippets, broken external links, and formatting discrepancies. Manual quality audits across these portals were labor-intensive and error-prone.
+                        </p>
+                        <p>
+                            The <strong>Doc Portal Reviewer</strong> combines headless browser automation (Playwright) with LLM evaluation to crawl pages autonomously, evaluate content against defined technical checklists, capture screenshot evidence, and produce structured audit reports.
+                        </p>
+                    </div>
+
+                    <div class="case-study-block">
+                        <div class="confidential-notice">
+                            <i class="fas fa-shield-halved"></i> <strong>Enterprise Confidentiality Notice:</strong> Proprietary internal portal endpoints and client API keys have been omitted from this technical overview.
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-triangle-exclamation"></i> 2. The Problem</h3>
+                        <ul>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> <strong>Scale:</strong> Hundreds of pages cannot be audited manually before each release cycle.</li>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> <strong>Subtle Deficiencies:</strong> Syntactic errors in code snippets or misaligned API schema versions often slip past basic link-checkers.</li>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> <strong>Evidence Documentation:</strong> Manual reporting required engineers to capture and upload individual screenshots manually.</li>
+                        </ul>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-network-wired"></i> 3. System Architecture</h3>
+                        <div class="arch-flow-diagram" role="region" aria-label="Project architecture; scroll horizontally to read" tabindex="0">
+Target Portal URL
+       │
+       ▼
+[Playwright Headless Crawler] ── walks sitemap & extracts DOM structure
+       │
+       ▼
+[Page Content & Asset Extractor] ── isolates code blocks, tables, & links
+       │
+       ▼
+[Pluggable LLM Evaluator] ── scores adherence against QA ruleset
+       │
+       ▼
+[Screenshot Evidence Capture] ── takes full-page view on failure detection
+       │
+       ▼
+[Audit Report Compiler] ── generates consolidated HTML & JSON summary
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-gears"></i> 4. Technical Implementation</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> <strong>Headless Playwright Automation:</strong> Handles single-page application (SPA) client rendering, authentications, and dynamic navigation states.</li>
+                            <li><i class="fas fa-check"></i> <strong>Confidence Scoring Engine:</strong> The LLM returns a confidence score (0.0 to 1.0) along with its evaluation verdict. Items falling below confidence thresholds are flagged for human review.</li>
+                            <li><i class="fas fa-check"></i> <strong>Pluggable Providers:</strong> Supports multiple model backends (AI Canvas, OpenAI, or local Ollama instances) depending on deployment constraints.</li>
+                        </ul>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-chart-line"></i> 5. Results & Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Automated end-to-end documentation audit sweeps across enterprise documentation sets.</li>
+                            <li><i class="fas fa-check-circle"></i> Produces HTML and JSON reports that an engineer can review before documentation is released.</li>
+                        </ul>
+                    </div>
+                    <div class="case-study-block">
+                        <h3>Evaluation &amp; limits</h3>
+                        <p>LLM confidence is a model output, not a calibrated accuracy measure. Low-confidence findings are intended for human review. The public page does not publish a labeled audit set or a false-positive rate.</p>
+                        <p>A next step is to compare generated findings with reviewer decisions across a sanitized document set.</p>
+                    </div>
+
+                </div>
+
+                <aside class="case-study-sidebar">
+                    <div class="sidebar-widget">
+                        <h4>Project Details</h4>
+                        <div class="sidebar-meta-list">
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Domain</span>
+                                <span class="meta-val">Autonomous QA Agent</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Context</span>
+                                <span class="meta-val">Internal Enterprise Automation</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Role</span>
+                                <span class="meta-val">Architect & Automation Engineer</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Status</span>
+                                <span class="meta-val">Sanitized Case Study</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h4>Technologies Used</h4>
+                        <div class="sidebar-tech-tags">
+                            <span>Python</span>
+                            <span>Playwright</span>
+                            <span>LLM Evaluators</span>
+                            <span>Confidence Scoring</span>
+                            <span>HTML/JSON Reports</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h4>Actions</h4>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <a href="/projects/" class="btn btn-outline" style="justify-content:center;">
+                                <i class="fas fa-arrow-left"></i> All Projects
+                            </a>
+                            <a href="/contact/" class="btn btn-primary" style="justify-content:center;">
+                                <i class="fas fa-envelope"></i> Contact Me
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+                    </a>
+                    <p>Bill Klinten Guduru — Software Engineer & AI Engineering practitioner with 6+ years enterprise experience at Infosys and EdgeVerve.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="/projects/">Projects</a>
+                    <a href="/experience/">Experience</a>
+                    <a href="/contact/">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:klintenguduru@gmail.com" data-link="email" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bill Klinten Guduru. All Rights Reserved.</p>
+                
+            </div>
+        </div>
+    </footer>
+    <script src="/js/config.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

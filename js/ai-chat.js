@@ -350,6 +350,11 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         work: 'Featured Work', projects: 'Selected AI Systems', experience: 'Experience',
         skills: 'Skills', 'ai-lab': 'Interactive AI Lab', about: 'About', contact: 'Contact'
     };
+    var SECTION_ROUTES = {
+        work: '/projects/', projects: '/projects/', experience: '/experience/',
+        skills: '/skills/', 'ai-lab': '/playground/#interactive-lab',
+        about: '/about/', contact: '/contact/'
+    };
 
     function renderSectionHighlight(args, container) {
         var requested = String(args.sectionId || '').toLowerCase().trim();
@@ -371,6 +376,7 @@ BILL KLINTEN GUDURU — PROFESSIONAL PROFILE:
         contentDiv.querySelector('.navigate-btn').addEventListener('click', function() {
             var el = document.getElementById(sectionId);
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else window.location.href = SECTION_ROUTES[sectionId];
         });
 
         card.appendChild(avatarDiv);

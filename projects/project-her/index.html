@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project HER — Autonomous Article to Video AI Agent | Case Study</title>
+    <meta name="description" content="Project HER is a personal article-to-video experiment deployed on Google Cloud Run, with Gemini scripting and Remotion composition.">
+    <meta name="keywords" content="Bill Klinten Guduru, AI Agent Engineer, Software Engineer, Full Stack, RAG, Spring Boot, React, EdgeVerve, Infosys">
+    <meta name="author" content="Bill Klinten Guduru">
+
+    <link rel="canonical" href="https://klinteng.com/projects/project-her/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Project HER — Autonomous Article to Video AI Agent | Case Study">
+    <meta property="og:description" content="Detailed technical breakdown of Project HER: An autonomous end-to-end multi-agent video generator containerized on Google Cloud Run using Gemini 2.5 Flash and Remotion.">
+    <meta property="og:url" content="https://klinteng.com/projects/project-her/">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/projects/" class="nav-link active">Work</a></li>
+                <li><a href="/experience/" class="nav-link">Experience</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
+                <li><a href="/playground/" class="nav-link">Playground</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener" class="nav-resume-btn">
+                    <i class="fas fa-file-pdf"></i> Resume
+                </a>
+                <a href="/contact/" class="nav-cta">Get in Touch</a>
+                <button class="hamburger" id="hamburger" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <header class="page-header-section">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <span class="separator">/</span>
+                <a href="/projects/">Projects</a>
+                <span class="separator">/</span>
+                <span>Project HER</span>
+            </nav>
+            <div class="page-header-meta">
+                <span class="project-badge personal">Flagship AI System</span>
+                <span class="her-spec-badge">External demo</span>
+            </div>
+            <h1 class="page-title">Project HER: Autonomous Article to Video AI Agent</h1>
+            <p class="page-subtitle">
+                A personal article-to-video project deployed on Google Cloud Run, combining script generation, narration, media selection, and rendering.
+            </p>
+        </div>
+    </header>
+
+    <main id="main" class="case-study-article">
+        <div class="container">
+            <div class="case-study-grid">
+                <div class="case-study-main">
+                    
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-info-circle"></i> 1. Overview</h3>
+                        <p>
+                            Project HER explores how a staged workflow can turn a topic or article into a narrated short video. It connects script generation, speech, visual assets, and programmatic composition.
+                        </p>
+                        <p>
+                            I packaged the project in a Docker container and deployed the demo on <strong>Google Cloud Run</strong>. Its availability can vary with the external service.
+                        </p>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-triangle-exclamation"></i> 2. The Problem</h3>
+                        <p>
+                            Making a short educational video involves several manual steps:
+                        </p>
+                        <ul>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Scripting and timing hook sentences.</li>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Recording and cleaning up voiceover audio tracks.</li>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Sourcing relevant, high-resolution B-roll footage.</li>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Aligning karaoke-style captions and exporting heavy video timelines.</li>
+                        </ul>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-lightbulb"></i> 3. The Solution</h3>
+                        <p>
+                            Project HER implements an automated 5-stage pipeline executed asynchronously:
+                        </p>
+                        <div class="arch-flow-diagram" role="region" aria-label="Project architecture; scroll horizontally to read" tabindex="0">
+1. Content Extraction  ──► Scrapes article or accepts story prompt
+           │
+2. Scene Breakdown     ──► Gemini 2.5 Flash partitions into 5-8 second scenes
+           │
+3. Neural Narration    ──► Generates TTS audio & computes word-level subtitle timings
+           │
+4. Media Retrieval     ──► Queries visual APIs (Pexels) for matched high-res clips
+           │
+5. Composition Engine  ──► Remotion composes captions, visuals & MP4
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-gears"></i> 4. Technical Architecture & Decisions</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> <strong>Model Selection (Gemini 2.5 Flash):</strong> Used to produce scene breakdowns that the renderer can consume.</li>
+                            <li><i class="fas fa-check"></i> <strong>Asynchronous Job Queue:</strong> Video rendering is CPU-intensive. The FastAPI backend returns a job ID immediately and streams progress via Server-Sent Events (SSE) and polling endpoints.</li>
+                            <li><i class="fas fa-check"></i> <strong>Dynamic Subtitle Alignment:</strong> Uses neural voice timestamp markers to generate word-by-word highlighted captions synchronized to speech cadence.</li>
+                            <li><i class="fas fa-check"></i> <strong>GCP Cloud Run Deployment:</strong> Containerized with FFmpeg and Python dependencies, scaling dynamically based on generation requests.</li>
+                        </ul>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-bug"></i> 5. Engineering Challenges Overcome</h3>
+                        <p>
+                            <strong>Cold Starts &amp; Rendering Timeouts:</strong> Video composition is sensitive to cold starts, input length, and container memory. The demo uses an asynchronous job flow so visitors can see progress while rendering continues.
+                        </p>
+                        <p>
+                            <strong>API Resilience:</strong> Sourced media clips are validated for dimensions and bitrate before rendering; if an asset is unavailable, the pipeline smoothly falls back to thematic abstract motion backgrounds.
+                        </p>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-play-circle"></i> 6. Live Interactive Demo</h3>
+                        <p>
+                            The public demo runs on an external service. Open it to try a topic or article URL; generation may be unavailable during cold starts or service outages.
+                        </p>
+                        <div style="margin-top:16px;">
+                            <a href="/playground/" class="btn btn-primary"><i class="fas fa-film"></i> Open Video Generator in AI Playground</a>
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3>Evaluation &amp; limits</h3>
+                        <p>There is no published benchmark here for render time, output quality, or cost. Results depend on the source article, available media, and external APIs. The 14-second video asset in this repository is a promotional overview, not a recording of a generated result.</p>
+                        <p>A useful next step is to publish a real input and its generated MP4, plus timings from several runs.</p>
+                    </div>
+
+                </div>
+
+                <aside class="case-study-sidebar">
+                    <div class="sidebar-widget">
+                        <h4>Project Details</h4>
+                        <div class="sidebar-meta-list">
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Domain</span>
+                                <span class="meta-val">Autonomous Media Generation</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Runtime</span>
+                                <span class="meta-val">Google Cloud Run</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Role</span>
+                                <span class="meta-val">Solo Creator & Architect</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Status</span>
+                                <span class="meta-val">External demo · availability varies</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h4>Technologies Used</h4>
+                        <div class="sidebar-tech-tags">
+                            <span>Gemini 2.5 Flash</span>
+                            <span>Python / FastAPI</span>
+                            <span>FFmpeg</span>
+                            <span>Remotion</span>
+                            <span>Google Cloud Run</span>
+                            <span>Docker</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h4>Actions</h4>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <a href="/playground/" class="btn btn-primary" style="justify-content:center;">
+                                <i class="fas fa-play"></i> Try Interactive Demo
+                            </a>
+                            <a href="/projects/" class="btn btn-outline" style="justify-content:center;">
+                                <i class="fas fa-arrow-left"></i> All Projects
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+                    </a>
+                    <p>Bill Klinten Guduru — Software Engineer & AI Engineering practitioner with 6+ years enterprise experience at Infosys and EdgeVerve.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="/projects/">Projects</a>
+                    <a href="/experience/">Experience</a>
+                    <a href="/contact/">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:klintenguduru@gmail.com" data-link="email" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bill Klinten Guduru. All Rights Reserved.</p>
+                
+            </div>
+        </div>
+    </footer>
+    <script src="/js/config.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

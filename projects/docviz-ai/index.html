@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocViz AI — Multi-Agent RAG & Explainer Video Generation | Case Study</title>
+    <meta name="description" content="Technical case study of DocViz AI: A 4-agent RAG pipeline using Claude Sonnet 4.5 and PGVector that transforms 50-page architecture documents into animated video walkthroughs.">
+    <meta name="keywords" content="Bill Klinten Guduru, AI Agent Engineer, Software Engineer, Full Stack, RAG, Spring Boot, React, EdgeVerve, Infosys">
+    <meta name="author" content="Bill Klinten Guduru">
+
+    <link rel="canonical" href="https://klinteng.com/projects/docviz-ai/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="DocViz AI — Multi-Agent RAG & Explainer Video Generation | Case Study">
+    <meta property="og:description" content="Technical case study of DocViz AI: A 4-agent RAG pipeline using Claude Sonnet 4.5 and PGVector that transforms 50-page architecture documents into animated video walkthroughs.">
+    <meta property="og:url" content="https://klinteng.com/projects/docviz-ai/">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <script>document.documentElement.classList.add('js')</script>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/projects/" class="nav-link active">Work</a></li>
+                <li><a href="/experience/" class="nav-link">Experience</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
+                <li><a href="/playground/" class="nav-link">Playground</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener" class="nav-resume-btn">
+                    <i class="fas fa-file-pdf"></i> Resume
+                </a>
+                <a href="/contact/" class="nav-cta">Get in Touch</a>
+                <button class="hamburger" id="hamburger" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <header class="page-header-section">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <span class="separator">/</span>
+                <a href="/projects/">Projects</a>
+                <span class="separator">/</span>
+                <span>DocViz AI</span>
+            </nav>
+            <div class="page-header-meta">
+                <span class="project-badge hackathon">Hackathon Build</span>
+                <span class="her-spec-badge"><i class="fas fa-robot"></i> Multi-Agent RAG</span>
+            </div>
+            <h1 class="page-title">DocViz AI: Multi-Agent Documentation to Video Generator</h1>
+            <p class="page-subtitle">
+                A hackathon prototype with four specialist agents, a separate QA step, and a browser-based explainer renderer.
+            </p>
+        </div>
+    </header>
+
+    <main id="main" class="case-study-article">
+        <div class="container">
+            <div class="case-study-grid">
+                <div class="case-study-main">
+                    
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-info-circle"></i> 1. Overview</h3>
+                        <p>
+                            DocViz AI was conceived during AI Hackathon 2026 to make long architecture documents easier to explain to developers and stakeholders.
+                        </p>
+                        <p>
+                            The prototype accepts Markdown or PDF documentation and builds narrated scenes with animated component diagrams in the browser.
+                        </p>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-triangle-exclamation"></i> 2. The Problem</h3>
+                        <p>
+                            Monolithic architecture documentation suffers from three major flaws:
+                        </p>
+                        <ul>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> <strong>High Ingestion Barrier:</strong> Engineers skim lengthy docs and miss critical system boundary constraints.</li>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> <strong>Static Visuals:</strong> Architecture diagrams are static images that fail to communicate dynamic runtime request flow or data transformations.</li>
+                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> <strong>Maintenance Overhead:</strong> Manually producing video explanations requires specialized video editing skills and becomes stale the moment APIs evolve.</li>
+                        </ul>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-lightbulb"></i> 3. The Solution</h3>
+                        <p>
+                            Our hackathon team used retrieval and four specialist agents for analysis, narration planning, and storyboard generation. A separate QA step checks the resulting scenes before browser rendering. I worked on the pipeline design, prompt contracts, and client-side animation renderer.
+                        </p>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-network-wired"></i> 4. Architecture & Workflow</h3>
+                        <p>Four specialist agents are followed by a validation step:</p>
+                        <div class="arch-flow-diagram" role="region" aria-label="Project architecture; scroll horizontally to read" tabindex="0">
+Raw Architecture Docs (.md / .pdf)
+               │
+               ▼
+   [Agent 1: Vector Retriever (PGVector)] ── extracts relevant section chunks
+               │
+               ▼
+   [Agent 2: Document Analyst (Claude 4.5)] ── identifies core entities & flows
+               │
+               ▼
+   [Agent 3: Creative Director] ── writes concise narration script per scene
+               │
+               ▼
+   [Agent 4: Storyboard Engineer (Zod Schema)] ── compiles layout coordinates & motion
+               │
+               ▼
+   [QA validation step] ── checks scene timing & technical claims
+               │
+               ▼
+   Browser HTML5 Canvas Engine ──► Client-side MP4 Export
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-gears"></i> 5. Technical Decisions</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> <strong>Separate responsibilities:</strong> Document analysis and storyboard generation use different prompts and intermediate outputs, making each stage easier to inspect and revise.</li>
+                            <li><i class="fas fa-check"></i> <strong>Strict Zod Schema Enforcement:</strong> The storyboard engineer outputs JSON conforming to a deterministic schema defining coordinates, bounding boxes, labels, and animation keyframes.</li>
+                            <li><i class="fas fa-check"></i> <strong>Automated Repair Pipeline:</strong> If the model generates a slightly malformed JSON payload, an automatic repair parser fixes syntax anomalies before handing off to the renderer.</li>
+                            <li><i class="fas fa-check"></i> <strong>Browser-Native Canvas Rendering:</strong> Avoided expensive server-side video rendering farms by executing frame-by-frame canvas compositions directly on the client machine.</li>
+                        </ul>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-bug"></i> 6. Engineering Challenges</h3>
+                        <p>
+                            The hardest challenge was ensuring frame-perfect synchrony between client-side neural audio narration and dynamic canvas diagram transitions. Because audio durations vary with speech rate, the Storyboard Engineer calculates timestamp offsets dynamically, adjusting canvas transition durations to match spoken sentences.
+                        </p>
+                    </div>
+
+                    <div class="case-study-block">
+                        <h3><i class="fas fa-chart-line"></i> 7. Results & Impact</h3>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Built and demonstrated as a hackathon prototype for document-to-video explanation.</li>
+                            <li><i class="fas fa-check-circle"></i> The browser renderer made the storyboard visible without a dedicated server-side rendering service.</li>
+                        </ul>
+                    </div>
+                    <div class="case-study-block">
+                        <h3>Evaluation &amp; limits</h3>
+                        <p>The prototype needs a documented comparison against manual explanations and a repeatable check for factual fidelity. Its source documents and generated examples are internal, so this public case study describes the architecture rather than presenting them as independent proof.</p>
+                        <p>A next step is to test the same document set across prompt changes and record failures such as omitted components or incorrect relationships.</p>
+                    </div>
+
+                </div>
+
+                <aside class="case-study-sidebar">
+                    <div class="sidebar-widget">
+                        <h4>Project Details</h4>
+                        <div class="sidebar-meta-list">
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Domain</span>
+                                <span class="meta-val">AI Multi-Agent RAG</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Context</span>
+                                <span class="meta-val">AI Hackathon 2026</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Role</span>
+                                <span class="meta-val">Lead Architect & Pipeline Developer</span>
+                            </div>
+                            <div class="sidebar-meta-item">
+                                <span class="meta-label">Availability</span>
+                                <span class="meta-val">Public Case Study</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h4>Technologies Used</h4>
+                        <div class="sidebar-tech-tags">
+                            <span>Claude Sonnet 4.5</span>
+                            <span>AWS Bedrock</span>
+                            <span>PGVector</span>
+                            <span>React</span>
+                            <span>TypeScript</span>
+                            <span>Zod</span>
+                            <span>HTML5 Canvas</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h4>Actions</h4>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <a href="/projects/" class="btn btn-outline" style="justify-content:center;">
+                                <i class="fas fa-arrow-left"></i> All Projects
+                            </a>
+                            <a href="/playground/" class="btn btn-primary" style="justify-content:center;">
+                                <i class="fas fa-flask"></i> Explore AI Lab
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>BKG<span class="logo-bracket">/&gt;</span>
+                    </a>
+                    <p>Bill Klinten Guduru — Software Engineer & AI Engineering practitioner with 6+ years enterprise experience at Infosys and EdgeVerve.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="/projects/">Projects</a>
+                    <a href="/experience/">Experience</a>
+                    <a href="/contact/">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:klintenguduru@gmail.com" data-link="email" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bill Klinten Guduru. All Rights Reserved.</p>
+                
+            </div>
+        </div>
+    </footer>
+    <script src="/js/config.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -14,19 +14,13 @@ const SITE_CONFIG = (() => {
 
     return {
         // ---- Stats (keep defensible; shown in hero) ----
-        stats: {
-            yearsExperience: '6+',   // Dec 2019 -> present
-            aiAgents: '6',           // AI agents & integrations built (see Selected AI Systems)
-            projects: '8+',          // AI & engineering projects described on this site
-        },
-
         // ---- Links ----
         links: {
             github: 'https://github.com/klintenG',
             linkedin: 'https://www.linkedin.com/in/bill-klinten-guduru-2b361a229',
             email: 'mailto:klintenguduru@gmail.com',
             portfolioRepo: 'https://github.com/klintenG/my-website',
-            resume: 'assets/Bill_Klinten_Guduru_Resume.pdf',
+            resume: '/assets/Bill_Klinten_Guduru_Resume.pdf',
         },
 
         // ---- AI demo backend (Gemini proxy) ----
@@ -53,6 +47,10 @@ const SITE_CONFIG = (() => {
         },
     };
 })();
+
+// Classic scripts can read the lexical binding; explicitly expose it for
+// page controllers that use window.SITE_CONFIG as well.
+window.SITE_CONFIG = SITE_CONFIG;
 
 // How each project status renders (spec: never show "Running" for an unavailable demo)
 const STATUS_RENDER = {
