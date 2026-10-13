@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project HER — Autonomous Article to Video AI Agent | Case Study</title>
+    <title>Project HER — Personal AI Video Application | Engineering Case Study</title>
     <meta name="description" content="Project HER is a personal article-to-video experiment deployed on Google Cloud Run, with Gemini scripting and Remotion composition.">
     <meta name="keywords" content="Bill Klinten Guduru, AI Agent Engineer, Software Engineer, Full Stack, RAG, Spring Boot, React, EdgeVerve, Infosys">
     <meta name="author" content="Bill Klinten Guduru">
@@ -11,8 +11,8 @@
     <link rel="canonical" href="https://klinteng.com/projects/project-her/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Project HER — Autonomous Article to Video AI Agent | Case Study">
-    <meta property="og:description" content="Detailed technical breakdown of Project HER: An autonomous end-to-end multi-agent video generator containerized on Google Cloud Run using Gemini 2.5 Flash and Remotion.">
+    <meta property="og:title" content="Project HER — Personal AI Video Application | Engineering Case Study">
+    <meta property="og:description" content="The engineering behind a personal AI video application: content planning, narration, visual assets, Remotion composition, deployment, and current evidence.">
     <meta property="og:url" content="https://klinteng.com/projects/project-her/">
     <meta property="og:type" content="website">
 
@@ -46,13 +46,13 @@
                 <li><a href="/about/" class="nav-link">About</a></li>
                 <li><a href="/playground/" class="nav-link">Playground</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
-                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-link">View resume</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener" class="nav-resume-btn">
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener noreferrer" class="nav-resume-btn">
                     <i class="fas fa-file-pdf"></i> Resume
                 </a>
                 <a href="/contact/" class="nav-cta">Get in Touch</a>
@@ -74,98 +74,76 @@
                 <span>Project HER</span>
             </nav>
             <div class="page-header-meta">
-                <span class="project-badge personal">Flagship AI System</span>
+                <span class="project-badge personal">Personal Project · Featured build</span>
                 <span class="her-spec-badge">External demo</span>
             </div>
-            <h1 class="page-title">Project HER: Autonomous Article to Video AI Agent</h1>
+            <h1 class="page-title">Project HER</h1>
             <p class="page-subtitle">
                 A personal article-to-video project deployed on Google Cloud Run, combining script generation, narration, media selection, and rendering.
             </p>
+            <div class="her-actions"><a href="https://project-her-svnnlerw4q-uc.a.run.app/" data-her-launch target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Try Project HER (opens in a new tab)">Try Project HER <span aria-hidden="true">↗</span></a><a class="her-engineering" href="#result">Watch sample output ↓</a></div>
         </div>
     </header>
 
-    <main id="main" class="case-study-article">
+    <main id="main" class="case-study-article her-case">
         <div class="container">
             <div class="case-study-grid">
                 <div class="case-study-main">
-                    
-                    <div class="case-study-block">
-                        <h3><i class="fas fa-info-circle"></i> 1. Overview</h3>
-                        <p>
-                            Project HER explores how a staged workflow can turn a topic or article into a narrated short video. It connects script generation, speech, visual assets, and programmatic composition.
-                        </p>
-                        <p>
-                            I packaged the project in a Docker container and deployed the demo on <strong>Google Cloud Run</strong>. Its availability can vary with the external service.
-                        </p>
-                    </div>
-
-                    <div class="case-study-block">
-                        <h3><i class="fas fa-triangle-exclamation"></i> 2. The Problem</h3>
-                        <p>
-                            Making a short educational video involves several manual steps:
-                        </p>
-                        <ul>
-                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Scripting and timing hook sentences.</li>
-                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Recording and cleaning up voiceover audio tracks.</li>
-                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Sourcing relevant, high-resolution B-roll footage.</li>
-                            <li><i class="fas fa-times-circle" style="color:#ef4444;"></i> Aligning karaoke-style captions and exporting heavy video timelines.</li>
-                        </ul>
-                    </div>
-
-                    <div class="case-study-block">
-                        <h3><i class="fas fa-lightbulb"></i> 3. The Solution</h3>
-                        <p>
-                            Project HER implements an automated 5-stage pipeline executed asynchronously:
-                        </p>
-                        <div class="arch-flow-diagram" role="region" aria-label="Project architecture; scroll horizontally to read" tabindex="0">
-1. Content Extraction  ──► Scrapes article or accepts story prompt
-           │
-2. Scene Breakdown     ──► Gemini 2.5 Flash partitions into 5-8 second scenes
-           │
-3. Neural Narration    ──► Generates TTS audio & computes word-level subtitle timings
-           │
-4. Media Retrieval     ──► Queries visual APIs (Pexels) for matched high-res clips
-           │
-5. Composition Engine  ──► Remotion composes captions, visuals & MP4
-                        </div>
-                    </div>
-
-                    <div class="case-study-block">
-                        <h3><i class="fas fa-gears"></i> 4. Technical Architecture & Decisions</h3>
-                        <ul>
-                            <li><i class="fas fa-check"></i> <strong>Model Selection (Gemini 2.5 Flash):</strong> Used to produce scene breakdowns that the renderer can consume.</li>
-                            <li><i class="fas fa-check"></i> <strong>Asynchronous Job Queue:</strong> Video rendering is CPU-intensive. The FastAPI backend returns a job ID immediately and streams progress via Server-Sent Events (SSE) and polling endpoints.</li>
-                            <li><i class="fas fa-check"></i> <strong>Dynamic Subtitle Alignment:</strong> Uses neural voice timestamp markers to generate word-by-word highlighted captions synchronized to speech cadence.</li>
-                            <li><i class="fas fa-check"></i> <strong>GCP Cloud Run Deployment:</strong> Containerized with FFmpeg and Python dependencies, scaling dynamically based on generation requests.</li>
-                        </ul>
-                    </div>
-
-                    <div class="case-study-block">
-                        <h3><i class="fas fa-bug"></i> 5. Engineering Challenges Overcome</h3>
-                        <p>
-                            <strong>Cold Starts &amp; Rendering Timeouts:</strong> Video composition is sensitive to cold starts, input length, and container memory. The demo uses an asynchronous job flow so visitors can see progress while rendering continues.
-                        </p>
-                        <p>
-                            <strong>API Resilience:</strong> Sourced media clips are validated for dimensions and bitrate before rendering; if an asset is unavailable, the pipeline smoothly falls back to thematic abstract motion backgrounds.
-                        </p>
-                    </div>
-
-                    <div class="case-study-block">
-                        <h3><i class="fas fa-play-circle"></i> 6. Live Interactive Demo</h3>
-                        <p>
-                            The public demo runs on an external service. Open it to try a topic or article URL; generation may be unavailable during cold starts or service outages.
-                        </p>
-                        <div style="margin-top:16px;">
-                            <a href="/playground/" class="btn btn-primary"><i class="fas fa-film"></i> Open Video Generator in AI Playground</a>
-                        </div>
-                    </div>
-
-                    <div class="case-study-block">
-                        <h3>Evaluation &amp; limits</h3>
-                        <p>There is no published benchmark here for render time, output quality, or cost. Results depend on the source article, available media, and external APIs. The 14-second video asset in this repository is a promotional overview, not a recording of a generated result.</p>
-                        <p>A useful next step is to publish a real input and its generated MP4, plus timings from several runs.</p>
-                    </div>
-
+                    <section class="case-study-block" id="result" aria-labelledby="result-heading">
+                        <h2 id="result-heading">See the generated result</h2>
+                        <figure class="her-media" data-her-media>
+                            <a href="/assets/project-her-application.webp" aria-label="View full Project HER application screenshot"><img src="/assets/project-her-application.webp" width="1440" height="1000" loading="lazy" decoding="async" alt="Project HER application with story input, narration and visual options, and an idle output panel"></a>
+                            <noscript><p><a href="/assets/project-her/zheng-yi-sao.mp4">Watch the approved HER sample MP4</a></p></noscript>
+    <figcaption>Application preview · public landing page captured 13 October 2026. This is the creator interface, not a generated result.</figcaption>
+                        </figure>
+                        <p class="her-evidence-note">This approved sample is a local HER Remotion re-render of the Zheng Yi Sao story, preserving previously generated narration and illustrations. The MP4 is published unchanged. The illustrations are AI reconstructions, not documentary evidence; historical claims and artwork have not been independently verified. Expand the input, provenance, and transcript below the video for context.</p>
+                    </section>
+                    <section class="case-study-block">
+                        <h2>The problem: coordinating a complete video workflow</h2>
+                        <p>A short video requires more than a model response: a usable script, relevant visuals, narration, captions, scene transitions, and a playable export. Article quality and available media vary, so each handoff affects the final result.</p>
+                        <p>HER is my personal build, separate from employer-owned engineering work and hackathon prototypes. I connected AI content processing with media preparation, programmatic composition, an input experience, and a deployed application.</p>
+                    </section>
+                    <section class="case-study-block">
+                        <h2>From input to MP4</h2>
+                        <p>The hosted interface accepts a topic, story, or article URL and exposes narration, duration, visual style, renderer, and Classic/News options. Its intended workflow is:</p>
+                        <ol class="her-architecture" aria-label="Project HER pipeline in sequence">
+                            <li><strong>01 · Input &amp; options</strong><span>Browser form collects content and creator settings.</span></li>
+                            <li><strong>02 · Content planning</strong><span>Backend content processing and Gemini scripting prepare narration and scene descriptions.</span></li>
+                            <li><strong>03 · Narration &amp; captions</strong><span>Speech audio and word timings provide a shared basis for the subtitle timeline.</span></li>
+                            <li><strong>04 · Visual assets</strong><span>Retrieved or generated media is selected for the planned scenes.</span></li>
+                            <li><strong>05 · Composition</strong><span>Remotion uses React compositions to combine visuals, audio, captions, and transitions; FFmpeg supports media processing.</span></li>
+                            <li><strong>06 · Preview &amp; download</strong><span>The app presents progress and, on a successful job, a video artifact for playback and download.</span></li>
+                        </ol>
+                        <p class="her-evidence-note">The repository now supports source-level inspection of the pipeline. The sample demonstrates a completed local Remotion render using saved HER narration and assets. A new, complete hosted generation run has not been tested.</p>
+                    </section>
+                    <section class="case-study-block">
+                        <h2>Architecture and engineering decisions</h2>
+                        <p><strong>Separate creator and renderer.</strong> The deployed input interface uses HTML, Bootstrap, and JavaScript. The backend uses Python/Flask, served by Gunicorn; React belongs to Remotion composition. The portfolio links directly to the standalone app, keeping its rendering lifecycle and paid services independent of portfolio hosting.</p>
+                        <p><strong>Model output becomes a rendering plan.</strong> Gemini content processing sits upstream of narration and scene composition. The engineering boundary is the handoff between generated text, timed audio, visual assets, and a deterministic video timeline. The editorial path uses validated Pydantic timelines, explicit word/section timing, asset provenance, staged media, and React compositions. Source research and supplied-account processing remain distinct in News mode. Schema validation makes handoffs inspectable; it does not guarantee factual accuracy or a good visual match.</p>
+                        <p><strong>Track long-running work outside the page request.</strong> The Flask server starts worker threads, tracks jobs in memory, and streams stage events over SSE. The client falls back to /api/result polling when streaming drops. News cancellation uses a threading event checked by the pipeline. This keeps the page request separate from rendering, but jobs and results are not durable across instance restarts. Docker runs one Gunicorn worker with eight threads and a 900-second timeout; those image settings are not a measurement of the deployed Cloud Run resources.</p>
+                        <p><strong>Package media dependencies together.</strong> I containerized and deployed the project on Google Cloud Run with the Python and media-rendering dependencies. Rendering competes for CPU and memory, and request limits and cold starts affect the experience. No verified resource configuration, throughput, or render-time benchmark is published here.</p>
+                    </section>
+                    <section class="case-study-block">
+                        <h2>What I implemented</h2>
+                        <p>I built and deployed the personal video-generation workflow: connecting the input experience, model-based content planning, narration, visual assets, subtitle timing, and Remotion rendering, then packaging the application for Cloud Run.</p>
+                        <p>Concrete source boundaries are web_ui.py and templates/index.html for the creator/job API; agent/orchestrator.py for the general flow; agent/news_pipeline.py for News routing; agent/editorial/pipeline.py, audio.py, director.py, planner.py and render.py for narration-driven timelines and delivery; and remotion/src/editorial/EditorialVideo.tsx for frame composition. The Dockerfile packages Python, Node, FFmpeg, fonts and browser dependencies. These modules were inspected; their presence is distinct from a new hosted end-to-end execution test.</p>
+                    </section>
+                    <section class="case-study-block">
+                        <h2>Constraints and tradeoffs</h2>
+                        <p><strong>Visual relevance and media rights.</strong> A relevant search term can still produce an unrelated image. Retrieved media needs rights and provenance review before publication. Generated imagery is illustrative and should not be presented as documentary evidence, especially in News mode.</p>
+                        <p><strong>Caption synchronization.</strong> Word timings, audio duration, and scene boundaries must agree. Speech pacing and failed alignment can produce clipped captions or drift; the saved sample carries Whisper forced-alignment word timestamps and low-confidence warnings. Its captions are derived from those saved marks; no general alignment-accuracy benchmark is claimed.</p>
+                        <p><strong>Latency and third-party failures.</strong> Model, narration, and media providers can time out or return unusable assets. Longer inputs increase work and potential cost; CPU, memory, and cold starts constrain rendering. The server has per-process daily/visitor caps and a concurrent-job limit. These counters reset on restart and do not form a distributed quota; preview/provider exposure and proxy IP trust still need a security review. Result retention is in memory. No production reliability guarantee follows from these controls.</p>
+                        <p><strong>Input quality and factual risk.</strong> Ambiguous prompts, inaccessible URLs, and weak source material affect the script. News controls expose research/editorial choices, but they do not guarantee factual correctness. Source review and a distinction between factual and illustrative assets remain necessary.</p>
+                        <p><strong>Next mitigations to validate.</strong> Durable jobs/results and shared quotas, robust client-IP trust, input-length and spend budgets, guarded preview usage, and provider-specific retry/deadline review are follow-up work. Existing manifest validation and local render checks are implemented separately; these recommendations are not claims of completed safeguards.</p>
+                    </section>
+                    <section class="case-study-block">
+                        <h2>Validation, evidence, and current status</h2>
+                        <p>On 13 October 2026, the public application landing page returned HTTP 200. Its HTML and client logic were inspected, and its idle interface was captured separately as the application-preview fallback. No generation was submitted and no paid API credits were spent during this portfolio update.</p>
+                        <p>The owner supplied and approved output/reference_parity_v2/editorial-remotion.mp4. ffprobe reports 56.128 seconds, 1080×1920 at 30 fps, H.264 video and AAC audio; a full FFmpeg decode completed without errors. The published file is byte-identical to that artifact. Those are file measurements, not generation speed or quality benchmarks. The original supplied account and rendered narration were recovered from the saved preview and manifest.</p>
+                        <p>The local reference-v2 review script reuses saved narration, word marks, and illustrative assets without new provider calls. The sample has known limitations: a generic opening hook, uneven historical artwork, static holds, and low-confidence alignment marks. It demonstrates this rendering configuration, not every input or live cloud availability. No completion-rate, cost, throughput, or commercial-adoption benchmark is claimed. <a class="her-engineering" href="/assets/project-her/sample-evidence.json">View sample provenance and file hash →</a></p>
+                        <div class="her-actions"><a href="https://project-her-svnnlerw4q-uc.a.run.app/" data-her-launch target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Try Project HER (opens in a new tab)">Try Project HER <span aria-hidden="true">↗</span></a><a class="her-engineering" href="/projects/">Explore other projects →</a></div>
+                        <p class="her-runtime">Hosted demo · availability and generation time vary with inputs and external services.</p>
+                    </section>
                 </div>
 
                 <aside class="case-study-sidebar">
@@ -174,7 +152,7 @@
                         <div class="sidebar-meta-list">
                             <div class="sidebar-meta-item">
                                 <span class="meta-label">Domain</span>
-                                <span class="meta-val">Autonomous Media Generation</span>
+                                <span class="meta-val">Personal AI video application</span>
                             </div>
                             <div class="sidebar-meta-item">
                                 <span class="meta-label">Runtime</span>
@@ -182,7 +160,7 @@
                             </div>
                             <div class="sidebar-meta-item">
                                 <span class="meta-label">Role</span>
-                                <span class="meta-val">Solo Creator & Architect</span>
+                                <span class="meta-val">Personal project · creator</span>
                             </div>
                             <div class="sidebar-meta-item">
                                 <span class="meta-label">Status</span>
@@ -194,8 +172,8 @@
                     <div class="sidebar-widget">
                         <h4>Technologies Used</h4>
                         <div class="sidebar-tech-tags">
-                            <span>Gemini 2.5 Flash</span>
-                            <span>Python / FastAPI</span>
+                            <span>Gemini</span>
+                            <span>Python / Flask</span>
                             <span>FFmpeg</span>
                             <span>Remotion</span>
                             <span>Google Cloud Run</span>
@@ -206,9 +184,7 @@
                     <div class="sidebar-widget">
                         <h4>Actions</h4>
                         <div style="display:flex; flex-direction:column; gap:10px;">
-                            <a href="/playground/" class="btn btn-primary" style="justify-content:center;">
-                                <i class="fas fa-play"></i> Try Interactive Demo
-                            </a>
+<a href="https://project-her-svnnlerw4q-uc.a.run.app/" data-her-launch target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Try Project HER (opens in a new tab)">Try Project HER <span aria-hidden="true">↗</span></a>
                             <a href="/projects/" class="btn btn-outline" style="justify-content:center;">
                                 <i class="fas fa-arrow-left"></i> All Projects
                             </a>
@@ -234,10 +210,10 @@
                     <a href="/contact/">Contact</a>
                 </div>
                 <div class="footer-social">
-                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener" aria-label="GitHub">
+                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
                     <a href="mailto:klintenguduru@gmail.com" data-link="email" aria-label="Email">

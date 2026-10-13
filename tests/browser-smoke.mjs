@@ -14,7 +14,7 @@ const base = process.env.SITE_URL || 'http://127.0.0.1:8766';
 const screenshots = process.env.SCREENSHOT_DIR || '/private/tmp/portfolio-final';
 mkdirSync(screenshots, { recursive: true });
 const routes = ['/', '/about/', '/experience/', '/skills/', '/projects/', '/projects/docviz-ai/', '/projects/project-her/', '/projects/rca-tool/', '/projects/doc-portal-reviewer/', '/playground/', '/contact/'];
-const widths = [1440, 768, 390, 360];
+const widths = [1440, 1024, 768, 430, 375, 320];
 const browserProfile = mkdtempSync(path.join(tmpdir(), 'portfolio-smoke-'));
 const browser = await puppeteer.launch({ executablePath: chrome, headless: true, userDataDir: browserProfile });
 let checked = 0;
@@ -23,6 +23,10 @@ try {
     for (const route of routes) {
       const page = await browser.newPage();
       const errors = [];
+      const generationRequests = [];
+      page.on('request', request => {
+        if (request.url().includes('project-her-svnnlerw4q-uc.a.run.app')) generationRequests.push(request.url());
+      });
       page.on('pageerror', error => errors.push(error.message));
       await page.setViewport({ width, height: width >= 768 ? 1000 : 844 });
       const response = await page.goto(base + route, { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -37,7 +41,7 @@ try {
       assert.ok(state.scrollWidth <= width + 2, `${route} overflows at ${width}px: ${state.scrollWidth}`);
       assert.ok(state.main, `${route} has no main landmark`);
       assert.ok(state.resumeLinks.length > 0 && state.resumeLinks.every(link => new URL(link).pathname === '/assets/Bill_Klinten_Guduru_Resume.pdf'), `${route} resume link`);
-      if (width === 390 && (route === '/' || route === '/contact/')) {
+      if (width === 375 && (route === '/' || route === '/contact/')) {
         if (route === '/') {
           await page.focus('#hamburger');
           await page.keyboard.press('Enter');
@@ -69,8 +73,8 @@ try {
       if (width === 768 && route === '/playground/') {
         assert.ok(await page.$eval('#labAvailability', e => !e.hidden), 'Missing public AI availability notice');
         assert.ok(await page.$eval('#analyzeBtn', e => e.disabled), 'Unconfigured AI analyzer accepts input');
-        assert.ok(await page.$eval('.her-studio-wrapper', e => e.hidden), 'Unverified HER generator is shown');
-        assert.ok(await page.$eval('#herBtnGenerate', e => e.disabled), 'Unverified HER generator is enabled');
+        assert.equal(await page.$('#herBtnGenerate'), null, 'Obsolete HER generator remains');
+        assert.equal(await page.$('.her-studio-wrapper'), null, 'Duplicate studio remains');
         await page.focus('[data-tab="fit"]');
         await page.keyboard.press('Enter');
         assert.ok(await page.$eval('#tab-fit', e => e.classList.contains('active')), 'AI tab switch failed');
@@ -85,7 +89,27 @@ try {
         await page.click('#copyEmail');
         await page.waitForFunction(() => document.getElementById('copyEmail').textContent !== 'Copy email address');
       }
-      if (width === 360 && route === '/projects/docviz-ai/') await page.screenshot({ path: path.join(screenshots, 'case-mobile.png'), fullPage: true });
+      if (width === 320 && route === '/projects/docviz-ai/') await page.screenshot({ path: path.join(screenshots, 'case-mobile.png'), fullPage: true });
+      assert.equal(generationRequests.length, 0, `${route} contacted HER on page load`);
+      if (['/', '/projects/', '/projects/project-her/', '/playground/'].includes(route)) {
+        const launchLinks = await page.$$eval('[data-her-launch]', links => links.map(a => ({ href: a.href, target: a.target, rel: a.rel, label: a.getAttribute('aria-label') })));
+        assert.ok(launchLinks.length > 0, `${route} has no launch link`);
+        assert.ok(launchLinks.every(a => a.href === 'https://project-her-svnnlerw4q-uc.a.run.app/' && a.target === '_blank' && a.rel.includes('noopener') && a.rel.includes('noreferrer') && a.label.includes('new tab')), `${route} unsafe launch link`);
+        await page.$eval('[data-her-media]', media => media.scrollIntoView({block:'center',behavior:'instant'}));
+        await page.waitForFunction(() => document.querySelector('[data-her-media] video')?.readyState >= 1);
+        const sample = await page.$eval('[data-her-media] video', video => ({ duration: video.duration, width: video.videoWidth, height: video.videoHeight, controls: video.controls, inline: video.playsInline, autoplay: video.autoplay, preload: video.preload, captions: video.querySelector('track')?.getAttribute('src') }));
+        assert.ok(Math.abs(sample.duration - 56.128) < .05, `${route} sample duration`);
+        assert.equal(sample.width, 1080); assert.equal(sample.height, 1920);
+        assert.ok(sample.controls && sample.inline && !sample.autoplay && sample.preload === 'metadata', `${route} sample behavior`);
+        assert.equal(sample.captions, '/assets/project-her/zheng-yi-sao.vtt');
+        await page.$eval('[data-her-media] video', async video => { video.muted = true; await video.play(); });
+        await page.waitForFunction(() => document.querySelector('[data-her-media] video').currentTime > 0);
+        await page.$eval('[data-her-media] video', video => video.pause());
+        assert.equal(await page.$('a[href="/assets/project_her_demo.mp4"]'), null, 'Promo presented as output');
+        if (route === '/projects/') assert.equal(await page.$eval('.project-card h3', h => h.textContent), 'Project HER');
+        if (route === '/') assert.equal((await page.$$('.her-feature')).length, 1);
+        if ([1440, 375].includes(width)) await page.screenshot({ path: path.join(screenshots, `her-${route.replaceAll('/', '-') || 'home'}-${width}.png`), fullPage: true });
+      }
       checked++;
       await page.close();
     }

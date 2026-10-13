@@ -46,13 +46,13 @@
                 <li><a href="/about/" class="nav-link">About</a></li>
                 <li><a href="/playground/" class="nav-link">Playground</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
-                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-link">View resume</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener" class="nav-resume-btn">
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" data-resume target="_blank" rel="noopener noreferrer" class="nav-resume-btn">
                     <i class="fas fa-file-pdf"></i> Resume
                 </a>
                 <a href="/contact/" class="nav-cta">Get in Touch</a>
@@ -92,7 +92,45 @@
             </div>
 
             <div class="projects-grid">
-                
+
+                <!-- Project 2: Project HER -->
+                <div class="project-card featured-card her-project-card" data-category="video,ai-agents">
+                    <div class="project-icon ai">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="project-header">
+                        <div class="project-meta-row">
+                            <span class="project-badge personal">Personal Project · Featured</span>
+                            <span class="project-domain"><i class="fas fa-cloud"></i> GCP Cloud Run</span>
+                        </div>
+                        <h3>Project HER</h3>
+                        <span class="project-type">Story / article → narrated short video</span>
+                    </div>
+                    <div class="card-problem-statement">
+                        One workflow connects scripting, narration, visuals, captions, and video composition.
+                    </div>
+                    <p class="project-desc">
+                        My independent build brings AI content processing and programmatic video rendering together in a deployed application. Explore its engineering and current evidence, or open the hosted app.
+                    </p>
+<figure class="her-media" data-her-media>
+    <a href="/assets/project-her-application.webp" aria-label="View full Project HER application screenshot"><img src="/assets/project-her-application.webp" width="1440" height="1000" loading="lazy" decoding="async" alt="Project HER application: story input and video options beside an idle output panel"></a>
+    <noscript><p><a href="/assets/project-her/zheng-yi-sao.mp4">Watch the approved HER sample MP4</a></p></noscript>
+    <figcaption>Application preview · <a href="/assets/project-her/zheng-yi-sao.mp4">Watch the approved sample MP4</a></figcaption>
+</figure>                    <div class="project-tech">
+                        <span>Gemini</span>
+                        <span>Python</span>
+                        <span>Flask</span>
+
+                        <span>Cloud Run</span>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+                        <a href="/projects/project-her/" class="btn btn-primary" style="padding:8px 16px; font-size:0.85rem;">
+                            <i class="fas fa-book-open"></i> Read Case Study
+                        </a>
+<a href="https://project-her-svnnlerw4q-uc.a.run.app/" data-her-launch target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Try Project HER (opens in a new tab)">Try Project HER <span aria-hidden="true">↗</span></a>
+                    </div>
+                </div>
+
                 <!-- Project 1: DocViz AI -->
                 <div class="project-card featured-card" data-category="rag,ai-agents,video">
                     <div class="project-icon ai">
@@ -100,7 +138,7 @@
                     </div>
                     <div class="project-header">
                         <div class="project-meta-row">
-                            <span class="project-badge hackathon">Hackathon Build</span>
+                            <span class="project-badge hackathon">Hackathon Prototype</span>
                             <span class="project-domain"><i class="fas fa-trophy"></i> AI Hackathon 2026</span>
                         </div>
                         <h3>DocViz AI</h3>
@@ -110,7 +148,7 @@
                         Problem: 50-page enterprise architecture documents take hours to read and onboard developers or clients.
                     </div>
                     <p class="project-desc">
-                        A four specialist agents followed by a QA validation step converting complex technical docs into animated explainer videos in the browser, powered by Claude Sonnet 4.5 and PGVector.
+                        Four specialist agents followed by a QA validation step converting complex technical docs into animated explainer videos in the browser, powered by Claude Sonnet 4.5 and PGVector.
                     </p>
                     <div class="project-tech">
                         <span>Claude 4.5 (Bedrock)</span>
@@ -126,42 +164,6 @@
                     </div>
                 </div>
 
-                <!-- Project 2: Project HER -->
-                <div class="project-card featured-card" data-category="video,ai-agents">
-                    <div class="project-icon ai">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <div class="project-header">
-                        <div class="project-meta-row">
-                            <span class="project-badge personal">Flagship AI System</span>
-                            <span class="project-domain"><i class="fas fa-cloud"></i> GCP Cloud Run</span>
-                        </div>
-                        <h3>Project HER</h3>
-                        <span class="project-type">Autonomous Article & Story → Video AI Agent</span>
-                    </div>
-                    <div class="card-problem-statement">
-                        Problem: High latency and manual video editing make turning written articles into engaging social content costly.
-                    </div>
-                    <p class="project-desc">
-                        Autonomous article-to-video agent that extracts content, partitions scenes, writes narration with Gemini 2.5, synthesizes neural voiceover, fetches visual assets, and renders full MP4 compositions via Remotion on Cloud Run.
-                    </p>
-                    <div class="project-tech">
-                        <span>Gemini 2.5 Flash</span>
-                        <span>Python</span>
-                        <span>FastAPI</span>
-                        
-                        <span>Cloud Run</span>
-                    </div>
-                    <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
-                        <a href="/projects/project-her/" class="btn btn-primary" style="padding:8px 16px; font-size:0.85rem;">
-                            <i class="fas fa-book-open"></i> Read Case Study
-                        </a>
-                        <a href="/playground/" class="btn btn-outline" style="padding:8px 16px; font-size:0.85rem;">
-                            <i class="fas fa-play"></i> Launch Video Studio
-                        </a>
-                    </div>
-                </div>
-
                 <!-- Project 3: 5-Minute RCA Tool -->
                 <div class="project-card featured-card" data-category="ai-agents,rag,automation">
                     <div class="project-icon ai">
@@ -169,7 +171,7 @@
                     </div>
                     <div class="project-header">
                         <div class="project-meta-row">
-                            <span class="project-badge internal">Internal Enterprise</span>
+                            <span class="project-badge internal">Internal Engineering Tool</span>
                             <span class="project-domain"><i class="fas fa-building"></i> Used by Engineering</span>
                         </div>
                         <h3>5-Minute RCA Tool</h3>
@@ -202,7 +204,7 @@
                     </div>
                     <div class="project-header">
                         <div class="project-meta-row">
-                            <span class="project-badge internal">Internal Enterprise</span>
+                            <span class="project-badge internal">Internal Engineering Tool</span>
                             <span class="project-domain"><i class="fas fa-building"></i> QA Automation</span>
                         </div>
                         <h3>Doc Portal Reviewer Agent</h3>
@@ -234,7 +236,7 @@
                     </div>
                     <div class="project-header">
                         <div class="project-meta-row">
-                            <span class="project-badge internal">Internal Enterprise</span>
+                            <span class="project-badge internal">Internal Engineering Tool</span>
                             <span class="project-domain"><i class="fas fa-building"></i> Developer Tooling</span>
                         </div>
                         <h3>Quota Smart Copilot</h3>
@@ -325,10 +327,10 @@
                     <a href="/contact/">Contact</a>
                 </div>
                 <div class="footer-social">
-                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener" aria-label="GitHub">
+                    <a href="https://github.com/klintenG" data-link="github" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" data-link="linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
                     <a href="mailto:klintenguduru@gmail.com" data-link="email" aria-label="Email">
@@ -338,7 +340,7 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 Bill Klinten Guduru. All Rights Reserved.</p>
-                
+
             </div>
         </div>
     </footer>

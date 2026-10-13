@@ -31,11 +31,11 @@
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="/playground/" class="nav-link">Playground</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-link">View resume</a></li>
+                <li class="mobile-resume-item"><a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-link">View resume</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme"><i class="fas fa-moon" aria-hidden="true"></i></button>
-                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener" class="nav-resume-btn">Resume</a>
+                <a href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-resume-btn">Resume</a>
                 <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <p class="availability"><span aria-hidden="true"></span> Open to full-stack and applied AI engineering opportunities</p>
                 <div class="primary-actions">
                     <a class="btn btn-primary" href="#work">View selected work <span aria-hidden="true">↗</span></a>
-                    <a class="btn btn-outline" href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener">View resume <span aria-hidden="true">↗</span></a>
+                    <a class="btn btn-outline" href="/assets/Bill_Klinten_Guduru_Resume.pdf" target="_blank" rel="noopener noreferrer">View resume <span aria-hidden="true">↗</span></a>
                 </div>
             </div>
         </section>
@@ -58,14 +58,21 @@
             <div class="container">
                 <div class="section-intro"><div><p class="eyebrow">01 / Selected work</p><h2 id="work-title">Systems I have built</h2></div><p>Personal, hackathon, and internal work are labeled so you can judge each in its proper context.</p></div>
                 <div class="work-grid">
-                    <article class="work-card">
-                        <div class="work-card-top"><span class="work-number">01</span><span class="work-status">Personal project · external demo</span></div>
-                        <h3>Project HER</h3>
-                        <p class="work-summary">Turns a topic or article into a narrated short video through a staged pipeline for scripting, voice, visuals, and rendering.</p>
-                        <p class="work-contribution"><strong>My work:</strong> Built and deployed the video-generation workflow on Cloud Run.</p>
-                        <p class="work-outcome">A public demo is available. Generation depends on the external service being online.</p>
-                        <ul class="work-tech"><li>Gemini</li><li>FastAPI</li><li>Remotion</li><li>Cloud Run</li></ul>
-                        <div class="work-actions"><a href="/projects/project-her/">Read case study <span aria-hidden="true">↗</span></a><a href="https://project-her-svnnlerw4q-uc.a.run.app" target="_blank" rel="noopener">Open demo <span aria-hidden="true">↗</span></a></div>
+                    <article class="work-card her-feature">
+                        <div class="her-feature-copy">
+                            <p class="her-kicker">Personal project · Featured build</p>
+                            <h3>Project HER</h3>
+                            <p class="work-summary">From a story or article to a narrated short video.</p>
+                            <p>A personal AI video application I built and deployed, connecting content planning, narration, visual assets, subtitle timing, and Remotion composition.</p>
+                            <ul class="work-tech"><li>Flask</li><li>Gemini</li><li>Remotion</li><li>Cloud Run</li></ul>
+                            <div class="her-actions"><a href="https://project-her-svnnlerw4q-uc.a.run.app/" data-her-launch target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Try Project HER (opens in a new tab)">Try Project HER <span aria-hidden="true">↗</span></a><a class="her-engineering" href="/projects/project-her/">Explore engineering <span aria-hidden="true">→</span></a></div>
+                            <p class="her-runtime">Hosted demo · generation time and availability vary.</p>
+                        </div>
+                        <figure class="her-media" data-her-media>
+    <a href="/assets/project-her-application.webp" aria-label="View full Project HER application screenshot"><img src="/assets/project-her-application.webp" width="1440" height="1000" loading="lazy" decoding="async" alt="Project HER application: story input and video options beside an idle output panel"></a>
+    <noscript><p><a href="/assets/project-her/zheng-yi-sao.mp4">Watch the approved HER sample MP4</a></p></noscript>
+    <figcaption>Application preview · <a href="/assets/project-her/zheng-yi-sao.mp4">Watch the approved sample MP4</a></figcaption>
+</figure>
                     </article>
                     <article class="work-card">
                         <div class="work-card-top"><span class="work-number">02</span><span class="work-status">Internal engineering tool</span></div>
@@ -126,7 +133,7 @@
             <div class="container narrow-container">
                 <p class="eyebrow">05 / Contact</p><h2 id="contact-title">Let’s talk about the work.</h2>
                 <p>If you are hiring for full-stack or applied AI engineering, I would be glad to discuss the projects and my contribution to them.</p>
-                <div class="contact-actions"><a class="btn btn-primary" href="mailto:klintenguduru@gmail.com">Email Klinten <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/klintenG" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a></div>
+                <div class="contact-actions"><a class="btn btn-primary" href="mailto:klintenguduru@gmail.com">Email Klinten <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/bill-klinten-guduru-2b361a229" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/klintenG" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
             </div>
         </section>
     </main>

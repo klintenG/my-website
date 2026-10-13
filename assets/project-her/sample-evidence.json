@@ -1,0 +1,18 @@
+{
+  "title": "Zheng Yi Sao",
+  "approvedForPortfolio": "User approval in conversation on 13 October 2026",
+  "sourceArtifact": "output/reference_parity_v2/editorial-remotion.mp4",
+  "sha256": "f5ee6531bf254d633c8f473e8febad46533f927270cde0f97ef22c1a19591f92",
+  "durationSeconds": 56.128,
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "generationId": "reference_parity_v2",
+  "inputProvenance": "User-supplied account recovered from saved news_preview.json",
+  "input": "What if I told you that one of history's most powerful pirates wasn't a man… but a woman who commanded hundreds of ships?\nHer name was Zheng Yi Sao.\nIn 1807, after her husband's death, she took control of a massive pirate fleet in the South China Sea.\nThe Chinese emperor sent warships to destroy her.\nBut her pirates fought back, defeating multiple imperial fleets.\nFor years, her forces terrorized merchant ships and coastal towns.\nEventually, the Chinese government intensified its campaign, while rivalries weakened her pirate alliance.\nAnd then something extraordinary happened.\nIn 1810, Zheng Yi Sao negotiated a pardon.\nShe was allowed to retire, keep much of her wealth, and escape punishment.\nThe shocking twist?\nWhile famous pirates like Blackbeard died violently, Zheng Yi Sao walked away from piracy alive, wealthy, and free.\nShe lived until 1844.",
+  "transcript": "What if one of history's most powerful pirates was not a man, but a woman commanding hundreds of ships? In 1807, Zheng Yi Sao assumed control of a massive pirate fleet within the South China Sea. The Chinese emperor dispatched imperial warships to dismantle her growing maritime power. Yet, her forces proved resilient, successfully defeating multiple imperial fleets in open combat. For years, her alliance terrorized merchant vessels and coastal towns across the region. Eventually, government pressure intensified while internal rivalries began to weaken her pirate coalition. In 1810, Zheng Yi Sao achieved the extraordinary by negotiating a formal pardon. She retired with her wealth intact, escaping the violent fate often met by famous pirates like Blackbeard. She remained free and lived until 1844, defying the typical end for such a notorious figure.",
+  "renderProvenance": "Local reference-v2 Remotion re-render, preserving original HER narration, timings and generated illustrative assets. Not a newly executed hosted end-to-end job.",
+  "edits": "None to approved MP4. Poster extracted; WebVTT captions derived from saved word timings.",
+  "illustrations": "Replicate FLUX Schnell generated reconstructions. Historical fidelity and claims not independently verified.",
+  "captionTiming": "Saved Whisper forced-alignment word times; low-confidence words remain in original manifest."
+}

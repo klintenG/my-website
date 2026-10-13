@@ -33,17 +33,19 @@ const SITE_CONFIG = (() => {
             timeoutMs: 45000,
         },
 
-        // ---- Project HER (flagship) ----
-        // status: 'auto'      -> probe the live URL in the browser and show Live / Offline
-        //         'live' | 'deploying' | 'offline' -> force a state
-        // demoVideo: path/URL of the recorded walkthrough (mp4). Leave '' until the
-        //            video exists — the "Watch Demo" button stays hidden meanwhile.
+        // Publication gate: only set isSampleVerified after checking provenance,
+        // public media rights, output playback and any edits. Promo is never proof.
         projectHer: {
-            status: 'auto',
-            liveUrl: 'https://project-her-svnnlerw4q-uc.a.run.app',
-            demoVideo: '',
-            demoPoster: '',
-            probeTimeoutMs: 12000,
+            liveUrl: 'https://project-her-svnnlerw4q-uc.a.run.app/',
+            screenshotUrl: '/assets/project-her-application.webp',
+            sampleVideoUrl: '/assets/project-her/zheng-yi-sao.mp4',
+            sampleTitle: 'Zheng Yi Sao · 56.1s',
+            posterUrl: '/assets/project-her/zheng-yi-sao-poster.jpg',
+            sampleInput: "What if I told you that one of history's most powerful pirates wasn't a man… but a woman who commanded hundreds of ships?\nHer name was Zheng Yi Sao.\nIn 1807, after her husband's death, she took control of a massive pirate fleet in the South China Sea.\nThe Chinese emperor sent warships to destroy her.\nBut her pirates fought back, defeating multiple imperial fleets.\nFor years, her forces terrorized merchant ships and coastal towns.\nEventually, the Chinese government intensified its campaign, while rivalries weakened her pirate alliance.\nAnd then something extraordinary happened.\nIn 1810, Zheng Yi Sao negotiated a pardon.\nShe was allowed to retire, keep much of her wealth, and escape punishment.\nThe shocking twist?\nWhile famous pirates like Blackbeard died violently, Zheng Yi Sao walked away from piracy alive, wealthy, and free.\nShe lived until 1844.",
+            sampleMetadata: "Zheng Yi Sao · 56.128s · 1080×1920 · 30 fps. Local Remotion re-render, 13 October 2026, using saved HER narration and AI-generated illustrations. Not documentary imagery; historical claims and artwork have not been independently verified. Original MP4 copied without edits.", // capture date, settings, provenance and edits
+            sampleCaptionsUrl: '/assets/project-her/zheng-yi-sao.vtt', // WebVTT captions for narration
+            sampleTranscript: "What if one of history's most powerful pirates was not a man, but a woman commanding hundreds of ships? In 1807, Zheng Yi Sao assumed control of a massive pirate fleet within the South China Sea. The Chinese emperor dispatched imperial warships to dismantle her growing maritime power. Yet, her forces proved resilient, successfully defeating multiple imperial fleets in open combat. For years, her alliance terrorized merchant vessels and coastal towns across the region. Eventually, government pressure intensified while internal rivalries began to weaken her pirate coalition. In 1810, Zheng Yi Sao achieved the extraordinary by negotiating a formal pardon. She retired with her wealth intact, escaping the violent fate often met by famous pirates like Blackbeard. She remained free and lived until 1844, defying the typical end for such a notorious figure.",
+            isSampleVerified: true,
         },
     };
 })();
@@ -51,11 +53,3 @@ const SITE_CONFIG = (() => {
 // Classic scripts can read the lexical binding; explicitly expose it for
 // page controllers that use window.SITE_CONFIG as well.
 window.SITE_CONFIG = SITE_CONFIG;
-
-// How each project status renders (spec: never show "Running" for an unavailable demo)
-const STATUS_RENDER = {
-    checking:  { cls: 'checking',  text: 'Checking demo status…' },
-    live:      { cls: 'live',      text: 'Live — Try it' },
-    deploying: { cls: 'deploying', text: 'Deploying — Watch Demo' },
-    offline:   { cls: 'offline',   text: 'Demo temporarily unavailable' },
-};

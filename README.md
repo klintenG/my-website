@@ -11,7 +11,7 @@ python3 -m http.server 8766
 # Open http://127.0.0.1:8766/
 ```
 
-The optional portfolio assistant, resume-fit experiment, and code-review experiment require a separate Gemini proxy. On the public site the proxy URL in `js/config.js` is empty, so those controls show an unavailable state before visitors enter data. A local proxy can be started with `cd server && npm install && npm start` after configuring `server/.env`; see `server/.env.example`. A healthy local proxy with a configured API key enables the experiments. Project HER is an independent external demo whose availability can vary. Its embedded generator is hidden until its backend and output are verified; the playground links to the external demo and case study.
+The optional portfolio assistant, resume-fit experiment, and code-review experiment require a separate Gemini proxy. On the public site the proxy URL in `js/config.js` is empty, so those controls show an unavailable state before visitors enter data. A local proxy can be started with `cd server && npm install && npm start` after configuring `server/.env`; see `server/.env.example`. A healthy local proxy with a configured API key enables the experiments. Project HER is an independent external demo whose availability can vary. The portfolio links directly to its standalone creator; it contains no embedded generator or generation API integration.
 
 ## Content and evidence
 
@@ -24,7 +24,7 @@ The optional portfolio assistant, resume-fit experiment, and code-review experim
 
 ## Checks
 
-The focused browser smoke test covers the homepage and all routes at four widths, JavaScript errors, overflow, resume links, mobile navigation, tabs, project filters, contact actions, the missing AI backend, no-JavaScript navigation, and reduced motion. It uses an existing Puppeteer installation:
+The focused browser smoke test covers the homepage and all routes at six widths (320, 375, 430, 768, 1024 and 1440px), JavaScript errors, overflow, resume links, mobile navigation, tabs, project filters, contact actions, the missing AI backend, no-JavaScript navigation, and reduced motion. It uses an existing Puppeteer installation:
 
 ```bash
 PUPPETEER_MODULE=/absolute/path/to/puppeteer/module.js \
@@ -39,3 +39,7 @@ node tests/browser-smoke.mjs
 `index.html` is the recruiter-facing overview. `projects/` contains the project index and case studies. `playground/` contains optional experiments. Shared site behavior is in `js/main.js`; `js/config.js` holds public links and endpoint settings. `css/style.css` retains the existing design system, while `css/portfolio.css` contains the focused portfolio and shared route refinements.
 
 All personal project code © 2026 Bill Klinten Guduru. All rights reserved.
+
+## Project HER evidence and handoff
+
+See [the audit](docs/project-her-audit.md) and [media configuration, standalone follow-up, and deployment instructions](docs/project-her-handoff.md). The owner-approved Zheng Yi Sao MP4 is published unchanged with saved-input provenance, narration transcript and captions. It is a local Remotion re-render using saved HER narration and illustrative assets, not a newly verified hosted generation. `js/config.js` contains the gated sample media fields.
