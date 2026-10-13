@@ -1,0 +1,141 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "text": {
+      "default": "",
+      "maxLength": 6000,
+      "title": "Text",
+      "type": "string"
+    },
+    "url": {
+      "default": "",
+      "maxLength": 2048,
+      "title": "Url",
+      "type": "string"
+    },
+    "content_mode": {
+      "default": "news",
+      "enum": [
+        "news",
+        "article"
+      ],
+      "title": "Content Mode",
+      "type": "string"
+    },
+    "tone": {
+      "default": "informative",
+      "title": "Tone",
+      "type": "string"
+    },
+    "format": {
+      "default": "vertical",
+      "enum": [
+        "vertical",
+        "horizontal",
+        "square"
+      ],
+      "title": "Format",
+      "type": "string"
+    },
+    "target_duration": {
+      "default": 0,
+      "maximum": 90,
+      "minimum": 0,
+      "title": "Target Duration",
+      "type": "integer"
+    },
+    "visual_style": {
+      "default": "claymorphism",
+      "title": "Visual Style",
+      "type": "string"
+    },
+    "renderer": {
+      "default": "remotion",
+      "enum": [
+        "remotion",
+        "moviepy"
+      ],
+      "title": "Renderer",
+      "type": "string"
+    },
+    "visual_preset": {
+      "default": "reference_editorial",
+      "enum": [
+        "reference_editorial",
+        "default"
+      ],
+      "title": "Visual Preset",
+      "type": "string"
+    },
+    "editorial_text": {
+      "default": "editorial",
+      "enum": [
+        "editorial",
+        "complete"
+      ],
+      "title": "Editorial Text",
+      "type": "string"
+    },
+    "editorial_assets": {
+      "default": "auto",
+      "enum": [
+        "auto",
+        "stock",
+        "ai"
+      ],
+      "title": "Editorial Assets",
+      "type": "string"
+    },
+    "news_source_policy": {
+      "default": "auto",
+      "enum": [
+        "auto",
+        "online",
+        "supplied"
+      ],
+      "title": "News Source Policy",
+      "type": "string"
+    },
+    "tts_provider": {
+      "default": "replicate",
+      "enum": [
+        "replicate",
+        "edge_tts",
+        "google_tts",
+        "elevenlabs",
+        "chatterbox_turbo"
+      ],
+      "title": "Tts Provider",
+      "type": "string"
+    },
+    "news_music": {
+      "default": false,
+      "title": "News Music",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "english",
+      "enum": [
+        "english",
+        "hindi",
+        "french"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "speed": {
+      "default": "+0%",
+      "enum": [
+        "-20%",
+        "-10%",
+        "+0%",
+        "+10%",
+        "+20%"
+      ],
+      "title": "Speed",
+      "type": "string"
+    }
+  },
+  "title": "CreateJob",
+  "type": "object"
+}

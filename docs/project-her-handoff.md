@@ -1,3 +1,5 @@
+> Historical earlier portfolio pass. The subsequent native integration is described in [project-her-native-handoff.md](project-her-native-handoff.md); its contract/security boundary is in [project-her-native-api.md](project-her-native-api.md). Statements below about an external-only creator refer to that earlier pass.
+
 # Project HER evidence, app changes, and deployment
 
 ## Published sample

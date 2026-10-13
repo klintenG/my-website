@@ -36,7 +36,10 @@ const SITE_CONFIG = (() => {
         // Publication gate: only set isSampleVerified after checking provenance,
         // public media rights, output playback and any edits. Promo is never proof.
         projectHer: {
-            liveUrl: 'https://project-her-svnnlerw4q-uc.a.run.app/',
+            liveUrl: 'https://project-her-svnnlerw4q-uc.a.run.app/', // Technical deployment reference only.
+            studioUrl: '/projects/project-her/#studio',
+            apiBase: isLocal ? 'http://127.0.0.1:7860/api/portfolio' : 'https://project-her-svnnlerw4q-uc.a.run.app/api/portfolio',
+            nativeIntegrationVerified: false,
             screenshotUrl: '/assets/project-her-application.webp',
             sampleVideoUrl: '/assets/project-her/zheng-yi-sao.mp4',
             sampleTitle: 'Zheng Yi Sao · 56.1s',

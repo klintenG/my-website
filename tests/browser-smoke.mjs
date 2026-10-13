@@ -94,7 +94,7 @@ try {
       if (['/', '/projects/', '/projects/project-her/', '/playground/'].includes(route)) {
         const launchLinks = await page.$$eval('[data-her-launch]', links => links.map(a => ({ href: a.href, target: a.target, rel: a.rel, label: a.getAttribute('aria-label') })));
         assert.ok(launchLinks.length > 0, `${route} has no launch link`);
-        assert.ok(launchLinks.every(a => a.href === 'https://project-her-svnnlerw4q-uc.a.run.app/' && a.target === '_blank' && a.rel.includes('noopener') && a.rel.includes('noreferrer') && a.label.includes('new tab')), `${route} unsafe launch link`);
+        assert.ok(launchLinks.every(a => a.href === base + '/projects/project-her/#studio' && a.target !== '_blank'), `${route} unsafe launch link`);
         await page.$eval('[data-her-media]', media => media.scrollIntoView({block:'center',behavior:'instant'}));
         await page.waitForFunction(() => document.querySelector('[data-her-media] video')?.readyState >= 1);
         const sample = await page.$eval('[data-her-media] video', video => ({ duration: video.duration, width: video.videoWidth, height: video.videoHeight, controls: video.controls, inline: video.playsInline, autoplay: video.autoplay, preload: video.preload, captions: video.querySelector('track')?.getAttribute('src') }));

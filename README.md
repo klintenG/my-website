@@ -11,7 +11,7 @@ python3 -m http.server 8766
 # Open http://127.0.0.1:8766/
 ```
 
-The optional portfolio assistant, resume-fit experiment, and code-review experiment require a separate Gemini proxy. On the public site the proxy URL in `js/config.js` is empty, so those controls show an unavailable state before visitors enter data. A local proxy can be started with `cd server && npm install && npm start` after configuring `server/.env`; see `server/.env.example`. A healthy local proxy with a configured API key enables the experiments. Project HER is an independent external demo whose availability can vary. The portfolio links directly to its standalone creator; it contains no embedded generator or generation API integration.
+The optional portfolio assistant, resume-fit experiment, and code-review experiment require a separate Gemini proxy. On the public site the proxy URL in `js/config.js` is empty, so those controls show an unavailable state before visitors enter data. A local proxy can be started with `cd server && npm install && npm start` after configuring `server/.env`; see `server/.env.example`. A healthy local proxy with a configured API key enables the experiments. Project HER now has a native studio on `/projects/project-her/#studio`. It uses a scoped API on the existing Cloud Run backend, with actual stages, private output and job recovery. Generation is enabled only after backend readiness; unavailable state and the verified previous sample remain honest. See `docs/project-her-native-handoff.md` for the required secure rollout; a reachable old app homepage is not a live generation test.
 
 ## Content and evidence
 
@@ -43,3 +43,7 @@ All personal project code © 2026 Bill Klinten Guduru. All rights reserved.
 ## Project HER evidence and handoff
 
 See [the audit](docs/project-her-audit.md) and [media configuration, standalone follow-up, and deployment instructions](docs/project-her-handoff.md). The owner-approved Zheng Yi Sao MP4 is published unchanged with saved-input provenance, narration transcript and captions. It is a local Remotion re-render using saved HER narration and illustrative assets, not a newly verified hosted generation. `js/config.js` contains the gated sample media fields.
+
+## Native Project HER integration
+
+See [API contracts and safeguards](docs/project-her-native-api.md) and [files, test evidence and exact deployment plan](docs/project-her-native-handoff.md). Run `node tests/project-her-native.mjs` for intercepted browser states; it never submits a paid job. The existing 66-route/width regression also remains available. The verified sample is unchanged. Public native generation still requires the documented backend rollout and real smoke test.

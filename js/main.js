@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Shared publication-gated media; no generation or availability probes.
     const her = window.SITE_CONFIG?.projectHer;
     if (her) {
-        document.querySelectorAll('[data-her-launch]').forEach(link => { link.href = her.liveUrl; });
+        document.querySelectorAll('[data-her-launch]').forEach(link => { link.href = her.studioUrl; link.removeAttribute('target'); link.removeAttribute('aria-label'); });
         document.querySelectorAll('[data-her-media]').forEach(figure => {
             const screenshot = figure.querySelector('img');
             if (screenshot && her.screenshotUrl) {
