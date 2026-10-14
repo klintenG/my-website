@@ -39,7 +39,7 @@ const SITE_CONFIG = (() => {
             liveUrl: 'https://project-her-svnnlerw4q-uc.a.run.app/', // Technical deployment reference only.
             studioUrl: '/projects/project-her/#studio',
             apiBase: isLocal ? 'http://127.0.0.1:7860/api/portfolio' : 'https://project-her-svnnlerw4q-uc.a.run.app/api/portfolio',
-            nativeIntegrationVerified: false,
+            nativeIntegrationVerified: true,
             screenshotUrl: '/assets/project-her-application.webp',
             sampleVideoUrl: '/assets/project-her/zheng-yi-sao.mp4',
             sampleTitle: 'Zheng Yi Sao · 56.1s',

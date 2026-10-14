@@ -19,7 +19,7 @@ Legacy jobs, quotas and artifacts were not durable and had no per-visitor job au
 
 ## Native scoped API, version 1
 
-Base: `https://project-her-svnnlerw4q-uc.a.run.app/api/portfolio`. These routes are implemented in `agent/portfolio_api.py`; readiness, CORS, request validation, scoped access rejection and the legacy lock have now been checked against the deployed backend. A controlled generation is still pending.
+Base: `https://project-her-svnnlerw4q-uc.a.run.app/api/portfolio`. These routes are implemented in `agent/portfolio_api.py`; readiness, CORS, request validation, scoped access rejection and the legacy lock have now been checked against the deployed backend. Production job `2529226b31c14ef48e2c8a3aae184a6e` completed on revision `project-her-00014-ddb`; actual portfolio playback, byte-range delivery and matching browser/API downloads passed on 14 October 2026.
 
 | Method/path | Contract |
 |---|---|
