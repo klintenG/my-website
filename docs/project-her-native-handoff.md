@@ -72,3 +72,15 @@ git -C /Users/klinten/Desktop/My-projects/my-website push origin main
 GitHub Pages deploys main; preserve CNAME and do not force push. GitHub authentication may require the user's authenticated terminal/VS Code. No additional paid generation is needed for documentation publication.
 
 Read-only backend check: `.venv/bin/python scripts/smoke_native_portfolio.py`. To recover a previously submitted job, `--resume-ui-job <id>` consumes that job's scoped token from stdin and never submits another job. Do not rerun a creation command after a monitoring disconnect. No credentials, local databases, generated visitor files or rollback snapshots should be committed.
+
+
+## Temporary testing override — 14 October 2026
+
+The user requested daily limits disabled during manual testing. The backend policy `daily_limits_disabled=true` bypasses both daily admission checks while preserving counters, one concurrent render, validation, authorization and the independent emergency pause. GET config reports `limits.daily_limits_disabled`. Re-enable without redeploying:
+
+```sh
+cd /Users/klinten/Desktop/My-projects/project-HER
+.venv/bin/python scripts/set_native_daily_limits.py --enable
+```
+
+Re-enabling applies the original daily limits to retained counts; `--disable` turns them off again. No paid job is submitted by this command.

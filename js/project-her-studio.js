@@ -40,7 +40,9 @@ export class ProjectHerStudio {
                 for (const value of values) {const labels={informative:'Informative & storytelling',replicate:'Replicate · configured model',edge_tts:'Edge TTS',google_tts:'Google',elevenlabs:'ElevenLabs',chatterbox_turbo:'Replicate · Chatterbox Turbo'};const label=labels[value]||value.replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase());const option = new Option(label, value); select.append(option);}
                 select.value = values.includes(preferred) ? preferred : values[0];
             }
-            this.root.querySelector('#her-limits').textContent = `Public demo: ${config.limits.visitor_daily_jobs} submissions per network identity/day, ${config.limits.daily_jobs} total/day, ${config.limits.concurrent_jobs} render at a time. Every submitted job counts, including failures. Outputs expire after ${config.limits.output_hours} hours. Processing time varies.`;
+            this.root.querySelector('#her-limits').textContent = config.limits.daily_limits_disabled
+                ? `Daily generation limits are temporarily disabled for testing. ${config.limits.concurrent_jobs} render at a time. Outputs expire after ${config.limits.output_hours} hours. Processing time varies.`
+                : `Public demo: ${config.limits.visitor_daily_jobs} submissions per network identity/day, ${config.limits.daily_jobs} total/day, ${config.limits.concurrent_jobs} render at a time. Every submitted job counts, including failures. Outputs expire after ${config.limits.output_hours} hours. Processing time varies.`;
             this.status.textContent = config.enabled ? 'Ready to create' : 'Generation is temporarily paused';
             this.message.textContent = config.enabled ? 'Enter an idea or public article URL. No video has been generated in this session.' : 'Previously generated examples remain available below.';
             this.root.querySelector('#her-backend-retry').hidden = true;

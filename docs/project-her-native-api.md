@@ -49,3 +49,15 @@ Native request schema: see `project-her-request.schema.json`. Default News/refer
 `ProjectHerClient` is JSDoc-typed and checked with TypeScript without adding a frontend build. The page controller handles real states, SSE disconnect/reconnect, bounded polling, idempotent acknowledgement recovery, terminal failure/quota/unavailable/expired output, and cleanup on page hide. `sessionStorage` holds only the scoped job capability/identifier or a pending submission key, never input text or provider credentials. A fresh load queries the backend before restoring output. The generated video never autoplays with sound. Download becomes available only after playable metadata loads.
 
 Backend state/storage tests and intercepted browser fixtures are not proof of a hosted generation. The public rollout and one explicit real smoke generation remain necessary before claiming end-to-end production success or changing the status to “Interactive demo”.
+
+
+## Temporary testing override — 14 October 2026
+
+The user requested daily limits disabled during manual testing. The backend policy `daily_limits_disabled=true` bypasses both daily admission checks while preserving counters, one concurrent render, validation, authorization and the independent emergency pause. GET config reports `limits.daily_limits_disabled`. Re-enable without redeploying:
+
+```sh
+cd /Users/klinten/Desktop/My-projects/project-HER
+.venv/bin/python scripts/set_native_daily_limits.py --enable
+```
+
+Re-enabling applies the original daily limits to retained counts; `--disable` turns them off again. No paid job is submitted by this command.
