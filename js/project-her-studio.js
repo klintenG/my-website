@@ -10,12 +10,10 @@ export class ProjectHerStudio {
         this.status = root.querySelector('#her-status'); this.message = root.querySelector('#her-message');
         this.stageList = root.querySelector('#her-stages'); this.video = root.querySelector('#her-video');
         this.workspace = root.querySelector('#her-output'); this.config = null; this.job = null; this.lastState = null;
-        this.field('visual_style').disabled=true;
         this.active = false; this.generation = 0; this.abort = new AbortController(); this.stageRows = new Map();
         this.form.addEventListener('submit', event => {event.preventDefault(); this.generate();});
         this.input.addEventListener('input', () => this.validate());
         root.querySelector('#her-mode').addEventListener('change', () => this.syncMode());
-        for (const id of ['her-preset','her-renderer','her-format']) root.querySelector('#'+id).addEventListener('change', () => this.validate());
         root.querySelector('#her-cancel').addEventListener('click', () => this.cancel());
         root.querySelector('#her-reconnect').addEventListener('click', () => this.reconnect());
         root.querySelector('#her-another').addEventListener('click', () => this.reset());
@@ -35,11 +33,6 @@ export class ProjectHerStudio {
             const config = await this.client.capabilities(this.abort.signal);
             if (config.version !== 1 || !config.options || !config.limits) throw new HerApiError('The video API version is not supported.');
             this.config = config;
-            for (const [field, values] of [['tone',config.options.tone],['visual_style',config.options.visual_style],['tts_provider',config.options.tts_provider]]) {
-                const select = this.field(field), preferred = select.value; select.replaceChildren();
-                for (const value of values) {const labels={informative:'Informative & storytelling',replicate:'Replicate · configured model',edge_tts:'Edge TTS',google_tts:'Google',elevenlabs:'ElevenLabs',chatterbox_turbo:'Replicate · Chatterbox Turbo'};const label=labels[value]||value.replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase());const option = new Option(label, value); select.append(option);}
-                select.value = values.includes(preferred) ? preferred : values[0];
-            }
             this.root.querySelector('#her-limits').textContent = config.limits.daily_limits_disabled
                 ? `Daily generation limits are temporarily disabled for testing. ${config.limits.concurrent_jobs} render at a time. Outputs expire after ${config.limits.output_hours} hours. Processing time varies.`
                 : `Public demo: ${config.limits.visitor_daily_jobs} submissions per network identity/day, ${config.limits.daily_jobs} total/day, ${config.limits.concurrent_jobs} render at a time. Every submitted job counts, including failures. Outputs expire after ${config.limits.output_hours} hours. Processing time varies.`;
@@ -63,14 +56,9 @@ export class ProjectHerStudio {
     }
     syncMode() {
         const news = this.field('content_mode').value === 'news';
-        this.field('visual_preset').value = news ? 'reference_editorial' : 'default';
-        for(const name of ['tts_provider','language','speed','news_music'])this.field(name).disabled=!news;
-        if(!news){this.field('tts_provider').value=this.config?.classic_defaults?.tts_provider||'google_tts';this.field('language').value='english';this.field('speed').value='+0%';this.field('news_music').checked=false;}
-        else this.field('tts_provider').value='replicate';
-        this.root.querySelector('#her-news-options').hidden = !news;
-        this.field('visual_style').disabled=news;
-        this.root.querySelector('#her-style-note').textContent = news ? 'Reference editorial uses its own neutral historical/cutout art direction. The general art style applies to Classic mode.' : 'Classic uses the selected art style and backend-configured narration. Language, speed and optional music are News-only; Classic does not support cancellation.';
-        if (news) {this.field('renderer').value = 'remotion';this.field('format').value = 'vertical';}
+        this.root.querySelector('#her-style-note').textContent = news
+            ? 'Project HER chooses the narration, visual style, timing and vertical format.'
+            : 'Classic uses the backend-configured narrator and its standard video settings.';
         this.validate();
     }
     validate() {
@@ -78,24 +66,25 @@ export class ProjectHerStudio {
         this.root.querySelector('#her-count').textContent = `${text.length} / 6000 characters · ${count} words`;
         let error = '';
         if (text.length > 6000) error = 'Keep the input within 6000 characters.';
-        if (this.field('content_mode').value === 'news' && this.field('visual_preset').value === 'reference_editorial' && (this.field('renderer').value !== 'remotion' || this.field('format').value !== 'vertical')) error = 'Reference editorial requires Remotion and vertical 9:16. Choose Classic cutouts for other formats.';
         this.root.querySelector('#her-input-error').textContent = error;
         this.submit.disabled = this.active || !text || !!error || !this.config?.enabled;
         return !error && !!text;
     }
     payload() {
         const value = this.input.value.trim(), url = /^https?:\/\/\S+$/i.test(value) ? value : '';
-        return {text: url ? '' : value, url, content_mode:this.field('content_mode').value,
-            tone:this.field('tone').value, format:this.field('format').value,
-            target_duration:Number(this.field('target_duration').value), visual_style:this.field('visual_style').value,
-            renderer:this.field('renderer').value, visual_preset:this.field('visual_preset').value,
-            editorial_text:this.field('editorial_text').value, editorial_assets:this.field('editorial_assets').value,
-            news_source_policy:this.field('news_source_policy').value, tts_provider:this.field('tts_provider').value,
-            news_music:this.field('news_music').checked, language:this.field('language').value, speed:this.field('speed').value};
+        const mode = this.field('content_mode').value;
+        const payload = {text: url ? '' : value, url, content_mode: mode};
+        // The API owns all News defaults. Classic has two mode-specific contract fields.
+        if (mode === 'article') {
+            payload.visual_preset = 'default';
+            payload.tts_provider = this.config.classic_defaults.tts_provider;
+        }
+        return payload;
     }
     async generate() {
         if (this.active || !this.config?.enabled || !this.validate()) return;
         this.active = true; this.validate(); this.hideOutput(); this.stageRows.clear(); this.stageList.replaceChildren();
+        this.root.querySelector('#her-working').hidden = false;this.root.querySelector('#her-empty').hidden=true;
         const key = crypto.randomUUID(); this.store({pendingKey:key,createdAt:Date.now()});
         this.status.textContent = 'Submitting your job…'; this.message.textContent = 'Waiting for the backend to confirm job creation.';
         this.form.setAttribute('aria-busy','true');
@@ -115,7 +104,7 @@ export class ProjectHerStudio {
             if (this.abort.signal.aborted) return;
             this.status.textContent = error.status === 429 ? 'Generation limit reached' : 'Job submission could not be confirmed';
             this.message.textContent = error.message;
-            if (error.status) {this.active = false;this.store(null);}
+            if (error.status) {this.active = false;this.store(null);this.root.querySelector('#her-working').hidden=true;this.root.querySelector('#her-empty').hidden=false;}
             else {this.root.querySelector('#her-reconnect').hidden = false;}
             this.validate();
         } finally {this.form.removeAttribute('aria-busy');}
@@ -137,7 +126,7 @@ export class ProjectHerStudio {
                 catch (error) {this.status.textContent = 'Submission status unavailable';this.message.textContent = error.message;this.root.querySelector('#her-reconnect').hidden = false;return;}
             } else {await this.bootstrap();return;}
         }
-        this.active = true;this.validate();await this.monitor();
+        this.active = true;this.validate();this.root.querySelector('#her-working').hidden=false;this.root.querySelector('#her-empty').hidden=true;await this.monitor();
     }
     async monitor() {
         const signal = this.abort.signal, generation = this.generation;
@@ -171,12 +160,17 @@ export class ProjectHerStudio {
         this.lastState = state;
         this.status.textContent = state.cancel_requested && !terminal.has(state.status) ? 'Cancellation requested…' : {queued:'Job queued',running:'Creating your video',completed:'Your video is ready',failed:'Generation failed',cancelled:'Generation cancelled'}[state.status];
         this.message.textContent = state.error || (state.stage ? state.stage.label : state.status === 'completed' ? 'This is the actual output of your submitted job.' : 'Waiting for the next backend stage.');
-        if (state.stage) {
-            let row = this.stageRows.get(state.stage.name);
-            if (!row) {row=document.createElement('li');this.stageRows.set(state.stage.name,row);this.stageList.append(row);}
-            row.textContent = `${state.stage.label} — ${state.stage.status}`;
-            row.dataset.state = state.stage.status;
+        const stages = Array.isArray(state.stages) ? state.stages : state.stage ? [state.stage] : [];
+        this.stageList.replaceChildren();
+        for (const stage of stages) {
+            const row = document.createElement('li');
+            row.dataset.state = stage.status;
+            row.textContent = `${stage.label} — ${stage.status === 'completed' ? 'done' : stage.status}${stage.status === 'running' && stage.elapsed ? ` · ${Math.round(stage.elapsed)}s` : ''}`;
+            this.stageList.append(row);
         }
+        const working = this.root.querySelector('#her-working');
+        working.hidden = terminal.has(state.status);
+        this.root.querySelector('#her-working-detail').textContent = state.stage?.label || (state.status === 'queued' ? 'Waiting for the renderer…' : `${stages.filter(item => item.status === 'completed').length} stages completed`);
         const cancel=this.root.querySelector('#her-cancel');cancel.hidden=!state.cancel_supported||terminal.has(state.status);cancel.disabled=state.cancel_requested;
         if (terminal.has(state.status)) {
             this.active=false;this.form.removeAttribute('aria-busy');this.root.querySelector('#her-connection').textContent='';
@@ -193,7 +187,7 @@ export class ProjectHerStudio {
         this.video.crossOrigin='anonymous';this.video.src=videoUrl;
         this.video.poster=result.poster_url ? this.client.mediaUrl(result.poster_url) : '';
         this.video.querySelectorAll('track').forEach(track=>track.remove());
-        if (result.captions_url) {const track=document.createElement('track');track.kind='captions';track.label='Narration';track.srclang=(result.language||this.field('language').value).slice(0,2);track.src=this.client.mediaUrl(result.captions_url);this.video.append(track);}
+        if (result.captions_url) {const track=document.createElement('track');track.kind='captions';track.label='Narration';track.srclang=(result.language||'english').slice(0,2);track.src=this.client.mediaUrl(result.captions_url);this.video.append(track);}
         this.root.querySelector('#her-result-title').textContent=result.title||'Generated video';
         this.root.querySelector('#her-result-meta').textContent=[result.duration ? `${Number(result.duration).toFixed(1)} seconds` : '',result.resolution||''].filter(Boolean).join(' · ');
         const download=this.root.querySelector('#her-download');download.href=downloadUrl;
@@ -213,7 +207,7 @@ export class ProjectHerStudio {
     reset() {
         if (this.active) return;
         this.abort.abort();this.abort=new AbortController();this.generation++;this.job=null;this.lastState=null;this.store(null);
-        this.hideOutput();this.stageRows.clear();this.stageList.replaceChildren();
+        this.hideOutput();this.stageRows.clear();this.stageList.replaceChildren();this.root.querySelector('#her-working').hidden=true;
         this.root.querySelector('#her-another').hidden=true;this.root.querySelector('#her-cancel').hidden=true;this.root.querySelector('#her-reconnect').hidden=true;this.root.querySelector('#her-job-id').textContent='';
         this.status.textContent='Ready to create';this.message.textContent='Adjust your input and generate a new video.';this.input.focus();this.validate();
     }

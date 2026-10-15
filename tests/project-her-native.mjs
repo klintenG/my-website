@@ -12,7 +12,7 @@ const jid='a'.repeat(32),token='b'.repeat(64),base='http://127.0.0.1:7860/api/po
 const config={version:1,enabled:true,limits:{input_characters:6000,duration_seconds:90,daily_jobs:10,visitor_daily_jobs:2,concurrent_jobs:1,output_hours:48},options:{tone:['informative','storytelling','educational'],visual_style:['claymorphism','minimalism'],tts_provider:['replicate','edge_tts']},defaults:{},classic_defaults:{tts_provider:'replicate'},cancellation:{news:true,article:false}};
 const access={job_id:jid,access_token:token,expires_at:Date.now()/1000+3600,status:'queued',cancel_supported:true};
 const state=(status,extra={})=>({job_id:jid,status,stage:null,result:null,error:null,expires_at:access.expires_at,cancel_supported:true,cancel_requested:false,...extra});
-const completed=()=>state('completed',{result:{title:'Recorded playback fixture',duration:56.128,resolution:'1080x1920',video_url:`/api/portfolio/jobs/${jid}/media/video?ticket=fixture`,download_url:`/api/portfolio/jobs/${jid}/media/video?ticket=fixture&download=1`}});
+const completed=()=>state('completed',{stages:[{name:'script',label:'Approving script',status:'completed',elapsed:1.2},{name:'narrate',label:'Narration and word alignment',status:'completed',elapsed:2.3}],result:{title:'Recorded playback fixture',duration:56.128,resolution:'1080x1920',video_url:`/api/portfolio/jobs/${jid}/media/video?ticket=fixture`,download_url:`/api/portfolio/jobs/${jid}/media/video?ticket=fixture&download=1`}});
 const widths=[320,375,430,768,1024,1440];let checks=0;
 async function pageFor(width,scenario='success'){
  const page=await browser.newPage();const errors=[],posts=[];let statusReads=0,cancelled=false;
@@ -31,7 +31,7 @@ async function pageFor(width,scenario='success'){
   if(path.endsWith('/events')){
    if(scenario==='sse-failure')return json({error:'Stream unavailable'},503);
    let final=scenario==='unsafe'?{...completed(),result:{...completed().result,video_url:'https://attacker.invalid/stolen.mp4'}}:scenario==='cancel'?state('cancelled',{error:'Generation cancelled.'}):scenario==='failure'?state('failed',{error:'Narration provider unavailable.'}):completed();
-   const stage=state('running',{stage:{name:'narrate',label:'Narration and word alignment',status:'running',elapsed:2.3}});
+   const stage=state('running',{stage:{name:'narrate',label:'Narration and word alignment',status:'running',elapsed:2.3},stages:[{name:'script',label:'Approving script',status:'completed',elapsed:1.2},{name:'narrate',label:'Narration and word alignment',status:'running',elapsed:2.3}]});
    return req.respond({status:200,headers:{...headers,'Content-Type':'text/event-stream'},body:`event: progress\ndata: ${JSON.stringify(stage)}\n\n`+(scenario==='cancel'&&!cancelled?'':`event: done\ndata: ${JSON.stringify(final)}\n\n`)});
   }
   if(path.endsWith('/media/video')){
@@ -43,7 +43,7 @@ async function pageFor(width,scenario='success'){
   if(path.endsWith('/jobs/'+jid)){
    assert.equal(req.headers().authorization,'Bearer '+token);statusReads++;if(scenario==='cancel'&&cancelled)return json(state('cancelled',{error:'Generation cancelled.'}));
    if(scenario==='sse-failure'&&statusReads>1)return json(completed());
-   return json(state('running',{stage:{name:'script',label:'Approving script',status:'running',elapsed:.8}}));
+   return json(state('running',{stage:{name:'script',label:'Approving script',status:'running',elapsed:.8},stages:[{name:'script',label:'Approving script',status:'running',elapsed:.8}]}));
   }
   if(path.endsWith('/submission'))return json(access);
   return json({error:'Unknown fixture route'},404);
@@ -57,12 +57,12 @@ try{
   const {page,posts,errors}=await pageFor(width);
   await page.waitForFunction(()=>document.querySelector('#her-status').textContent==='Ready to create');
   assert.equal(await page.$('iframe'),null);assert.ok(await page.$eval('#her-output',e=>e.hidden));assert.ok(await page.$eval('#her-generate',e=>e.disabled));
-  assert.ok(!await page.$eval('.her-advanced',e=>e.open));
+  assert.equal(await page.$('.her-advanced'),null);assert.ok(await page.$('#her-working'));
   await page.type('#her-input','Fictional story: a ceramic robot plants a seed.');
   await page.$eval('#her-generate',e=>e.click());
   await page.waitForFunction(()=>document.querySelector('#her-video').readyState>=1,{timeout:30000});
-  assert.equal(posts.length,1);assert.equal(posts[0].content_mode,'news');assert.equal(posts[0].visual_preset,'reference_editorial');assert.equal(posts[0].tts_provider,'replicate');
-  assert.ok((await page.$eval('#her-stages',e=>e.textContent)).includes('Narration and word alignment'));
+  assert.equal(posts.length,1);assert.equal(posts[0].content_mode,'news');assert.equal(posts[0].visual_preset,undefined);assert.equal(posts[0].tts_provider,undefined);
+  const stageText=await page.$eval('#her-stages',e=>e.textContent);assert.ok(stageText.includes('Narration and word alignment'));assert.ok(stageText.includes('Approving script — done'));assert.ok(await page.$eval('#her-working',e=>e.hidden));
   assert.ok(!await page.$eval('#her-download',e=>e.hidden));
   assert.ok(await page.$eval('#her-download',e=>e.href.includes('download=1')));
   assert.ok(await page.$eval('#her-video',e=>e.controls&&!e.autoplay&&e.videoWidth===1080&&e.videoHeight===1920));
@@ -70,9 +70,9 @@ try{
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>document.querySelector('#her-video').readyState>=1,{timeout:30000});assert.equal(posts.length,1,'Refresh submitted another paid job');
   await page.$eval('#her-another',e=>e.click());assert.ok(await page.$eval('#her-output',e=>e.hidden));
-  await page.type('#her-input','A revised fictional story about a cup.');await page.$eval('.her-advanced',e=>e.open=true);await page.select('#her-format','square');assert.ok(await page.$eval('#her-generate',e=>e.disabled));
+  await page.type('#her-input','A revised fictional story about a cup.');
   await page.select('#her-mode','article');assert.ok(!await page.$eval('#her-generate',e=>e.disabled));
-  assert.equal(await page.$eval('#her-preset',e=>e.value),'default');
+  assert.equal(await page.$('#her-format'),null);
   await page.focus('#her-input');assert.equal(await page.evaluate(()=>document.activeElement.id),'her-input');
   assert.deepEqual(errors,[]);mkdirSync('/private/tmp/her-native-browser',{recursive:true});await page.screenshot({path:`/private/tmp/her-native-browser/studio-${width}.png`,fullPage:true});
   await page.close();checks++;

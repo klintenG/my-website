@@ -92,30 +92,10 @@
                         <button type="button" data-her-example="https://www.nobelprize.org/prizes/physics/2024/press-release/">Article URL</button>
                     </div>
                     <p class="her-field-note">Examples fill the input only. Generation uses real services and can fail or reach a usage limit.</p>
-                    <div class="her-basic-options">
-                        <label for="her-tone">Narration tone<select id="her-tone" name="tone"><option value="informative">Informative &amp; storytelling</option><option value="storytelling">Storytelling</option><option value="educational">Educational</option></select></label>
-                        <label for="her-format">Aspect ratio<select id="her-format" name="format"><option value="vertical">Vertical · 9:16</option><option value="horizontal">Landscape · 16:9</option><option value="square">Square · 1:1</option></select></label>
-                        <label for="her-duration">Target duration<select id="her-duration" name="target_duration"><option value="0">Auto · follow the narration</option><option value="15">15 seconds</option><option value="30">30 seconds</option><option value="55">55 seconds</option><option value="90">90 seconds</option></select></label>
-                        <label for="her-style">Visual style<select id="her-style" name="visual_style"><option value="claymorphism">Claymorphism</option><option value="minimalism">Minimalism</option><option value="glassmorphism">Glassmorphism</option></select></label>
-                    </div>
-                    <p id="her-style-note" class="her-field-note">Reference editorial uses its own neutral historical/cutout art direction. The general art style applies to Classic mode.</p>
-                    <details class="her-advanced"><summary>Advanced settings</summary>
-                        <div class="her-basic-options">
-                            <label for="her-mode">Content mode<select id="her-mode" name="content_mode"><option value="news">News / editorial</option><option value="article">Classic</option></select></label>
-                            <label for="her-renderer">Renderer<select id="her-renderer" name="renderer"><option value="remotion">Remotion</option><option value="moviepy">MoviePy</option></select></label>
-                            <label for="her-speech">Narration provider<select id="her-speech" name="tts_provider"><option value="replicate">Replicate · configured model</option><option value="edge_tts">Edge TTS</option><option value="google_tts">Google</option></select></label>
-                            <label for="her-language">Language<select id="her-language" name="language"><option value="english">English</option><option value="hindi">Hindi</option><option value="french">French</option></select></label>
-                            <label for="her-speed">Voice speed<select id="her-speed" name="speed"><option value="+0%">Natural</option><option value="-10%">Slower</option><option value="+10%">Faster</option></select></label>
-                        </div>
-                        <div id="her-news-options" class="her-basic-options">
-                            <label for="her-preset">Visual preset<select id="her-preset" name="visual_preset"><option value="reference_editorial">Reference editorial</option><option value="default">Classic cutouts</option></select></label>
-                            <label for="her-source">News source<select id="her-source" name="news_source_policy"><option value="auto">Auto</option><option value="online">Online research</option><option value="supplied">Use my supplied account</option></select></label>
-                            <label for="her-text">On-screen text<select id="her-text" name="editorial_text"><option value="editorial">Progressive editorial phrases</option><option value="complete">Complete spoken captions</option></select></label>
-                            <label for="her-assets">Assets<select id="her-assets" name="editorial_assets"><option value="auto">Automatic · portraits + AI cutouts</option><option value="stock">Prefer stock / references</option><option value="ai">AI supporting illustrations</option></select></label>
-                        </div>
-                        <label class="her-checkbox" for="her-music"><input id="her-music" name="news_music" type="checkbox"> Quiet background music (News)</label>
-                        <p class="her-field-note">Provider support and availability vary. Public generation excludes local filesystem registries and arbitrary model overrides.</p>
-                    </details>
+                    <label class="her-mode-choice" for="her-mode">Video type
+                        <select id="her-mode" name="content_mode"><option value="news">Editorial video · recommended</option><option value="article">Classic video</option></select>
+                    </label>
+                    <p id="her-style-note" class="her-field-note">Project HER chooses the narration, visual style, timing and format. Editorial videos use the default vertical layout.</p>
                     <p id="her-limits" class="her-field-note">Checking the backend’s enforced generation limits…</p>
                     <button id="her-generate" class="btn btn-primary her-generate" type="submit" disabled>Generate Video <span aria-hidden="true">→</span></button>
                     <noscript><p>JavaScript is needed for live generation. The genuine example and case study below remain available.</p></noscript>
@@ -125,6 +105,7 @@
                 <div class="her-workspace-heading"><h3 id="her-workspace-title">Video workspace</h3><span id="her-job-id" class="her-job-id"></span></div>
                 <div class="her-job-status" role="status" aria-live="polite" aria-atomic="true"><h4 id="her-status">JavaScript connects the studio to the video backend</h4><p id="her-message">No video has been generated in this session.</p></div>
                 <p id="her-connection" class="her-field-note" role="status"></p>
+                <div id="her-working" class="her-working" hidden aria-label="Video generation in progress"><span class="her-working-spinner" aria-hidden="true"></span><div><strong>Your video is being created</strong><p id="her-working-detail">Waiting for the next stage…</p></div></div>
                 <ol id="her-stages" class="her-stage-list" aria-label="Actual generation stages"></ol>
                 <div id="her-empty" class="her-empty"><span aria-hidden="true">▶</span><p>Your video will appear here after a successful generation.</p><a href="#examples">Explore a previously generated example ↓</a></div>
                 <div id="her-output" class="her-live-output" hidden>
@@ -140,13 +121,24 @@
 </section>
 <div class="container"><div class="her-native-sections"><section id="examples" aria-labelledby="her-examples-title">
 <h2 id="her-examples-title">Previously generated example</h2>
-<p>Zheng Yi Sao · a narrated historical short. This is a saved local HER render, not an output from your current session.</p>
+<div class="her-example-layout">
 <figure class="her-media" data-her-media>
-<a href="/assets/project-her/zheng-yi-sao.mp4"><img src="/assets/project-her/zheng-yi-sao-poster.jpg" width="270" height="480" loading="lazy" alt="Previously generated Zheng Yi Sao video, using illustrative historical artwork"></a>
-<noscript><p><a href="/assets/project-her/zheng-yi-sao.mp4">Watch the previously generated MP4</a> · <a href="/assets/project-her/zheng-yi-sao.vtt">Read captions</a></p></noscript>
-<figcaption>Local reference-v2 Remotion render · 56.1 seconds · AI illustrative reconstructions</figcaption>
+<a href="/assets/project-her/zheng-yi-sao.mp4"><img src="/assets/project-her/zheng-yi-sao-poster.jpg" width="270" height="480" loading="lazy" alt="Poster from the previously generated Zheng Yi Sao video, using illustrative artwork"></a>
+<noscript><p><a href="/assets/project-her/zheng-yi-sao.mp4">Watch MP4</a> · <a href="/assets/project-her/zheng-yi-sao.vtt">Read captions</a></p></noscript>
+<figcaption>Saved Project HER Remotion render · 56.1 seconds · AI illustrative reconstructions</figcaption>
 </figure>
-<p class="her-field-note">The approved MP4 is published unchanged. It reuses saved narration, word marks and illustrative assets. Historical claims and artwork have not been independently verified. This example does not establish live backend availability. <a href="/assets/project-her/sample-evidence.json">Input, transcript and file provenance →</a></p>
+<div class="her-example-story">
+<p class="eyebrow">Featured story</p><h3>Zheng Yi Sao</h3>
+<p>A narrated short about the pirate leader and the alliance she led in the South China Sea. The video uses generated illustrations; they are not documentary portraits or footage.</p>
+<ol aria-label="Story beats as narrated">
+<li><span>1807</span> She takes command of a large pirate fleet after her husband's death.</li>
+<li><span>At sea</span> Her forces resist imperial fleets and raid merchant vessels and coastal towns.</li>
+<li><span>1810</span> As pressure and internal rivalries grow, she negotiates a pardon and retires with her wealth.</li>
+<li><span>1844</span> The narration closes with the year of her death.</li>
+</ol>
+<p class="her-field-note">This is an unchanged local render from saved narration and visuals, not a video made in this browser session. Historical claims and artwork have not been independently verified.</p>
+<div class="her-example-links"><a href="/assets/project-her/zheng-yi-sao.vtt">Read captions</a><a href="/assets/project-her/sample-evidence.json">Source, transcript &amp; provenance</a></div>
+</div></div>
 </section><section id="how-it-works" aria-labelledby="her-how-title"><h2 id="her-how-title">How it works</h2>
 <ol class="her-native-pipeline" aria-label="HER rendering pipeline">
 <li><strong>01 · Input</strong>Submit a topic, a supplied story, or a public article URL. News can research or respect supplied facts.</li>

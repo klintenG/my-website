@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const transcript = document.createElement('p');
             transcript.textContent = 'Rendered narration: ' + her.sampleTranscript;
             details.append(summary, provenance, input, transcript);
-            figure.replaceChildren(video, caption, details);
+            figure.replaceChildren(...(figure.closest('.her-example-layout') ? [video, caption] : [video, caption, details]));
             // Defer below-fold video network loading until near the viewport.
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver(entries => {
